@@ -1,0 +1,13 @@
+footer {
+    font-size: 80%;
+}
+
+footer .final {
+    padding-top: 10px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+footer hr {
+    margin-bottom: 0;
+}
