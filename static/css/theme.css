@@ -11,3 +11,25 @@ footer .final {
 footer hr {
     margin-bottom: 0;
 }
+
+.links {
+    color: black;
+}
+
+.btn-primary {
+    border-color: #278ab0;
+    background-color: #278ab0;
+    color: white;
+}
+
+.btn-outline-neon {
+    border-color: #31b389;
+    color: #31b389;
+}
+
+.btn-outline-neon:hover {
+    border-color: #31b389;
+    background-color: #31b389;
+    color: white;
+
+}
