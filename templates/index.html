@@ -58,8 +58,13 @@
                                     Account
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    {% if not session.user %}
                                     <li><a class="dropdown-item" href="showSignIn">Sign in</a></li>
                                     <li><a class="dropdown-item" href="showSignUp">Sign up</a></li>
+                                    {% else %}
+                                    <li><a class="dropdown-item" href="/userLanding">Account</a></li>
+                                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                    {% endif %}
                                 </ul>
                             </li>
                             <li class="nav-item">
@@ -124,7 +129,7 @@
 
     <!-- Page Content -->
     <div class="container">
-        This is a template.
+        This is the home page.
     </div>
 
     <!-- end page content -->

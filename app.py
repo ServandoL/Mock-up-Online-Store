@@ -46,18 +46,17 @@ def validateLogin():
         if len(data) > 0:
             if str(data[0][4] == _password):
                 session['user'] = data[0][0]
-                return redirect('/userLanding')
+                return "True"
             else:
-                return render_template('error.html', error='Wrong email address or password.')
+                return "Wrong email address or password."
         else:
-            return render_template('error.html', error='Wrong email address or password.')
+            return "Wrong email address or password."
     except Exception as e:
         return render_template('error.html', error=str(e))
 
 @app.route('/logout')
 def logout():
     session.pop('user', None)
-    flash('You were logged out.')
     return redirect('/')
 
 @app.route('/showSignIn')

@@ -14,7 +14,28 @@
     <!-- import css files -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/theme.css')}}">
     <!-- import js scripts -->
-
+    <script>
+        $(function() {
+            $('#signInButton').click(function() {
+                $.ajax({
+                    url: '/validateLogin',
+                    data: $('form').serialize(),
+                    type: 'POST',
+                    success: function(response) {
+                        if (response == 'True') {
+                            window.location.replace('/userLanding')
+                        }
+                        else {
+                            alert(response)
+                        }
+                    },
+                    error: function(error) {
+                        alert(error)
+                    }
+                })
+            })
+        });
+    </script>
 
     <title>Document</title>
 </head>
@@ -130,7 +151,7 @@
             <div class="col">
                 <fieldset>
                     <legend>Customer Login</legend>
-                    <form action="/validateLogin" method="post">
+                    <form id="signInForm">
                         <div class="form-group col-md-6 mx-sm-3">
                             <label for="inputEmail">Email address <span style="color: red;">*</span></label>
                             <input type="email" class="form-control my-2" name="inputEmail" id="inputEmail" placeholder="Enter email"
@@ -144,16 +165,9 @@
                                 required autofocus>
                         </div>
                         <div class="form-group mx-sm-3">
-                            <button type="submit" class="btn btn-primary">Login</button>
+                            <button type="button" id="signInButton" class="btn btn-primary">Login</button>
                         </div>
                         <span class="mx-sm-3"><small style="color: red;">* Required Fields</small></span>
-                        {% with messages = get_flashed_messages() %}
-                            {% if messages %}
-                                {% for message in messages %}
-                                    <span>{{ message }}</span>
-                                {% endfor %}
-                            {% endif %}
-                        {% endwith %}
                     </form>
                 </fieldset>
             </div>
