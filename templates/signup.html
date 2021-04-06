@@ -22,8 +22,13 @@
                     data: $('form').serialize(),
                     type: 'POST',
                     success: function(response) {
-                        alert(response)
-                        //window.location.replace("/showSignIn")
+                        if (response == '1') {
+                            alert("This email address is already registered.");
+                        }
+                        else {
+                            alert("User created successfully. You may now log in.");
+                            window.location.replace('/showSignIn')
+                        }
                     },
                     error: function(error) {
                         alert(error)
@@ -145,7 +150,7 @@
             <div class="col-md-6 mx-auto">
                 <fieldset>
                     <legend>Create New Customer Account</legend>
-                    <form>
+                    <form id="signUpForm">
                         <h4>Personal Information</h4>
                         <div class="form-group mx-sm-3">
                             <label for="inputFname">First name <span style="color:red">*</span></label>

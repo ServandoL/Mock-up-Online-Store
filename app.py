@@ -84,6 +84,14 @@ def signUp():
         conn = mysql.connect()
         cursor = conn.cursor()
 
+        # Check if the email address is already in the database.
+        # returns 1 if the email is already registered
+        if len(_email) != 0:
+            cursor.execute('SELECT * FROM tbl_user WHERE email = %s', (_email))
+            data = cursor.fetchall()
+            if len(data) > 0:
+                return "1"
+
         # Check if password matches password requirements
         # otherwise, display to the user password requirements.
         if re.match(_regex, _password):
