@@ -16,6 +16,11 @@ footer hr {
     color: black;
 }
 
+div.bottom-border {
+    border: 1px solid #31b389;
+    max-width: 100%;
+}
+
 .btn-primary {
     border-color: #278ab0;
     background-color: #278ab0;

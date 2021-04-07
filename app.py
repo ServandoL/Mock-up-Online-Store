@@ -15,10 +15,28 @@ app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 mysql.init_app(app)
 
+# Login routing and sign-in and sign-up logic
+
 app.secret_key = 'cs6314.0w1'
 @app.route('/')
 def main():
     return render_template("index.html")
+
+@app.route('/admin')
+def showAdminDashboard():
+    if session.get('user'):
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM tbl_user WHERE userid = %s', session.get('user'))
+        data = cursor.fetchall()
+        if len(data) > 0:
+            if data[0][5] == 1:
+                return render_template('admin.html', data=data)
+            else:
+                return render_template('error.html', error='Unauthorized Access', data=data)
+    else:
+        return render_template('error.html', error="Unauthorized Access")
+    
 
 @app.route('/userLanding')
 def showUserLanding():
@@ -27,9 +45,14 @@ def showUserLanding():
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM tbl_user WHERE userid = %s', session.get('user'))
         data = cursor.fetchall()
-        return render_template('userLanding.html', data=data)
+        if len(data) > 0:
+            if data[0][5] == 1:
+                return redirect('/admin')
+            else:
+                return render_template('userLanding.html', data=data)
+
     else:
-        return render_template('error.html', error="Unauthorized Access")
+        return render_template('error.html', error="Unauthorized Access", data=data)
 
 @app.route('/validateLogin', methods=['POST'])
 def validateLogin():
@@ -46,13 +69,16 @@ def validateLogin():
         if len(data) > 0:
             if str(data[0][4] == _password):
                 session['user'] = data[0][0]
-                return "True"
+                if data[0][5] == 1:
+                    return "admin"
+                else:
+                    return "user"
             else:
                 return "Wrong email address or password."
         else:
             return "Wrong email address or password."
     except Exception as e:
-        return render_template('error.html', error=str(e))
+        return render_template('error.html', error=str(e), data=data)
 
 @app.route('/logout')
 def logout():
@@ -112,6 +138,11 @@ def signUp():
             return "Password requirements:\n* at least one number\n* at least one uppercase letter\n* at least one lowercase letter\n* must be at least 8 or more characters."
     else:
         return "Please enter the required fields."
+
+# End log-in and sign-up logic and routing
+
+# CRUD for admin page
+
 
 if __name__ == '__main__':
     app.run()
