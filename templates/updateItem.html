@@ -132,6 +132,7 @@
                 <h3>Actions</h3>
                 <div class="bottom-border my-2"></div>
                 <ul class="list-group">
+                    <li class="list-group-item"><a href="/admin">Go back</a></li>
                     <li class="list-group-item"><a href="/admin/create">Insert a new item.</a></li>
                 </ul>
             </div>
@@ -139,47 +140,61 @@
                 <h3>Welcome administrator, {{ data['fname'] }} {{ data['lname'] }}</h3>
                 <div class="bottom-border my-2"></div>
 
-                {% with message = get_flashed_messages() %}
-                {% if message %}
-                {% for item in message %}
-                <p style="color: red;">{{ item }}</p>
-                {% endfor %}
+                {% if updated['message'] %}
+                <p style="color: red;">Item updated successfully.</p>
                 {% endif %}
-                {% endwith %}
 
-                <div class="wrapper">
-                    {% for product in inventory %}
-                    {% if not product['isDeleted'] %}
-                    <div class="card w-100 h-100">
-                        <img class="card-img-top mx-auto" src="{{ product['imageUrl'] }}" style="width: 18rem"
-                            alt="product image">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product['productName'] }}</h5>
-                            <p class="card-text">${{ product['price'] }}</p>
-                            {% if product['stock'] > 0 %}
-                            <p class="card-text" style="color: green;">In stock: {{
-                                product['stock'] }}</p>
-                            {% else %}
-                            <p class="card-text" style="color: red;">Out of stock</p>
-                            {% endif %}
-
-                        </div>
-                        <div class="card-footer">
-                            <div style="display: inline-block">
-                                <form method="get" action="{{ url_for('updateItem', id=product['_id']) }}">
-                                    <button type="submit" class="btn btn-primary">Update</button>
-                                </form>
-                            </div>
-                            <div style="display: inline-block">
-                                <form action="{{ url_for('deleteItem', id=product['_id'])}}">
-                                    <button type="submit" name="delete" class="btn btn-danger">Delete</button>
-                                </form>
+                <div class="row">
+                    <div class="col">
+                        <div class="card w-50 h-50 mx-auto my-2">
+                            <img class="card-img-top mx-auto" src="{{ inventory_item['imageUrl'] }}" style="width: 18rem"
+                                alt="product image">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ inventory_item['productName'] }}</h5>
+                                <p class="card-text">${{ inventory_item['price'] }}</p>
+                                {% if inventory_item['stock'] > 0 %}
+                                <p class="card-text" style="color: green;">In stock: {{
+                                    inventory_item['stock'] }}</p>
+                                {% else %}
+                                <p class="card-text" style="color: red;">Out of stock</p>
+                                {% endif %}
+        
                             </div>
                         </div>
                     </div>
-                    {% endif %}
-                    {% endfor %}
+                    <div class="col">
+                        <fieldset>
+                            <legend>Update item.</legend>
+                            <form action="{{ url_for('updateItem', id=inventory_item['_id']) }}" method='post'>
+                                <div class="form-group col-md-5 my-2">
+                                    <label for="product-name">Enter Product Name</label>
+                                    <textarea class="form-control" rows="3" id="product-name" name="product-name">{{inventory_item.productName}}</textarea>
+                                </div>
+                                <div class="form-group col-md-5 my-2">
+                                    <label for="product-price">Enter Product Price</label>
+                                    <input type="text" class="form-control" id="product-price" name="product-price"
+                                        value="{{inventory_item.price}}">
+                                </div>
+                                <div class="form-group col-md-5 my-2">
+                                    <label for="product-stock">Enter Product Stock</label>
+                                    <input type="number" class="form-control" id="product-stock" name="product-stock"
+                                        value="{{inventory_item.stock}}">
+                                </div>
+                                <div class="form-group col-md-5 my-2">
+                                    <label for="product-image">Product Image</label>
+                                    <input type="file" class="form-control-file" id="product-image" name="product-image">
+                                </div>
+                                <div class="form-group my-2">
+                                    <button type="submit" class="btn btn-primary" id="addItemBtn">Submit</button>
+                                </div>
+                            </form>
+                        </fieldset>
+                    </div>
                 </div>
+                
+
+                
+
             </div>
         </div>
     </div>

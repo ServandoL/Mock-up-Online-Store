@@ -1,0 +1,3 @@
+{"_id":"edb8be46-9bdf-11eb-bc13-1b053fbda344","fname":"Test Name 1","lname":"Test Last Name 1","email":"test1@email.com","password":"testpassword1","isAdmin":"0"}
+{"_id":"fe56d198-9bdf-11eb-bc13-1b053fbda344","fname":"servando","lname":"luviano","email":"email1@live.com","password":"Swyisc00l","isAdmin":"1"}
+{"_id":"11a0a7f6-9be0-11eb-bc13-1b053fbda344","fname":"john","lname":"doe","email":"johndoe@live.com","password":"Swyisc00l","isAdmin":"0"}

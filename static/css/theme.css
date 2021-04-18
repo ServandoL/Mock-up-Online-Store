@@ -21,6 +21,10 @@ div.bottom-border {
     max-width: 100%;
 }
 
+.button-admin {
+    display: block;
+}
+
 .btn-primary {
     border-color: #278ab0;
     background-color: #278ab0;
@@ -37,4 +41,15 @@ div.bottom-border {
     background-color: #31b389;
     color: white;
 
+}
+
+div.wrapper {
+    width: 100%;
+    height: 100rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(auto-fill, 40%);
+    row-gap: 1em;
+    column-gap: 1em;
+    overflow-y: auto;
 }

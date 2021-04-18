@@ -62,7 +62,7 @@
                                         <li><a class="dropdown-item" href="showSignIn">Sign in</a></li>
                                         <li><a class="dropdown-item" href="showSignUp">Sign up</a></li>
                                     {% else %}
-                                        {% if data[0][5] == 0 %}
+                                        {% if data['isAdmin'] == '0' %}
                                             <li><a class="dropdown-item" href="/userLanding">Account</a></li>
                                         {% else %}
                                             <li><a class="dropdown-item" href="/admin">Account</a></li>

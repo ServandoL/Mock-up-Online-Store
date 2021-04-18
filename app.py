@@ -1,56 +1,35 @@
 from flask import Flask, render_template, request, json, redirect, flash
-from flaskext.mysql import MySQL
 from flask import session, url_for
+from pymongo import MongoClient
+
+import uuid
+import math
 import re
 
 app = Flask(__name__)
 
-mysql = MySQL()
-
-# MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
-app.config['MYSQL_DATABASE_DB'] = 'web_store'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_PORT'] = 3306
-mysql.init_app(app)
+client = MongoClient()
+db = client.web_store
+Users = db.User
+Inventory = db.Inventory
 
 # Login routing and sign-in and sign-up logic
 
 app.secret_key = 'cs6314.0w1'
 @app.route('/')
 def main():
-    return render_template("index.html")
-
-@app.route('/admin')
-def showAdminDashboard():
-    if session.get('user'):
-        conn = mysql.connect()
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM tbl_user WHERE userid = %s', session.get('user'))
-        data = cursor.fetchall()
-        if len(data) > 0:
-            if data[0][5] == 1:
-                return render_template('admin.html', data=data)
-            else:
-                return render_template('error.html', error='Unauthorized Access', data=data)
-    else:
-        return render_template('error.html', error="Unauthorized Access")
-    
+    return render_template("index.html")    
 
 @app.route('/userLanding')
 def showUserLanding():
+    data = None
     if session.get('user'):
-        conn = mysql.connect()
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM tbl_user WHERE userid = %s', session.get('user'))
-        data = cursor.fetchall()
-        if len(data) > 0:
-            if data[0][5] == 1:
+        data = Users.find_one({'_id': session.get('user')})
+        if data:
+            if data['isAdmin'] == '1':
                 return redirect('/admin')
             else:
                 return render_template('userLanding.html', data=data)
-
     else:
         return render_template('error.html', error="Unauthorized Access", data=data)
 
@@ -60,16 +39,11 @@ def validateLogin():
         _email = request.form['inputEmail']
         _password = request.form['inputPassword']
 
-        conn = mysql.connect()
-        cursor = conn.cursor()
-
-        cursor.execute('SELECT * FROM tbl_user WHERE email = %s', (_email))
-        data = cursor.fetchall()
-
-        if len(data) > 0:
-            if str(data[0][4] == _password):
-                session['user'] = data[0][0]
-                if data[0][5] == 1:
+        data = Users.find_one({"email": _email})
+        if data:
+            if data['password'] == _password:
+                session['user'] = data['_id']
+                if data['isAdmin'] == "1":
                     return "admin"
                 else:
                     return "user"
@@ -106,15 +80,12 @@ def signUp():
 
     # Validate the received values
     if _fname and _lname and _email and _password and _confirmpswd:
-        conn = mysql.connect()
-        cursor = conn.cursor()
 
         # Check if the email address is already in the database.
         # returns 1 if the email is already registered
         if len(_email) != 0:
-            cursor.execute('SELECT * FROM tbl_user WHERE email = %s', (_email))
-            data = cursor.fetchall()
-            if len(data) > 0:
+            data = Users.find_one({"email": _email})
+            if data:
                 return "1"
 
         # Check if password matches password requirements
@@ -124,14 +95,15 @@ def signUp():
             # If it does, insert it to the database and create a new user.
             # Otherwise display password does not match error.
             if _password == _confirmpswd:
-                cursor.execute("INSERT INTO tbl_user(fname, lname, email, password) VALUES (%s, %s, %s, %s)", (_fname, _lname, _email, _password))
-                data = cursor.fetchall()
-                # If nothing is returned by the database then commit
-                if len(data) == 0:
-                    conn.commit()
-                    return "User created succesfully. Please log in."
-                else:
-                    return json.dumps({'error': str(data[0])})
+                new_user = {
+                    '_id': str(uuid.uuid1()),
+                    'fname': _fname,
+                    'lname': _lname,
+                    'email': _email,
+                    'password': _password
+                }
+                Users.insert_one(new_user)
+                return "User created successfully. Please log in."
             else:
                 return "Passwords do not match."
         else:
@@ -142,7 +114,124 @@ def signUp():
 # End log-in and sign-up logic and routing
 
 # CRUD for admin page
+@app.route('/admin', methods=['GET', 'POST'])
+def showAdminDashboard():
+   
+    if session.get('user'):
+        user_data = Users.find_one({'_id': session.get('user')})
+        inventory_data = [item for item in Inventory.find()]
 
+        if user_data:
+            if user_data['isAdmin'] == '1':
+                return render_template('admin.html', data=user_data, inventory=inventory_data)
+            else:
+                return render_template('error.html', error='Unauthorized Access', data=user_data)
+    else:
+        return render_template('error.html', error="Unauthorized Access")
+
+
+# delete - soft delete item
+@app.route('/admin/delete/<id>', methods=['GET', 'POST'])
+def deleteItem(id):
+
+    if session.get('user'):
+        query = {'_id': id}
+        isDeleted = { '$set': {'isDeleted': True}}
+        Inventory.update_one(query, isDeleted)
+        flash('Item deleted.')
+        return redirect('/admin')
+    else:
+        return render_template('error.html', error="Unauthorized Access")
+            
+
+# update
+@app.route('/admin/update/<id>', methods=['GET', 'POST'])
+def updateItem(id):
+
+    updated = {'Product Name': False, 'Product Price': False, 'Product Stock': False, 'Product Image': False, 'message': ''}
+
+    if session.get('user'):
+        user_data = Users.find_one({'_id': session.get('user')})
+        query = {'_id': id}
+        inventory_item = Inventory.find_one(query)
+        if request.method == 'POST':
+            _productName = request.form['product-name']
+            _productPrice = request.form['product-price']
+            _productStock = request.form['product-stock']
+            _productImage = request.form['product-image']
+            if _productName:
+                new_name = {'$set': {'productName': _productName}}
+                Inventory.update_one(query, new_name)
+                updated['Product Name'] = True
+                updated['message'] = 'updated'
+            if _productPrice:
+                new_price = {'$set': {'price': float(_productPrice)}}
+                Inventory.update_one(query, new_price)
+                updated['Product Price'] = True
+                updated['message'] = 'updated'
+
+            if _productStock:
+                new_stock = {'$set': {'stock': int(_productStock)}}
+                Inventory.update_one(query, new_stock)
+                updated['Product Stock'] = True
+                updated['message'] = 'updated'
+
+            if _productImage:
+                new_image = {'$set': {'imageUrl': _productImage}}
+                Inventory.update_one(query, new_image)
+                updated['Product Image'] = True
+                updated['message'] = 'updated'
+
+        return render_template('updateItem.html', data=user_data, inventory_item=inventory_item, updated = updated)
+    else:
+        return render_template('error.html', error="Unauthorized Access")
+
+
+
+# Create - new inventory
+@app.route('/admin/create', methods=['GET', 'POST'])
+def createItem():
+    brands = [{'name': 'hunter'}, {'name': 'rainbird'}, {'name': 'weathermatic'}]
+    category = [{'name': 'controller'}, {'name': 'rotors'}, {'name': 'sprinkler-body'}, {'name': 'sprinkler-nozzles'}, {'name': 'valves'}]
+    inserted = ''
+    if session.get('user'):
+        user_data = Users.find_one({'_id': session.get('user')})
+        if request.method == 'POST':
+            try:
+                _productName = request.form['product-name']
+                _productPrice = request.form['product-price']
+                _productCategory = request.form['product-category']
+                _productBrand = request.form['product-brand']
+                _productStock = request.form['product-stock']
+                _productImage = request.form['product-image']
+                # Create new item to database
+                if _productName and _productPrice and _productCategory and _productBrand and _productStock and _productImage:
+                    new_item = {
+                        '_id': str(uuid.uuid1()),
+                        'productName': _productName,
+                        'price': float(_productPrice),
+                        'category': _productCategory.lower(),
+                        'brand': _productBrand.lower(),
+                        'stock': int(_productStock),
+                        'imageUrl': 'static/img/'+_productBrand.lower()+'/'+_productCategory.lower()+'/'+_productImage
+                    }
+                    Inventory.insert_one(new_item)
+                    inserted = 'true'
+                    # Item was inserted successfully.
+                else:
+                    #  All fields must be filled out.
+                    inserted = 'false'
+
+            except Exception as e:
+                return str(e)
+
+        if user_data:
+            if user_data['isAdmin'] == '1':
+                return render_template('createItem.html', data=user_data, brands=brands, category=category, response=inserted) 
+            else:
+                return render_template('error.html', error='Unauthorized Access', data=user_data)
+    else:
+        return render_template('error.html', error="Unauthorized Access")
 
 if __name__ == '__main__':
     app.run()
