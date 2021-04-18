@@ -148,7 +148,7 @@ def deleteItem(id):
 @app.route('/admin/update/<id>', methods=['GET', 'POST'])
 def updateItem(id):
 
-    updated = {'Product Name': False, 'Product Price': False, 'Product Stock': False, 'Product Image': False, 'message': ''}
+    updated = {'Product Name': '', 'Product Price': '', 'Product Stock': '', 'Product Image': '', 'message': ''}
 
     if session.get('user'):
         user_data = Users.find_one({'_id': session.get('user')})
@@ -162,24 +162,24 @@ def updateItem(id):
             if _productName:
                 new_name = {'$set': {'productName': _productName}}
                 Inventory.update_one(query, new_name)
-                updated['Product Name'] = True
+                updated['Product Name'] = _productName
                 updated['message'] = 'updated'
             if _productPrice:
                 new_price = {'$set': {'price': float(_productPrice)}}
                 Inventory.update_one(query, new_price)
-                updated['Product Price'] = True
+                updated['Product Price'] = _productPrice
                 updated['message'] = 'updated'
 
             if _productStock:
                 new_stock = {'$set': {'stock': int(_productStock)}}
                 Inventory.update_one(query, new_stock)
-                updated['Product Stock'] = True
+                updated['Product Stock'] = _productStock
                 updated['message'] = 'updated'
 
             if _productImage:
                 new_image = {'$set': {'imageUrl': _productImage}}
                 Inventory.update_one(query, new_image)
-                updated['Product Image'] = True
+                updated['Product Image'] = _productImage
                 updated['message'] = 'updated'
 
         return render_template('updateItem.html', data=user_data, inventory_item=inventory_item, updated = updated)
