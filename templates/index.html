@@ -68,7 +68,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link links" href="#">Cart</a>
+                                <a class="nav-link links" href="/cart">Cart</a>
                             </li>
 
                         </ul>
@@ -83,16 +83,16 @@
             <nav class="navbar navbar-expand-lg py-0" style="background-color: #31b389;">
 
                 <div class="container">
-    
+
                     <!-- Nav bar links -->
                     <div class="collapse navbar-collapse d-flex" id="filteredContent">
-    
+
                         <div class="p-2">
                             <ul class="navbar-nav">
                                 <!-- Dropdown for products -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle py-0 links" href="#" id="productDropdown" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle py-0 links" href="#" id="productDropdown"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Product
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -104,8 +104,8 @@
 
                                 <!-- dropdown for product brands -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle py-0 links" href="#" id="brandDropdown" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle py-0 links" href="#" id="brandDropdown"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Brands
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -114,7 +114,7 @@
                                     </ul>
                                 </li>
                                 <!-- end dropdown for product brands -->
-    
+
                             </ul>
                         </div>
                     </div>
@@ -129,7 +129,125 @@
 
     <!-- Page Content -->
     <div class="container">
-        This is the home page.
+        <div class="row">
+            <h3>Sprinklers</h3>
+            {% for product in sprinklers %}
+            {% if product.category == 'sprinkler-body' or product.category == 'sprinkler-nozzle' %}
+            {% if not product['isDeleted'] %}
+            <div class="col-sm-12 col-md-3">
+                <div class="card">
+                    <img class="card-img-top" src="{{ product['imageUrl'] }}" alt="product image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product['productName'] }}</h5>
+                        <p class="card-text" style="font-weight:bold">${{ product['price'] }}</p>
+                        {% if product['stock'] > 0 %}
+                        <p class="card-text" style="color: green;">In stock: {{
+                            product['stock'] }}</p>
+                        {% else %}
+                        <p class="card-text" style="color: red;">Out of stock</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer">
+                        <form>
+                            <button type="submit" class="btn btn-primary">Add to cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="row">
+            <h3>Rotors</h3>
+            {% for product in rotors %}
+            {% if product.category == 'rotors' %}
+            {% if not product['isDeleted'] %}
+            <div class="col-sm-12 col-md-3">
+                <div class="card">
+                    <img class="card-img-top" src="{{ product['imageUrl'] }}" alt="product image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product['productName'] }}</h5>
+                        <p class="card-text" style="font-weight:bold">${{ product['price'] }}</p>
+                        {% if product['stock'] > 0 %}
+                        <p class="card-text" style="color: green;">In stock: {{
+                            product['stock'] }}</p>
+                        {% else %}
+                        <p class="card-text" style="color: red;">Out of stock</p>
+                        {% endif %}
+
+                    </div>
+                    <div class="card-footer">
+                        <form>
+                            <button type="submit" class="btn btn-primary">Add to cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="row">
+            <h3>Controllers</h3>
+            {% for product in controllers %}
+            {% if product.category == 'controller' %}
+            {% if not product['isDeleted'] %}
+            <div class="col-sm-12 col-md-3">
+                <div class="card">
+                    <img class="card-img-top" src="{{ product['imageUrl'] }}" alt="product image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product['productName'] }}</h5>
+                        <p class="card-text" style="font-weight:bold">${{ product['price'] }}</p>
+                        {% if product['stock'] > 0 %}
+                        <p class="card-text" style="color: green;">In stock: {{
+                            product['stock'] }}</p>
+                        {% else %}
+                        <p class="card-text" style="color: red;">Out of stock</p>
+                        {% endif %}
+
+                    </div>
+                    <div class="card-footer">
+                        <form>
+                            <button type="submit" class="btn btn-primary">Add to cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="row">
+            <h3>Valves</h3>
+            {% for product in valves %}
+            {% if product.category == 'valves' %}
+            {% if not product['isDeleted'] %}
+            <div class="col-sm-12 col-md-3">
+                <div class="card">
+                    <img class="card-img-top" src="{{ product['imageUrl'] }}" alt="product image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product['productName'] }}</h5>
+                        <p class="card-text" style="font-weight:bold">${{ product['price'] }}</p>
+                        {% if product['stock'] > 0 %}
+                        <p class="card-text" style="color: green;">In stock: {{
+                            product['stock'] }}</p>
+                        {% else %}
+                        <p class="card-text" style="color: red;">Out of stock</p>
+                        {% endif %}
+
+                    </div>
+                    <div class="card-footer">
+                        <form>
+                            <button type="submit" class="btn btn-primary">Add to cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
     </div>
 
     <!-- end page content -->

@@ -13,12 +13,21 @@ db = client.web_store
 Users = db.User
 Inventory = db.Inventory
 
+brands = ['Hunter', 'Rain Bird', 'Weathermatic']
+products = ['Controllers', 'Sprinklers', 'Valves', 'Rotors']
+
 # Login routing and sign-in and sign-up logic
 
 app.secret_key = 'cs6314.0w1'
 @app.route('/')
 def main():
-    return render_template("index.html")    
+    inventory = [item for item in Inventory.find()]
+    sprinklers_showcase = [item for item in inventory if item['category'] == 'sprinkler-body' or item['category'] == 'sprinkler-nozzles']
+    valves_showcase = [item for item in inventory if item['category'] == 'valves']
+    controllers_showcase = [item for item in inventory if item['category'] == 'controller']
+    rotors_showcase = [item for item in inventory if item['category'] == 'rotors']
+
+    return render_template('index.html', sprinklers=sprinklers_showcase[:4], rotors=rotors_showcase[:4], valves=valves_showcase[:4], controllers=controllers_showcase[:4], brands=brands, products=products)
 
 @app.route('/userLanding')
 def showUserLanding():
@@ -32,6 +41,14 @@ def showUserLanding():
                 return render_template('userLanding.html', data=data)
     else:
         return render_template('error.html', error="Unauthorized Access", data=data)
+
+@app.route('/cart', methods=['POST', 'GET'])
+def shopping_cart():
+    if session.get('user'):
+        data = Users.find_one({'_id': session.get('user')})
+        return render_template('cart.html', data=data)
+    else:
+        return render_template('cart.html')
 
 @app.route('/validateLogin', methods=['POST'])
 def validateLogin():
@@ -114,6 +131,7 @@ def signUp():
 # End log-in and sign-up logic and routing
 
 # CRUD for admin page
+# List all inventory
 @app.route('/admin', methods=['GET', 'POST'])
 def showAdminDashboard():
    
