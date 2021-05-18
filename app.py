@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, json, redirect, flash
 from flask import session, url_for
+from passlib.hash import sha256_crypt
 from pymongo import MongoClient
 
 import uuid
@@ -31,16 +32,18 @@ def main():
 
 @app.route('/userLanding')
 def showUserLanding():
-    data = None
-    if session.get('user'):
-        data = Users.find_one({'_id': session.get('user')})
-        if data:
-            if data['isAdmin'] == '1':
-                return redirect('/admin')
-            else:
-                return render_template('userLanding.html', data=data)
-    else:
-        return render_template('error.html', error="Unauthorized Access", data=data)
+    try:
+        if session.get('user'):
+            data = Users.find_one({'_id': session.get('user')})
+            if data:
+                if data['isAdmin'] == '1':
+                    return redirect('/admin')
+                else:
+                    return render_template('userLanding.html', data=data)
+        else:
+            return render_template('error.html', error="Unauthorized Access", data=data)
+    except Exception as e:
+        return render_template('error.html', error=str(e), data=data)
 
 @app.route('/cart', methods=['POST', 'GET'])
 def shopping_cart():
@@ -58,7 +61,8 @@ def validateLogin():
 
         data = Users.find_one({"email": _email})
         if data:
-            if data['password'] == _password:
+            # if data['password'] == _password:
+            if sha256_crypt.verify(_password, data['password']):
                 session['user'] = data['_id']
                 if data['isAdmin'] == "1":
                     return "admin"
@@ -112,12 +116,14 @@ def signUp():
             # If it does, insert it to the database and create a new user.
             # Otherwise display password does not match error.
             if _password == _confirmpswd:
+                _password = sha256_crypt.hash(_password)
                 new_user = {
                     '_id': str(uuid.uuid1()),
                     'fname': _fname,
                     'lname': _lname,
                     'email': _email,
-                    'password': _password
+                    'password': _password,
+                    'isAdmin': "0"
                 }
                 Users.insert_one(new_user)
                 return "User created successfully. Please log in."
