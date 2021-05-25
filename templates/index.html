@@ -14,6 +14,7 @@
     <!-- import css files -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/theme.css')}}">
     <!-- import js scripts -->
+    <script src="../static/js/qty-change.js"></script>
 
 
     <title>Document</title>
@@ -134,7 +135,7 @@
             <div class="text-center" style="padding-bottom: 30px;">
                 <button type="button" class="btn btn-primary" style="display: inline-block;">Shop all</button>
             </div>
-            {% for product in sprinklers %} 
+            {% for product in sprinklers %}
             {% if product.category == 'sprinkler-body' or product.category == 'sprinkler-nozzle' %}
             {% if not product['isDeleted'] %}
             <div class="col-sm-12 col-md-3">
@@ -152,8 +153,22 @@
                     </div>
                     <div class="card-footer">
                         <form>
-                            <button type="submit" class="btn btn-primary">Add to cart</button>
+                            <div class="input-group mb-3">
+
+                                <button type="button" id="qty-change-minus" class="btn btn-outline-secondary">-</button>
+                                <input type="text" class="form-control" id="qty-number" value="1">
+
+                                <button type="button" id="qty-change-plus" class="btn btn-outline-secondary">+</button>
+
+                                
+                            </div>
+                            <div class="row mx-0">
+                                <button type="submit" class="btn btn-primary">Add to cart</button>
+                            </div>
+                             
                         </form>
+
+
                     </div>
                 </div>
             </div>
@@ -185,7 +200,19 @@
                     </div>
                     <div class="card-footer">
                         <form>
-                            <button type="submit" class="btn btn-primary">Add to cart</button>
+                            <div class="input-group mb-3">
+
+                                <button type="button" id="qty-change-minus" class="btn btn-outline-secondary qty-minus">-</button>
+                                <input type="text" class="form-control" id="qty-number" value="1">
+
+                                <button type="button" id="qty-change-plus" class="btn btn-outline-secondary qty-plus">+</button>
+
+                                
+                            </div>
+                            <div class="row mx-0">
+                                <button type="submit" class="btn btn-primary">Add to cart</button>
+                            </div>
+                             
                         </form>
                     </div>
                 </div>
@@ -218,7 +245,19 @@
                     </div>
                     <div class="card-footer">
                         <form>
-                            <button type="submit" class="btn btn-primary">Add to cart</button>
+                            <div class="input-group mb-3">
+
+                                <button type="button" id="qty-change-minus" class="btn btn-outline-secondary qty-minus">-</button>
+                                <input type="text" class="form-control" id="qty-number" value="1">
+
+                                <button type="button" id="qty-change-plus" class="btn btn-outline-secondary qty-plus">+</button>
+
+                                
+                            </div>
+                            <div class="row mx-0">
+                                <button type="submit" class="btn btn-primary">Add to cart</button>
+                            </div>
+                             
                         </form>
                     </div>
                 </div>
@@ -251,7 +290,19 @@
                     </div>
                     <div class="card-footer">
                         <form>
-                            <button type="submit" class="btn btn-primary">Add to cart</button>
+                            <div class="input-group mb-3">
+
+                                <button type="button" id="qty-change-minus" class="btn btn-outline-secondary qty-minus">-</button>
+                                <input type="text" class="form-control" id="qty-number" value="1">
+
+                                <button type="button" id="qty-change-plus" class="btn btn-outline-secondary qty-plus">+</button>
+
+                                
+                            </div>
+                            <div class="row mx-0">
+                                <button type="submit" class="btn btn-primary">Add to cart</button>
+                            </div>
+                             
                         </form>
                     </div>
                 </div>
