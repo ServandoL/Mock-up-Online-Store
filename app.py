@@ -51,7 +51,15 @@ def shopping_cart():
         data = Users.find_one({'_id': session.get('user')})
         return render_template('cart.html', data=data)
     else:
-        return render_template('cart.html')
+        return redirect('/showSignIn')
+
+@app.route("/addToCart")
+def addToCart():
+    if session.get.user:
+        user_data = Users.find_one({'_id': session.get('user')})
+        print("added")
+    else:
+        return redirect("/showSignIn")
 
 @app.route('/validateLogin', methods=['POST'])
 def validateLogin():
@@ -88,6 +96,7 @@ def showSignIn():
 @app.route('/showSignUp')
 def showSignUp():
     return render_template('signup.html')
+
 
 @app.route('/signUp', methods=['POST'])
 def signUp():
@@ -256,6 +265,9 @@ def createItem():
                 return render_template('error.html', error='Unauthorized Access', data=user_data)
     else:
         return render_template('error.html', error="Unauthorized Access")
+
+
+
 
 if __name__ == '__main__':
     app.run()

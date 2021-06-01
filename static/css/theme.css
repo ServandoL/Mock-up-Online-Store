@@ -43,7 +43,7 @@ div.bottom-border {
 
 }
 
-input#qty-number {
+input.qty-number {
     text-align: center;
 }
 
