@@ -28,7 +28,7 @@ def main():
     valves_showcase = [item for item in inventory if item['category'] == 'valves']
     controllers_showcase = [item for item in inventory if item['category'] == 'controller']
     rotors_showcase = [item for item in inventory if item['category'] == 'rotors']
-
+    
     return render_template('index.html', sprinklers=sprinklers_showcase[:4], rotors=rotors_showcase[:4], valves=valves_showcase[:4], controllers=controllers_showcase[:4], brands=brands, products=products)
 
 @app.route('/userLanding')
@@ -55,15 +55,16 @@ def shopping_cart():
         flash('Please sign in to have access to your cart.')
         return redirect('/showSignIn')
 
-@app.route("/addToCart/<id>", methods=['POST', 'GET'])
-def addToCart(id):
-    print('hi')
+@app.route("/addToCart", methods=['POST', 'GET'])
+def addToCart():
     if session.get('user'):
         user_data = Users.find_one({'_id': session.get('user')})
-        item_to_add = {'_id': id}
+        item_to_add = request.args.get('_id')
         product = Inventory.find_one(item_to_add)
         print('product ',product)
+        return redirect('/')
     else:
+        flash("Please log in to access your cart.")
         return redirect("/showSignIn")
 
 @app.route('/validateLogin', methods=['POST'])
@@ -121,7 +122,7 @@ def signUp():
         if len(_email) != 0:
             data = Users.find_one({"email": _email})
             if data:
-                return "1"
+                return "User already exists."
 
         # Check if password matches password requirements
         # otherwise, display to the user password requirements.
@@ -140,7 +141,7 @@ def signUp():
                     'isAdmin': "0"
                 }
                 Users.insert_one(new_user)
-                return "User created successfully. Please log in."
+                return "User created successfully."
             else:
                 return "Passwords do not match."
         else:

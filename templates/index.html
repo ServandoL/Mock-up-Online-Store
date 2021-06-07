@@ -164,9 +164,9 @@
                                 
                             </div>
                             <div class="row mx-0">
-                                <form action="{{ url_for('addToCart', id=product['_id'])}}">
-                                    <button type="submit" class="btn btn-primary">Add to cart</button>
-                                </form>
+                                <!-- <form method="get" action="{{ url_for('addToCart', id=product['_id']) }}"> -->
+                                <a class="btn btn-primary" href="/addToCart?productId={{request.args.get(product['_id'])}}" role="button">Add to Cart</a>
+                                <!-- </form> -->
                             </div>
                              
                         </form>
@@ -214,9 +214,10 @@
                                 
                             </div>
                             <div class="row mx-0">
-                                <form action="{{ url_for('addToCart', id=product['_id'])}}">
+                                <a class="btn btn-primary" href="/addToCart?productId={{request.args.get(product['_id'])}}" role="button">Add to Cart</a>
+                                <!-- <form action="{{ url_for('addToCart', id=product['_id'])}}">
                                     <button type="submit" class="btn btn-primary">Add to cart</button>
-                                </form>
+                                </form> -->
                             </div>
                              
                         </form>
@@ -262,9 +263,10 @@
                                 
                             </div>
                             <div class="row mx-0">
-                                <form action="{{ url_for('addToCart', id=product['_id'])}}">
+                                <a class="btn btn-primary" href="/addToCart?productId={{request.args.get(product['_id'])}}" role="button">Add to Cart</a>
+                                <!-- <form action="{{ url_for('addToCart', id=product['_id'])}}">
                                     <button type="submit" class="btn btn-primary">Add to cart</button>
-                                </form>
+                                </form> -->
                             </div>
                              
                         </form>
@@ -310,9 +312,10 @@
                                 
                             </div>
                             <div class="row mx-0">
-                                <form action="{{ url_for('addToCart', id=product['_id']) }}">
+                                <a class="btn btn-primary" href="/addToCart?_id={{request.args.get('_id')}}" role="button">Add to Cart</a>
+                                <!-- <form action="{{ url_for('addToCart', id=product['_id']) }}">
                                     <button type="submit" class="btn btn-primary">Add to cart</button>
-                                </form>
+                                </form> -->
                             </div>
                              
                         </form>

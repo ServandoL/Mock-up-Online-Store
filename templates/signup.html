@@ -22,12 +22,18 @@
                     data: $('form').serialize(),
                     type: 'POST',
                     success: function(response) {
-                        if (response == '1') {
+                        if (response == 'User already exists.') {
                             alert("This email address is already registered.");
                         }
-                        else {
+                        else if (response == 'User created successfully.') {
                             alert("User created successfully. You may now log in.");
                             window.location.replace('/showSignIn')
+                        }
+                        else if (response == 'Passwords do not match.') {
+                            alert("Passwords do not match.")
+                        }
+                        else {
+                            alert(response)
                         }
                     },
                     error: function(error) {
