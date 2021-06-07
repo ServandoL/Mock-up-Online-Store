@@ -42,7 +42,7 @@ def showUserLanding():
                 else:
                     return render_template('userLanding.html', data=data)
         else:
-            return render_template('error.html', error="Unauthorized Access", data=data)
+            return render_template('error.html', error="Unauthorized Access")
     except Exception as e:
         return render_template('error.html', error=str(e), data=data)
 
