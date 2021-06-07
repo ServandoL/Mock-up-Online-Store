@@ -69,7 +69,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link links" href="shopping_cart">Cart</a>
+                                <a class="nav-link links" href="/cart">Cart</a>
                             </li>
 
                         </ul>
@@ -164,7 +164,9 @@
                                 
                             </div>
                             <div class="row mx-0">
-                                <button type="submit" class="btn btn-primary">Add to cart</button>
+                                <form action="{{ url_for('addToCart', id=product['_id'])}}">
+                                    <button type="submit" class="btn btn-primary">Add to cart</button>
+                                </form>
                             </div>
                              
                         </form>
@@ -212,7 +214,9 @@
                                 
                             </div>
                             <div class="row mx-0">
-                                <button type="submit" class="btn btn-primary">Add to cart</button>
+                                <form action="{{ url_for('addToCart', id=product['_id'])}}">
+                                    <button type="submit" class="btn btn-primary">Add to cart</button>
+                                </form>
                             </div>
                              
                         </form>
@@ -258,7 +262,9 @@
                                 
                             </div>
                             <div class="row mx-0">
-                                <button type="submit" class="btn btn-primary">Add to cart</button>
+                                <form action="{{ url_for('addToCart', id=product['_id'])}}">
+                                    <button type="submit" class="btn btn-primary">Add to cart</button>
+                                </form>
                             </div>
                              
                         </form>
@@ -304,7 +310,9 @@
                                 
                             </div>
                             <div class="row mx-0">
-                                <button type="submit" class="btn btn-primary">Add to cart</button>
+                                <form action="{{ url_for('addToCart', id=product['_id']) }}">
+                                    <button type="submit" class="btn btn-primary">Add to cart</button>
+                                </form>
                             </div>
                              
                         </form>

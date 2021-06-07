@@ -154,6 +154,14 @@
             <div class="col">
                 <fieldset>
                     <legend>Customer Login</legend>
+                    <!-- Flash message if user accesses cart without being signed in -->
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div><p style="color: red;">{{ message }}</p></div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                     <form id="signInForm">
                         <div class="form-group col-md-6 mx-sm-3">
                             <label for="inputEmail">Email address <span style="color: red;">*</span></label>

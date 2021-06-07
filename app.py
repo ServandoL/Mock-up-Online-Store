@@ -13,6 +13,7 @@ client = MongoClient()
 db = client.web_store
 Users = db.User
 Inventory = db.Inventory
+Cart = db.Cart
 
 brands = ['Hunter', 'Rain Bird', 'Weathermatic']
 products = ['Controllers', 'Sprinklers', 'Valves', 'Rotors']
@@ -51,13 +52,17 @@ def shopping_cart():
         data = Users.find_one({'_id': session.get('user')})
         return render_template('cart.html', data=data)
     else:
+        flash('Please sign in to have access to your cart.')
         return redirect('/showSignIn')
 
-@app.route("/addToCart")
-def addToCart():
-    if session.get.user:
+@app.route("/addToCart/<id>", methods=['POST', 'GET'])
+def addToCart(id):
+    print('hi')
+    if session.get('user'):
         user_data = Users.find_one({'_id': session.get('user')})
-        print("added")
+        item_to_add = {'_id': id}
+        product = Inventory.find_one(item_to_add)
+        print('product ',product)
     else:
         return redirect("/showSignIn")
 
