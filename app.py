@@ -59,9 +59,11 @@ def shopping_cart():
 def addToCart():
     if session.get('user'):
         user_data = Users.find_one({'_id': session.get('user')})
-        item_to_add = request.args.get('_id')
+        item_to_add = request.args.get('productId')
         product = Inventory.find_one(item_to_add)
-        print('product ',product)
+        if product != None:
+            product.update({'user_id': user_data['_id']})
+            Cart.insert_one(product)
         return redirect('/')
     else:
         flash("Please log in to access your cart.")
