@@ -55,14 +55,23 @@ def shopping_cart():
         flash('Please sign in to have access to your cart.')
         return redirect('/showSignIn')
 
-@app.route("/addToCart", methods=['POST', 'GET'])
-def addToCart():
+@app.route('/cart/add/<id>', methods=['POST', 'GET'])
+def addToCart(id):
     if session.get('user'):
         user_data = Users.find_one({'_id': session.get('user')})
-        item_to_add = request.args.get('productId')
+        item_to_add = {'_id': id}
+        # Find the product on the Inventory database
         product = Inventory.find_one(item_to_add)
+        
+        # Get the desired cart quantity
+        if request.method == 'POST':
+            item_qty = request.form.get('item-qty')
+            print('qty =',item_qty)
+
+        # If the product is found on the Inventory, then add it to the user's cart.
         if product != None:
             product.update({'user_id': user_data['_id']})
+            product.update({'quantity': item_qty})
             Cart.insert_one(product)
         return redirect('/')
     else:

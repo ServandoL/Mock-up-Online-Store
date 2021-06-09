@@ -152,27 +152,19 @@
                         {% endif %}
                     </div>
                     <div class="card-footer">
-                        <form>
+                        <form method="POST" action="{{url_for('addToCart', id=product['_id'])}}">
                             <div class="input-group mb-3">
+                                    <button type="button" class="btn btn-outline-secondary qty-change-minus">-</button>
 
-                                <button type="button" class="btn btn-outline-secondary qty-change-minus">-</button>
+                                    <input type="text" name="item-qty" class="form-control qty-number" value="1">
 
-                                <input type="text" class="form-control qty-number" value="1">
-
-                                <button type="button" class="btn btn-outline-secondary qty-change-plus">+</button>
-
-                                
+                                    <button type="button" class="btn btn-outline-secondary qty-change-plus">+</button>
+                         
                             </div>
                             <div class="row mx-0">
-                                <a role="button" class="btn btn-primary" href="/addToCart?productId={{product['_id']}}">Add to Cart</a>
-                                <!-- <form method="get" action="{{ url_for('addToCart', id=product['_id']) }}">
-                                    <button type="submit" class="btn btn-primary">Add to cart</button>
-                                </form> -->
+                                <button type="submit" name="add-to-cart" class="btn btn-primary">Add to Cart</button>
                             </div>
-                             
                         </form>
-
-
                     </div>
                 </div>
             </div>
@@ -203,25 +195,30 @@
 
                     </div>
                     <div class="card-footer">
-                        <form>
                             <div class="input-group mb-3">
 
-                                <button type="button" class="btn btn-outline-secondary qty-change-minus">-</button>
+                                    <button type="button" class="btn btn-outline-secondary qty-change-minus">-</button>
 
-                                <input type="text" class="form-control qty-number" value="1">
+                                    <input type="text" name="item-qty" class="form-control qty-number" value="1">
 
-                                <button type="button" class="btn btn-outline-secondary qty-change-plus">+</button>
-
+                                    <button type="button" class="btn btn-outline-secondary qty-change-plus">+</button>
                                 
                             </div>
                             <div class="row mx-0">
-                                <a role="button" class="btn btn-primary" href="/addToCart?productId={{product['_id']}}">Add to Cart</a>
-                                <!-- <form action="{{ url_for('addToCart', id=product['_id'])}}">
-                                    <button type="submit" class="btn btn-primary">Add to cart</button>
-                                </form> -->
+                                <form method="POST" action="{{url_for('addToCart', id=product['_id'])}}">
+                                    <div class="input-group mb-3">
+                                            <button type="button" class="btn btn-outline-secondary qty-change-minus">-</button>
+        
+                                            <input type="text" name="item-qty" class="form-control qty-number" value="1">
+        
+                                            <button type="button" class="btn btn-outline-secondary qty-change-plus">+</button>
+                                 
+                                    </div>
+                                    <div class="row mx-0">
+                                        <button type="submit" name="add-to-cart" class="btn btn-primary">Add to Cart</button>
+                                    </div>
+                                </form>
                             </div>
-                             
-                        </form>
                     </div>
                 </div>
             </div>
@@ -252,25 +249,28 @@
 
                     </div>
                     <div class="card-footer">
-                        <form>
                             <div class="input-group mb-3">
+                                    <button type="button" class="btn btn-outline-secondary qty-change-minus">-</button>
 
-                                <button type="button" class="btn btn-outline-secondary qty-change-minus">-</button>
+                                    <input type="text" name="item-qty" class="form-control qty-number" value="1">
 
-                                <input type="text" class="form-control qty-number" value="1">
-
-                                <button type="button" class="btn btn-outline-secondary qty-change-plus">+</button>
-
-                                
+                                    <button type="button" class="btn btn-outline-secondary qty-change-plus">+</button>
                             </div>
                             <div class="row mx-0">
-                                <a role="button" class="btn btn-primary" href="/addToCart?productId={{product['_id']}}">Add to Cart</a>
-                                <!-- <form action="{{ url_for('addToCart', id=product['_id'])}}">
-                                    <button type="submit" class="btn btn-primary">Add to cart</button>
-                                </form> -->
+                                <form method="POST" action="{{url_for('addToCart', id=product['_id'])}}">
+                                    <div class="input-group mb-3">
+                                            <button type="button" class="btn btn-outline-secondary qty-change-minus">-</button>
+        
+                                            <input type="text" name="item-qty" class="form-control qty-number" value="1">
+        
+                                            <button type="button" class="btn btn-outline-secondary qty-change-plus">+</button>
+                                 
+                                    </div>
+                                    <div class="row mx-0">
+                                        <button type="submit" name="add-to-cart" class="btn btn-primary">Add to Cart</button>
+                                    </div>
+                                </form>
                             </div>
-                             
-                        </form>
                     </div>
                 </div>
             </div>
@@ -301,25 +301,29 @@
 
                     </div>
                     <div class="card-footer">
-                        <form>
                             <div class="input-group mb-3">
 
-                                <button type="button" class="btn btn-outline-secondary qty-change-minus">-</button>
+                                    <button type="button" class="btn btn-outline-secondary qty-change-minus">-</button>
 
-                                <input type="text" class="form-control qty-number" value="1">
+                                    <input type="text" name="item-qty" class="form-control qty-number" value="1">
 
-                                <button type="button" class="btn btn-outline-secondary qty-change-plus">+</button>
-
-                                
+                                    <button type="button" class="btn btn-outline-secondary qty-change-plus">+</button>
                             </div>
                             <div class="row mx-0">
-                                <a role="button" class="btn btn-primary" href="/addToCart?productId={{product['_id']}}">Add to Cart</a>
-                                <!-- <form action="{{ url_for('addToCart', id=product['_id']) }}">
-                                    <button type="submit" class="btn btn-primary">Add to cart</button>
-                                </form> -->
+                                <form method="POST" action="{{url_for('addToCart', id=product['_id'])}}">
+                                    <div class="input-group mb-3">
+                                            <button type="button" class="btn btn-outline-secondary qty-change-minus">-</button>
+        
+                                            <input type="text" name="item-qty" class="form-control qty-number" value="1">
+        
+                                            <button type="button" class="btn btn-outline-secondary qty-change-plus">+</button>
+                                 
+                                    </div>
+                                    <div class="row mx-0">
+                                        <button type="submit" name="add-to-cart" class="btn btn-primary">Add to Cart</button>
+                                    </div>
+                                </form>
                             </div>
-                             
-                        </form>
                     </div>
                 </div>
             </div>
