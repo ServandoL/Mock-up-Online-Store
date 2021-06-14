@@ -6,6 +6,7 @@ from pymongo import MongoClient
 import uuid
 import math
 import re
+from decimal import Decimal
 
 app = Flask(__name__)
 
@@ -49,8 +50,13 @@ def showUserLanding():
 @app.route('/cart', methods=['POST', 'GET'])
 def shopping_cart():
     if session.get('user'):
-        data = Users.find_one({'_id': session.get('user')})
-        return render_template('cart.html', data=data)
+        user_data = Users.find_one({'_id': session.get('user')})
+        # Get cart items for the user in session matching user id.
+        user_cart = [item for item in Cart.find() if item['user_id'] == user_data['_id']]
+        for item in user_cart:
+            item['price'] = Decimal(str(item['price']))
+            item['quantity'] = Decimal(str(item['quantity']))
+        return render_template('cart.html', data=user_data, cart=user_cart)
     else:
         flash('Please sign in to have access to your cart.')
         return redirect('/showSignIn')
@@ -66,13 +72,18 @@ def addToCart(id):
         # Get the desired cart quantity
         if request.method == 'POST':
             item_qty = request.form.get('item-qty')
-            print('qty =',item_qty)
 
         # If the product is found on the Inventory, then add it to the user's cart.
         if product != None:
             product.update({'user_id': user_data['_id']})
             product.update({'quantity': item_qty})
-            Cart.insert_one(product)
+            # if the element already exists, delete it and insert the updated one
+            # Else insert it
+            if Cart.find_one({'_id': product['_id']}):
+                Cart.delete_one({'_id': product['_id']})
+                Cart.insert_one(product)
+            else:
+                Cart.insert_one(product)
         return redirect('/')
     else:
         flash("Please log in to access your cart.")

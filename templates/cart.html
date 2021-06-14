@@ -14,6 +14,7 @@
     <!-- import css files -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/theme.css')}}">
     <!-- import js scripts -->
+    <script src="../static/js/qty-change.js"></script>
 
 
     <title>My Account</title>
@@ -130,13 +131,48 @@
     <div class="container">
         <div class="row py-2">
             <div class="col-md-8">
-                <!-- {% if session.user %}
-                    <h3>Welcome {{ data['fname'] }} {{ data['lname'] }}</h3>
-                {% else %}
-                 <h3>Shopping cart</h3>
-                {% endif %} -->
                 <h3>Shopping cart</h3>
                 <div class="bottom-border"></div>
+                <!-- Show items in cart. -->
+                {% if not cart %}
+                    <div>No items in your cart.</div>
+                {% else %}
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">ITEM</th>
+                            <th scope="col">PRICE</th>
+                            <th scope="col">QTY</th>
+                            <th scope="col">SUBTOTAL</th>
+                        </tr>    
+                        </thead>
+                        <tbody>
+                            {% for product in cart %}
+                                <tr>
+                                    <th scope="row">
+                                        <div><span><img src="{{ product['imageUrl'] }}" class="img-thumbnail" alt="{{ product['productName'] }}" style="width: 100px;"></span>
+                                        </div>
+                                        <div><span>{{ product['productName'] }}</span></div>
+
+                                    </th>
+                                    <td>${{ product['price'] }}</td>
+                                    <td>
+                                        <div class="input-group mb-3">
+                                            <button type="button" class="btn btn-outline-secondary qty-change-minus">-</button>
+        
+                                            <input type="text" name="item-qty" class="form-control qty-number" value="{{ product['quantity'] | int() }}">
+        
+                                            <button type="button" class="btn btn-outline-secondary qty-change-plus">+</button>
+                                        </div>
+                                    </td>
+                                    <td>${{ product['price'] * product['quantity'] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
                 
             </div>
             <div class="col-md-4">
