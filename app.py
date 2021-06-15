@@ -61,6 +61,39 @@ def shopping_cart():
         flash('Please sign in to have access to your cart.')
         return redirect('/showSignIn')
 
+@app.route('/cart/update/<id>', methods=['POST','GET'])
+def updateCart(id):
+    if session.get('user'):
+        query = {'_id': id, 'user_id': session.get('user')}
+        product = Cart.find_one(query)
+
+        if request.method == 'POST':
+            if product != None:
+                Cart.update(query, {
+                    '$set': {
+                        'quantity': request.form.get('item-qty')
+                    }
+                })
+        return redirect('/cart')
+    else:
+        flash('Please log in to access your cart.')
+        return redirect("/showSignIn")
+
+@app.route('/cart/delete/<id>', methods=['POST', 'GET'])
+def deleteCartItem(id):
+    if session.get('user'):
+        query = {'_id': id, 'user_id': session.get('user')}
+        product = Cart.find_one(query)
+        if product != None:
+            Cart.delete_one(product)
+            flash("Item removed successfully.")
+        else:
+            flash("There was a problem removing your item.")
+        return redirect('/cart')
+    else:
+        flash("Please log in to access your cart.")
+        return redirect("showSignIn")
+
 @app.route('/cart/add/<id>', methods=['POST', 'GET'])
 def addToCart(id):
     if session.get('user'):
@@ -77,11 +110,14 @@ def addToCart(id):
         if product != None:
             product.update({'user_id': user_data['_id']})
             product.update({'quantity': item_qty})
-            # if the element already exists, delete it and insert the updated one
+            # if the element already exists, update the quantity - if an item exists for the current user
             # Else insert it
             if Cart.find_one({'_id': product['_id']}):
-                Cart.delete_one({'_id': product['_id']})
-                Cart.insert_one(product)
+                Cart.update({'_id': id, 'user_id': user_data['_id']}, {
+                    '$set': {
+                        'quantity': request.form.get('item-qty')
+                    }
+                })
             else:
                 Cart.insert_one(product)
         return redirect('/')
