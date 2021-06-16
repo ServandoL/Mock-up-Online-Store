@@ -62,7 +62,9 @@ div.wrapper {
     overflow-y: auto;
 }
 
-/* .card {
-    display: inline-block;
-
-} */
+input[readonly].amount, input[readonly].tax, input[readonly].total {
+    background-color: transparent !important;
+    border: none !important;
+    text-align: right !important;
+    font-size: 1em;
+}

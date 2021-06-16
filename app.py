@@ -47,6 +47,19 @@ def showUserLanding():
     except Exception as e:
         return render_template('error.html', error=str(e), data=data)
 
+@app.route('/checkout', methods=['POST', 'GET'])
+def checkout():
+    if session.get('user'):
+        data = Users.find_one({'_id': session.get('user')})
+        if request.method == 'GET':
+            subtotal = request.args.get('subtotal')
+            tax = request.args.get('tax')
+            total = request.args.get('total')
+        return render_template('checkout.html', data=data, subtotal=subtotal, tax=tax, total=total)
+    else:
+        flash('Please sign in to have access to your cart.')
+        return redirect('showSignIn')
+
 @app.route('/cart', methods=['POST', 'GET'])
 def shopping_cart():
     if session.get('user'):
@@ -69,7 +82,7 @@ def updateCart(id):
 
         if request.method == 'POST':
             if product != None:
-                Cart.update(query, {
+                Cart.update_one(product, {
                     '$set': {
                         'quantity': request.form.get('item-qty')
                     }
