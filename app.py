@@ -75,6 +75,7 @@ def orderHistory():
             
         for product in order_history:
             product['quantity'] = float(product['quantity'])
+            product['price'] = float(str(product['price']))
         
         user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
         # Get cart quantity to display in navbar badge
