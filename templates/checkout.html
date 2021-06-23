@@ -15,7 +15,6 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/theme.css')}}">
     <!-- import js scripts -->
     <script src="../static/js/qty-change.js"></script>
-    <script src="../static/js/compute-totals.js"></script>
 
 
     <title>My Account</title>
@@ -69,7 +68,11 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
+                                {% if cart_quantity > 0 %}
+                                <a class="nav-link links" href="/cart">Cart <span class="badge bg-secondary">{{cart_quantity}}</span></a>
+                                {% else %}
                                 <a class="nav-link links" href="/cart">Cart</a>
+                                {% endif %}
                             </li>
 
                         </ul>
@@ -131,7 +134,121 @@
     <!-- Page Content -->
     <div class="container">
         <div class="row py-2">
-            <h3>Checkout</h3>
+            <div class="col-md-8">
+                <h3>Checkout</h3>
+                <div class="bottom-border my-4"></div>
+                {% with message = get_flashed_messages() %}
+                {% if message %}
+                {% for item in message %}
+                <div>
+                    <p style="color: red;">{{ item }}</p>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <div>
+                    <fieldset>
+                        <legend>Shipping</legend>
+                        <form class="row g-3">
+                            <div class="col-md-12">
+                                <label for="shipping-address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="shipping-address"
+                                    placeholder="1234 Main st">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="shipping-address-2" class="form-label">Address 2</label>
+                                <input type="text" class="form-control" id="shipping-address-2"
+                                    placeholder="apartment, studio, floor, etc">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputCity" class="form-label">City</label>
+                                <input type="text" class="form-control" id="inputCity">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="inputState" class="form-label">State</label>
+                                <select id="inputState" class="form-select">
+                                    <option selected>Choose...</option>
+                                    {% for state in states %}
+                                    <option id="{{state}}" value="{{state}}">{{state}}</option>
+                                    {% else %}
+                                    <option id="none">None</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="inputZip" class="form-label">Zip</label>
+                                <input type="text" class="form-control" id="inputZip">
+                            </div>
+                        </form>
+                    </fieldset>
+                </div>
+                <div class="row py-2">
+                    <fieldset>
+                        <legend>Credit card details</legend>
+                        <form class="row g-3" id="payment-form" action="{{url_for('processPayment')}}">
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" placeholder="Card Number" required>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-select">
+                                    <option value="january">January</option>
+                                    <option value="february">February</option>
+                                    <option value="march">March</option>
+                                    <option value="april">April</option>
+                                    <option value="may">May</option>
+                                    <option value="june">June</option>
+                                    <option value="july">July</option>
+                                    <option value="august">August</option>
+                                    <option value="september">September</option>
+                                    <option value="october">October</option>
+                                    <option value="november">November</option>
+                                    <option value="december">December</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" pattern="(19|20)[0-9][0-9]" placeholder="year"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" pattern="^[0-9]{3,4}$" placeholder="CVV"
+                                    required>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" form="payment-form" class="btn btn-primary">Submit
+                                    Payment</button>
+                            </div>
+                        </form>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h3>Order Summary</h3>
+                <div class="bottom-border my-4"></div>
+                <div class="card">
+                    <div class="card-header">Cart Totals</div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <label for="subtotal" class="col-sm-8 col-form-label">Subtotal</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="subtotal" class="form-control amount" readonly
+                                    value="{{subtotal}}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="tax" class="col-sm-8 col-form-label">Tax</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="tax" class="form-control tax" readonly value="{{tax}}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="total" class="col-sm-8 col-form-label">Total</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="total" class="form-control total" readonly value="{{total}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

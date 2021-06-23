@@ -5,6 +5,7 @@ from pymongo import MongoClient
 
 import uuid
 import math
+import datetime
 import re
 from decimal import Decimal
 
@@ -15,6 +16,7 @@ db = client.web_store
 Users = db.User
 Inventory = db.Inventory
 Cart = db.Cart
+Order_History = db.OrderHistory
 
 brands = ['Hunter', 'Rain Bird', 'Weathermatic']
 products = ['Controllers', 'Sprinklers', 'Valves', 'Rotors']
@@ -29,36 +31,110 @@ def main():
     valves_showcase = [item for item in inventory if item['category'] == 'valves']
     controllers_showcase = [item for item in inventory if item['category'] == 'controller']
     rotors_showcase = [item for item in inventory if item['category'] == 'rotors']
+
+    user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+    # Get cart quantity to display in navbar badge
+    cart_quantity = 0
+    for item in user_cart:
+        cart_quantity += Decimal(str(item['quantity']))
     
-    return render_template('index.html', sprinklers=sprinklers_showcase[:4], rotors=rotors_showcase[:4], valves=valves_showcase[:4], controllers=controllers_showcase[:4], brands=brands, products=products)
+    return render_template('index.html', sprinklers=sprinklers_showcase[:4], rotors=rotors_showcase[:4], valves=valves_showcase[:4], controllers=controllers_showcase[:4], brands=brands, products=products, cart_quantity=cart_quantity)
 
 @app.route('/userLanding')
 def showUserLanding():
     try:
         if session.get('user'):
             data = Users.find_one({'_id': session.get('user')})
+            
             if data:
                 if data['isAdmin'] == '1':
                     return redirect('/admin')
                 else:
-                    return render_template('userLanding.html', data=data)
+                    user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+                    # Get cart quantity to display in navbar badge
+                    cart_quantity = 0
+                    for item in user_cart:
+                        cart_quantity += Decimal(str(item['quantity']))
+
+                    return render_template('userLanding.html', data=data, cart_quantity=cart_quantity)
         else:
             return render_template('error.html', error="Unauthorized Access")
     except Exception as e:
         return render_template('error.html', error=str(e), data=data)
 
-@app.route('/checkout', methods=['POST', 'GET'])
-def checkout():
+@app.route('/account/orderHistory')
+def orderHistory():
     if session.get('user'):
         data = Users.find_one({'_id': session.get('user')})
+        history = [item for item in Order_History.find()]
+
+        order_history = []
+        for product in history:
+            if product['user_id'] == session.get('user'):
+                order_history.append(product)
+            
+        for product in order_history:
+            product['quantity'] = float(product['quantity'])
+        
+        user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+        # Get cart quantity to display in navbar badge
+        cart_quantity = 0
+        for item in user_cart:
+            cart_quantity += Decimal(str(item['quantity']))
+
+        return render_template('orderHistory.html', data=data, order_history=order_history, cart_quantity=cart_quantity)
+    else:
+        return redirect('/showSignIn')
+
+@app.route('/checkout', methods=['POST', 'GET'])
+def checkout():
+    states = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
+    if session.get('user'):
+        data = Users.find_one({'_id': session.get('user')})
+        user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+        # Get cart quantity to display in navbar badge
+        cart_quantity = 0
+        for item in user_cart:
+            cart_quantity += Decimal(str(item['quantity']))
+
         if request.method == 'GET':
             subtotal = request.args.get('subtotal')
             tax = request.args.get('tax')
             total = request.args.get('total')
-        return render_template('checkout.html', data=data, subtotal=subtotal, tax=tax, total=total)
+        return render_template('checkout.html', data=data, subtotal=subtotal, tax=tax, total=total, states=states, cart_quantity=cart_quantity)
     else:
         flash('Please sign in to have access to your cart.')
         return redirect('showSignIn')
+
+# Gets the user cart information and updates the stock value on the Inventory collection
+# and updates the user order history
+# and deletes the items in the user cart
+@app.route('/processPayment', methods=['GET','POST'])
+def processPayment():
+    if session.get('user'):
+        user_data = Users.find_one({'_id': session.get('user')})
+        user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+        confirmation = str(uuid.uuid1())
+        time = datetime.datetime.now()
+        temp_cart = user_cart
+        if user_cart != None:
+            for product in user_cart:
+                temp_product = Inventory.find_one(product['_id'])
+                if temp_product != None:
+                    Inventory.update_one({'_id': temp_product['_id']}, {
+                        '$set': {
+                            'stock': temp_product['stock'] - int(product['quantity'])
+                        }
+                    })
+                    Cart.delete_one(product)
+                    product.update({'_id': str(uuid.uuid1())})
+                    product.update({'datetime': str(time)})
+                    product.update({'confirmation': confirmation})
+                    Order_History.insert_one(product)
+        return render_template('orderConfirmation.html', data=user_data, cart=temp_cart, confirmation=confirmation)
+    else:
+        flash('Please sign in to have access to your cart')
+        return redirect('/showSignIn')
 
 @app.route('/cart', methods=['POST', 'GET'])
 def shopping_cart():
@@ -69,7 +145,13 @@ def shopping_cart():
         for item in user_cart:
             item['price'] = Decimal(str(item['price']))
             item['quantity'] = Decimal(str(item['quantity']))
-        return render_template('cart.html', data=user_data, cart=user_cart)
+        
+        # Get cart quantity to display in navbar badge
+        cart_quantity = 0
+        for item in user_cart:
+            cart_quantity += item['quantity']
+
+        return render_template('cart.html', data=user_data, cart=user_cart, cart_quantity=cart_quantity)
     else:
         flash('Please sign in to have access to your cart.')
         return redirect('/showSignIn')
