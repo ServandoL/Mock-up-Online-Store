@@ -18,19 +18,18 @@ Inventory = db.Inventory
 Cart = db.Cart
 Order_History = db.OrderHistory
 
-brands = ['Hunter', 'Rain Bird', 'Weathermatic']
-products = ['Controllers', 'Sprinklers', 'Valves', 'Rotors']
+inventory = [item for item in Inventory.find()]
+brands = {item['brand'] for item in inventory}
+products = {item['category'] for item in inventory}
 
 # Login routing and sign-in and sign-up logic
-
 app.secret_key = 'cs6314.0w1'
 @app.route('/')
 def main():
-    inventory = [item for item in Inventory.find()]
-    sprinklers_showcase = [item for item in inventory if item['category'] == 'sprinkler-body' or item['category'] == 'sprinkler-nozzles']
-    valves_showcase = [item for item in inventory if item['category'] == 'valves']
-    controllers_showcase = [item for item in inventory if item['category'] == 'controller']
-    rotors_showcase = [item for item in inventory if item['category'] == 'rotors']
+    sprinklers_showcase = [item for item in inventory if item['category'] == 'Sprinklers' or item['category'] == 'Nozzles']
+    valves_showcase = [item for item in inventory if item['category'] == 'Valves']
+    controllers_showcase = [item for item in inventory if item['category'] == 'Controllers']
+    rotors_showcase = [item for item in inventory if item['category'] == 'Rotors']
 
     user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
     # Get cart quantity to display in navbar badge
@@ -40,12 +39,90 @@ def main():
     
     return render_template('index.html', sprinklers=sprinklers_showcase[:4], rotors=rotors_showcase[:4], valves=valves_showcase[:4], controllers=controllers_showcase[:4], brands=brands, products=products, cart_quantity=cart_quantity)
 
+# Routes for product display pages
+
+@app.route('/products/sprinklers')
+def Sprinklers():
+    sprinkler_products = [product for product in inventory if product['category'] == 'Sprinklers']
+    if session.get('user'):
+        data = Users.find_one({'_id': session.get('user')})
+        user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+        # Get cart quantity to display in navbar badge
+        cart_quantity = 0
+        for item in user_cart:
+            cart_quantity += Decimal(str(item['quantity']))
+
+        return render_template('products/sprinkler-body.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products, inventory=sprinkler_products)
+    else:
+        return render_template('products/sprinkler-body.html', brands=brands, products=products, inventory=sprinkler_products)
+
+@app.route('/products/rotors')
+def Rotors():
+    rotor_products = [product for product in inventory if product['category'] == 'Rotors']
+    if session.get('user'):
+        data = Users.find_one({'_id': session.get('user')})
+        user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+        # Get cart quantity to display in navbar badge
+        cart_quantity = 0
+        for item in user_cart:
+            cart_quantity += Decimal(str(item['quantity']))
+
+        return render_template('products/rotors.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products, inventory=rotor_products)
+    else:
+        return render_template('products/rotors.html', brands=brands, products=products, inventory=rotor_products)
+    
+@app.route('/products/controllers')
+def Controllers():
+    controller_products = [product for product in inventory if product['category'] == 'Controllers']
+    if session.get('user'):
+        data = Users.find_one({'_id': session.get('user')})
+        user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+        # Get cart quantity to display in navbar badge
+        cart_quantity = 0
+        for item in user_cart:
+            cart_quantity += Decimal(str(item['quantity']))
+
+        return render_template('products/controllers.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products, inventory=controller_products)
+    else:
+        return render_template('products/controllers.html', brands=brands, products=products, inventory=controller_products)
+
+@app.route('/products/valves')
+def Valves():
+    valve_products = [product for product in inventory if product['category'] == 'Valves']
+    if session.get('user'):
+        data = Users.find_one({'_id': session.get('user')})
+        user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+        # Get cart quantity to display in navbar badge
+        cart_quantity = 0
+        for item in user_cart:
+            cart_quantity += Decimal(str(item['quantity']))
+
+        return render_template('products/valves.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products, inventory=valve_products)
+    else:
+        return render_template('products/valves.html', brands=brands, products=products, inventory=valve_products)
+
+@app.route('/products/nozzles')
+def Nozzles():
+    nozzle_products = [product for product in inventory if product['category'] == 'Nozzles']
+    if session.get('user'):
+        data = Users.find_one({'_id': session.get('user')})
+        user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+        # Get cart quantity to display in navbar badge
+        cart_quantity = 0
+        for item in user_cart:
+            cart_quantity += Decimal(str(item['quantity']))
+
+        return render_template('products/sprinkler-nozzles.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products, inventory=nozzle_products)
+    else:
+        return render_template('products/sprinkler-nozzles.html', brands=brands, products=products, inventory=nozzle_products)
+
+# End routes for product display pages
+
 @app.route('/userLanding')
 def showUserLanding():
     try:
         if session.get('user'):
             data = Users.find_one({'_id': session.get('user')})
-            
             if data:
                 if data['isAdmin'] == '1':
                     return redirect('/admin')
@@ -56,7 +133,7 @@ def showUserLanding():
                     for item in user_cart:
                         cart_quantity += Decimal(str(item['quantity']))
 
-                    return render_template('userLanding.html', data=data, cart_quantity=cart_quantity)
+                    return render_template('userLanding.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products)
         else:
             return render_template('error.html', error="Unauthorized Access")
     except Exception as e:
@@ -83,7 +160,7 @@ def orderHistory():
         for item in user_cart:
             cart_quantity += Decimal(str(item['quantity']))
 
-        return render_template('orderHistory.html', data=data, order_history=order_history, cart_quantity=cart_quantity)
+        return render_template('orderHistory.html', data=data, order_history=order_history, cart_quantity=cart_quantity, brands=brands, products=products)
     else:
         return redirect('/showSignIn')
 
@@ -102,7 +179,7 @@ def checkout():
             subtotal = request.args.get('subtotal')
             tax = request.args.get('tax')
             total = request.args.get('total')
-        return render_template('checkout.html', data=data, subtotal=subtotal, tax=tax, total=total, states=states, cart_quantity=cart_quantity)
+        return render_template('checkout.html', data=data, subtotal=subtotal, tax=tax, total=total, states=states, cart_quantity=cart_quantity, brands=brands, products=products)
     else:
         flash('Please sign in to have access to your cart.')
         return redirect('showSignIn')
@@ -132,7 +209,7 @@ def processPayment():
                     product.update({'datetime': str(time)})
                     product.update({'confirmation': confirmation})
                     Order_History.insert_one(product)
-        return render_template('orderConfirmation.html', data=user_data, cart=temp_cart, confirmation=confirmation)
+        return render_template('orderConfirmation.html', data=user_data, cart=temp_cart, confirmation=confirmation, brands=brands, products=products)
     else:
         flash('Please sign in to have access to your cart')
         return redirect('/showSignIn')
@@ -152,7 +229,7 @@ def shopping_cart():
         for item in user_cart:
             cart_quantity += item['quantity']
 
-        return render_template('cart.html', data=user_data, cart=user_cart, cart_quantity=cart_quantity)
+        return render_template('cart.html', data=user_data, cart=user_cart, cart_quantity=cart_quantity, brands=brands, products=products)
     else:
         flash('Please sign in to have access to your cart.')
         return redirect('/showSignIn')
@@ -250,12 +327,12 @@ def logout():
 
 @app.route('/showSignIn')
 def showSignIn():
-    return render_template('signin.html')
+    return render_template('signin.html', brands=brands, products=products)
 
 
 @app.route('/showSignUp')
 def showSignUp():
-    return render_template('signup.html')
+    return render_template('signup.html', brands=brands, products=products)
 
 
 @app.route('/signUp', methods=['POST'])
@@ -316,7 +393,7 @@ def showAdminDashboard():
 
         if user_data:
             if user_data['isAdmin'] == '1':
-                return render_template('admin.html', data=user_data, inventory=inventory_data)
+                return render_template('admin.html', data=user_data, inventory=inventory_data, brands=brands, products=products)
             else:
                 return render_template('error.html', error='Unauthorized Access', data=user_data)
     else:
@@ -375,7 +452,7 @@ def updateItem(id):
                 updated['Product Image'] = _productImage
                 updated['message'] = 'updated'
 
-        return render_template('updateItem.html', data=user_data, inventory_item=inventory_item, updated = updated)
+        return render_template('updateItem.html', data=user_data, inventory_item=inventory_item, updated = updated, brands=brands, products=products)
     else:
         return render_template('error.html', error="Unauthorized Access")
 

@@ -85,38 +85,43 @@
             <nav class="navbar navbar-expand-lg py-0" style="background-color: #31b389;">
 
                 <div class="container">
-    
+
                     <!-- Nav bar links -->
                     <div class="collapse navbar-collapse d-flex" id="filteredContent">
-    
+
                         <div class="p-2">
                             <ul class="navbar-nav">
                                 <!-- Dropdown for products -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle py-0 links" href="#" id="productDropdown" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle py-0 links" href="#" id="productDropdown"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Product
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Product Placeholder1</a></li>
-                                        <li><a class="dropdown-item" href="#">Product Placeholder 2</a></li>
+                                        {% for product in products %}
+                                        <li><a class="dropdown-item" href="{{url_for(product)}}">{{product}}</a></li>                                        {% else %}
+                                        <li><a class="dropdown-item" href="#">No products available.</a></li>
+                                        {% endfor %}
                                     </ul>
                                 </li>
                                 <!-- end dropdown for products -->
 
                                 <!-- dropdown for product brands -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle py-0 links" href="#" id="brandDropdown" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle py-0 links" href="#" id="brandDropdown"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Brands
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Brand Placeholder1</a></li>
-                                        <li><a class="dropdown-item" href="#">Brand Placeholder 2</a></li>
+                                        {% for brand in brands %}
+                                        <li><a class="dropdown-item" href="#">{{brand}}</a></li>
+                                        {% else %}
+                                        <li><a class="dropdown-item" href="#">No brands available.</a></li>
+                                        {% endfor %}
                                     </ul>
                                 </li>
                                 <!-- end dropdown for product brands -->
-    
+
                             </ul>
                         </div>
                     </div>

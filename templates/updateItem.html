@@ -93,8 +93,10 @@
                                         Product
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Product Placeholder1</a></li>
-                                        <li><a class="dropdown-item" href="#">Product Placeholder 2</a></li>
+                                        {% for product in products %}
+                                        <li><a class="dropdown-item" href="{{url_for(product)}}">{{product}}</a></li>                                        {% else %}
+                                        <li><a class="dropdown-item" href="#">No products available.</a></li>
+                                        {% endfor %}
                                     </ul>
                                 </li>
                                 <!-- end dropdown for products -->
@@ -106,8 +108,11 @@
                                         Brands
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Brand Placeholder1</a></li>
-                                        <li><a class="dropdown-item" href="#">Brand Placeholder 2</a></li>
+                                        {% for brand in brands %}
+                                        <li><a class="dropdown-item" href="#">{{brand}}</a></li>
+                                        {% else %}
+                                        <li><a class="dropdown-item" href="#">No brands available.</a></li>
+                                        {% endfor %}
                                     </ul>
                                 </li>
                                 <!-- end dropdown for product brands -->
@@ -143,7 +148,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="card w-50 h-50 mx-auto my-2">
-                            <img class="card-img-top mx-auto" src="{{ inventory_item['imageUrl'] }}"
+                            <img class="card-img-top mx-auto" src="/{{ inventory_item['imageUrl'] }}"
                                 style="width: 18rem" alt="product image">
                             <div class="card-body">
                                 <h5 class="card-title">{{ inventory_item['productName'] }}</h5>
