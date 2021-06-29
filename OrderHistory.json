@@ -1,0 +1,108 @@
+[{
+  "_id": "a1a72556-d2f8-11eb-8f33-d43b04fcbf0b",
+  "productName": "Weathermatic MAXSpray 30 PSI Pressure Regulated Spray Head 4 in. | MAX4PRS30 ",
+  "price": 4.25,
+  "category": "sprinkler-body",
+  "brand": "weathermatic",
+  "stock": 33,
+  "imageUrl": "static\\img\\weathermatic\\sprinkler-body\\m_a_max4prs30.webp",
+  "isDeleted": false,
+  "user_id": "715d2f56-cdc9-11eb-bcdd-d43b04fcbf0b",
+  "quantity": "1",
+  "datetime": "2021-06-21 20:24:47.072030",
+  "confirmation": "a1a6d72e-d2f8-11eb-883e-d43b04fcbf0b"
+},{
+  "_id": "a1a74c68-d2f8-11eb-95ea-d43b04fcbf0b",
+  "productName": "Rain Bird 5000 Rotor 4 in. | 5004-PC",
+  "price": 8.95,
+  "category": "rotors",
+  "brand": "rainbird",
+  "stock": 30,
+  "imageUrl": "static/img/rainbird/rotors/5000_riserup_1.webp",
+  "user_id": "715d2f56-cdc9-11eb-bcdd-d43b04fcbf0b",
+  "quantity": "1",
+  "datetime": "2021-06-21 20:24:47.072030",
+  "confirmation": "a1a6d72e-d2f8-11eb-883e-d43b04fcbf0b"
+},{
+  "_id": "1f2ae086-d2fd-11eb-bcac-d43b04fcbf0b",
+  "productName": "Weathermatic SMARTLINE 4 Station Indoor/Outdoor Controller | SL1600",
+  "price": 117.54,
+  "category": "controller",
+  "brand": "weathermatic",
+  "stock": 2,
+  "imageUrl": "static/img/weathermatic/controller/s_l_sl1600_1.webp",
+  "isDeleted": false,
+  "user_id": "715d2f56-cdc9-11eb-bcdd-d43b04fcbf0b",
+  "quantity": "1",
+  "datetime": "2021-06-21 20:56:55.638462",
+  "confirmation": "1f2ab974-d2fd-11eb-9db3-d43b04fcbf0b"
+},{
+  "_id": "1f2b2ea5-d2fd-11eb-86a9-d43b04fcbf0b",
+  "productName": "ESPSM6 - 6-Station Expansion Module for ESP-Me and ESP-SMTe Series Timers",
+  "price": 111.13,
+  "category": "controller",
+  "brand": "rainbird",
+  "stock": 20,
+  "imageUrl": "static/img/rainbird/controller/esp-me_6stn-module_wide_00136_1.webp",
+  "isDeleted": false,
+  "user_id": "715d2f56-cdc9-11eb-bcdd-d43b04fcbf0b",
+  "quantity": "1",
+  "datetime": "2021-06-21 20:56:55.638462",
+  "confirmation": "1f2ab974-d2fd-11eb-9db3-d43b04fcbf0b"
+},{
+  "_id": "a84a6af4-d415-11eb-8098-d43b04fcbf0b",
+  "productName": "HUNTER HC-600i Hydrawise Touch Screen Smart WiFi Enabled 6 Zone Sprinkler Controller ",
+  "price": 202.73,
+  "category": "controller",
+  "brand": "hunter",
+  "stock": 5,
+  "imageUrl": "static\\img\\hunter\\controller\\h_c_hc-600i.webp",
+  "isDeleted": false,
+  "user_id": "715d2f56-cdc9-11eb-bcdd-d43b04fcbf0b",
+  "quantity": "2",
+  "datetime": "2021-06-23 06:25:04.776314",
+  "confirmation": "a84a1ccc-d415-11eb-b7a2-d43b04fcbf0b"
+},{
+  "_id": "2af4d32c-d417-11eb-a0ff-d43b04fcbf0b",
+  "productName": "Weathermatic MAXSpray 30 PSI Pressure Regulated Spray Head 4 in. | MAX4PRS30 ",
+  "price": 4.25,
+  "category": "sprinkler-body",
+  "brand": "weathermatic",
+  "stock": 32,
+  "imageUrl": "static\\img\\weathermatic\\sprinkler-body\\m_a_max4prs30.webp",
+  "isDeleted": false,
+  "user_id": "715d2f56-cdc9-11eb-bcdd-d43b04fcbf0b",
+  "quantity": "2",
+  "datetime": "2021-06-23 06:35:53.493632",
+  "confirmation": "2af48508-d417-11eb-8f7e-d43b04fcbf0b"
+},{
+  "_id": "c824e2a3-d42c-11eb-b962-d43b04fcbf0b",
+  "productName": "Weathermatic MAXSpray Spray Head 4 in. | MAX4 ",
+  "price": {
+    "$numberDecimal": "1.25"
+  },
+  "category": "sprinkler-body",
+  "brand": "weathermatic",
+  "stock": 42,
+  "imageUrl": "static\\img\\weathermatic\\sprinkler-body\\m_a_max4_2.webp",
+  "isDeleted": false,
+  "user_id": "8a740173-d42c-11eb-af34-d43b04fcbf0b",
+  "quantity": "5",
+  "datetime": "2021-06-23 09:10:36.643214",
+  "confirmation": "c824bb92-d42c-11eb-af50-d43b04fcbf0b"
+},{
+  "_id": "2a9b504d-d853-11eb-af58-d43b04fcbf0b",
+  "productName": "Weathermatic MAXSpray Spray Head 4 in. | MAX4 ",
+  "price": {
+    "$numberDecimal": "1.25"
+  },
+  "category": "Sprinklers",
+  "brand": "Weathermatic",
+  "stock": 37,
+  "imageUrl": "static\\img\\weathermatic\\sprinkler-body\\m_a_max4_2.webp",
+  "isDeleted": false,
+  "user_id": "715d2f56-cdc9-11eb-bcdd-d43b04fcbf0b",
+  "quantity": "9",
+  "datetime": "2021-06-28 15:55:27.362899",
+  "confirmation": "2a9b293f-d853-11eb-a110-d43b04fcbf0b"
+}]

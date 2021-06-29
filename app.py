@@ -24,20 +24,30 @@ products = {item['category'] for item in inventory}
 
 # Login routing and sign-in and sign-up logic
 app.secret_key = 'cs6314.0w1'
-@app.route('/')
-def main():
-    sprinklers_showcase = [item for item in inventory if item['category'] == 'Sprinklers' or item['category'] == 'Nozzles']
-    valves_showcase = [item for item in inventory if item['category'] == 'Valves']
-    controllers_showcase = [item for item in inventory if item['category'] == 'Controllers']
-    rotors_showcase = [item for item in inventory if item['category'] == 'Rotors']
 
+@app.route("/")
+def main():
     user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
     # Get cart quantity to display in navbar badge
     cart_quantity = 0
     for item in user_cart:
         cart_quantity += Decimal(str(item['quantity']))
+    return render_template('index.html', cart_quantity=cart_quantity, products=products)
+
+# @app.route('/')
+# def OLD_index():
+#     sprinklers_showcase = [item for item in inventory if item['category'] == 'Sprinklers' or item['category'] == 'Nozzles']
+#     valves_showcase = [item for item in inventory if item['category'] == 'Valves']
+#     controllers_showcase = [item for item in inventory if item['category'] == 'Controllers']
+#     rotors_showcase = [item for item in inventory if item['category'] == 'Rotors']
+
+#     user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+#     # Get cart quantity to display in navbar badge
+#     cart_quantity = 0
+#     for item in user_cart:
+#         cart_quantity += Decimal(str(item['quantity']))
     
-    return render_template('index.html', sprinklers=sprinklers_showcase[:4], rotors=rotors_showcase[:4], valves=valves_showcase[:4], controllers=controllers_showcase[:4], brands=brands, products=products, cart_quantity=cart_quantity)
+#     return render_template('index.html', sprinklers=sprinklers_showcase[:4], rotors=rotors_showcase[:4], valves=valves_showcase[:4], controllers=controllers_showcase[:4], brands=brands, products=products, cart_quantity=cart_quantity)
 
 # Routes for product display pages
 
@@ -461,8 +471,8 @@ def updateItem(id):
 # Create - new inventory
 @app.route('/admin/create', methods=['GET', 'POST'])
 def createItem():
-    brands = [{'name': 'hunter'}, {'name': 'rainbird'}, {'name': 'weathermatic'}]
-    category = [{'name': 'controller'}, {'name': 'rotors'}, {'name': 'sprinkler-body'}, {'name': 'sprinkler-nozzles'}, {'name': 'valves'}]
+    # brands = [{'name': 'hunter'}, {'name': 'rainbird'}, {'name': 'weathermatic'}]
+    # category = [{'name': 'controller'}, {'name': 'rotors'}, {'name': 'sprinkler-body'}, {'name': 'sprinkler-nozzles'}, {'name': 'valves'}]
     inserted = ''
     if session.get('user'):
         user_data = Users.find_one({'_id': session.get('user')})
@@ -480,14 +490,25 @@ def createItem():
                         '_id': str(uuid.uuid1()),
                         'productName': _productName,
                         'price': float(_productPrice),
-                        'category': _productCategory.lower(),
-                        'brand': _productBrand.lower(),
+                        'category': _productCategory,
+                        'brand': _productBrand,
                         'stock': int(_productStock),
-                        'imageUrl': 'static/img/'+_productBrand.lower()+'/'+_productCategory.lower()+'/'+_productImage
+                        'imageUrl': 'static/img/'+_productBrand+'/'+_productCategory+'/'+_productImage
                     }
                     Inventory.insert_one(new_item)
                     inserted = 'true'
                     # Item was inserted successfully.
+                elif _productName and _productPrice and _productCategory and _productBrand and _productStock:
+                    new_item = {
+                        '_id': str(uuid.uuid1()),
+                        'productName': _productName,
+                        'price': float(_productPrice),
+                        'category': _productCategory,
+                        'brand': _productBrand,
+                        'stock': int(_productStock)
+                    }
+                    Inventory.insert_one(new_item)
+                    inserted = 'true'
                 else:
                     #  All fields must be filled out.
                     inserted = 'false'
@@ -497,7 +518,7 @@ def createItem():
 
         if user_data:
             if user_data['isAdmin'] == '1':
-                return render_template('createItem.html', data=user_data, brands=brands, category=category, response=inserted) 
+                return render_template('createItem.html', data=user_data, brands=brands, products=products, response=inserted) 
             else:
                 return render_template('error.html', error='Unauthorized Access', data=user_data)
     else:

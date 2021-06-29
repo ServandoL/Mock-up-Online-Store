@@ -1,52 +1,446 @@
-{"_id":"3f304efc-9bdf-11eb-bc13-1b053fbda344","productName":"Hunter Pro-C PC-400i 4 Zone Base Controller; Indoor with Plug-in Transformer ","price":100.87,"category":"controller","brand":"Hunter","stock":10,"imageUrl":"static\\img\\hunter\\controller\\p_c_pc-400i-2.webp","isDeleted":false}
-{"_id":"7cef079c-9bdf-11eb-bc13-1b053fbda344","productName":"HUNTER HC-600i Hydrawise Touch Screen Smart WiFi Enabled 6 Zone Sprinkler Controller ","price":202.73,"category":"controller","brand":"Hunter","stock":5,"imageUrl":"static\\img\\hunter\\controller\\h_c_hc-600i.webp","isDeleted":false}
-{"_id":"9269c364-9bdf-11eb-bc13-1b053fbda344","productName":"Rain Bird 100DVSS - 1 in. DV Series Inline Plastic Residential Irrigation Valve - Slip x Slip","price":28.93,"category":"valves","brand":"Rain Bird","stock":22,"imageUrl":"static\\img\\rainbird\\valves\\100-dv-ss.webp","isDeleted":false}
-{"_id":"a804d574-9bdf-11eb-bc13-1b053fbda344","productName":"Rain Bird 100DVF - 1 in. DVF Series Inline Plastic Residential Irrigation Valve with Flow Control- Female Pipe Thread","price":29.87,"category":"valves","brand":"Rain Bird","stock":12,"imageUrl":"static\\img\\rainbird\\valves\\100-dvf.webp","isDeleted":false}
-{"_id":"ba17f5b6-9bdf-11eb-bc13-1b053fbda344","productName":"Weathermatic MAXSpray Spray Head 4 in. | MAX4 ","price":{"$numberDecimal":"1.25"},"category":"sprinkler-body","brand":"Weathermatic","stock":55,"imageUrl":"static\\img\\weathermatic\\sprinkler-body\\m_a_max4_2.webp","isDeleted":false}
-{"_id":"ce369728-9bdf-11eb-bc13-1b053fbda344","productName":"Weathermatic MAXSpray 30 PSI Pressure Regulated Spray Head 4 in. | MAX4PRS30 ","price":{"$numberDecimal":"4.25"},"category":"sprinkler-body","brand":"Weathermatic","stock":45,"imageUrl":"static\\img\\weathermatic\\sprinkler-body\\m_a_max4prs30.webp","isDeleted":false}
-{"_id":"c0f911f0-9f11-11eb-b01a-7df6511b7b5c","productName":"Weathermatic SMARTLINE 4 Station Indoor/Outdoor Controller | SL1600","price":117.54,"category":"controller","brand":"weathermatic","stock":2,"imageUrl":"static/img/weathermatic/controller/s_l_sl1600_1.webp","isDeleted":false}
-{"_id":"6bc4541c-9f14-11eb-9b57-6d5d2ca1de1a","productName":"ESPSM6 - 6-Station Expansion Module for ESP-Me and ESP-SMTe Series Timers","price":111.13,"category":"controller","brand":"rainbird","stock":20,"imageUrl":"static/img/rainbird/controller/esp-me_6stn-module_wide_00136_1.webp","isDeleted":false}
-{"_id":"f6ca6f4c-9f2d-11eb-b734-85abc470229d","productName":"ESP-TM2 + LNK WiFi Bundle: 6 Zone","price":201.71,"category":"controller","brand":"rainbird","stock":3,"imageUrl":"static/img/rainbird/controller/esp-tm2-lnk-600.webp","isDeleted":false}
-{"_id":"c77bc81e-a0b1-11eb-b4ff-ad1e0c5451ce","productName":"Hunter Rotor 4 in. | PGP-ADJ","price":8.95,"category":"rotors","brand":"hunter","stock":4,"imageUrl":"static/img/hunter/rotors/5000-shrub-prs-sam_tqoverhead.webp"}
-{"_id":"ef62a88e-a0b1-11eb-b4ff-ad1e0c5451ce","productName":"Hunter Rotor with Blue Nozzles 4 in. | PGP-ADJ-B","price":9.69,"category":"rotors","brand":"hunter","stock":1,"imageUrl":"static/img/hunter/rotors/p_g_pgp_adj_b_1.webp"}
-{"_id":"26503064-a0b2-11eb-b4ff-ad1e0c5451ce","productName":"Hunter PRO-SPRAY Spray Head 4 in. | PROS-04","price":1.35,"category":"sprinkler-body","brand":"hunter","stock":55,"imageUrl":"static/img/hunter/sprinkler-body/p_r_pros_04_1_1.webp"}
-{"_id":"4721369e-a0b2-11eb-b4ff-ad1e0c5451ce","productName":"Hunter PRO-SPRAY Spray Head with Check Valve 4 in. | PROS-04-CV","price":3.65,"category":"sprinkler-body","brand":"hunter","stock":20,"imageUrl":"static/img/hunter/sprinkler-body/p_r_pros-04-cv.webp"}
-{"_id":"668b9880-a0b2-11eb-b4ff-ad1e0c5451ce","productName":"\r\nHunter PRO-SPRAY 40 PSI Pressure Regulated Spray Head 4 in. | PROS-04-PRS40-CV\r\n","price":7.25,"category":"sprinkler-body","brand":"hunter","stock":20,"imageUrl":"static/img/hunter/sprinkler-body/p_r_pros-04-prs40-cv.webp"}
-{"_id":"f330c418-a0b2-11eb-b4ff-ad1e0c5451ce","productName":"Hunter PRO Adjustable Nozzle 8 ft | PRO-8A ","price":0.85,"category":"sprinkler-nozzles","brand":"hunter","stock":100,"imageUrl":"static/img/hunter/sprinkler-nozzles/p_r_pro-8a_1_1.webp"}
-{"_id":"023f5cda-a0b3-11eb-b4ff-ad1e0c5451ce","productName":"Hunter PRO Adjustable Nozzle 10 ft | PRO-10A ","price":0.85,"category":"sprinkler-nozzles","brand":"hunter","stock":100,"imageUrl":"static/img/hunter/sprinkler-nozzles/p_r_pro-10a_3.webp"}
-{"_id":"0eed6544-a0b3-11eb-b4ff-ad1e0c5451ce","productName":"Hunter PRO Adjustable Nozzle 12 ft | PRO-12A ","price":0.85,"category":"sprinkler-nozzles","brand":"hunter","stock":100,"imageUrl":"static/img/hunter/sprinkler-nozzles/p_r_pro-12a_1_1.webp"}
-{"_id":"1bb130c6-a0b3-11eb-b4ff-ad1e0c5451ce","productName":"Hunter PRO Adjustable Nozzle 15 ft | PRO-15A ","price":0.85,"category":"sprinkler-nozzles","brand":"hunter","stock":100,"imageUrl":"static/img/hunter/sprinkler-nozzles/p_r_pro-15a_12.webp"}
-{"_id":"660efc3e-a0b3-11eb-b4ff-ad1e0c5451ce","productName":"Hunter MP Rotator 90 - 210 Degree Adjustable Rotary Nozzle 6 - 12 ft | MP800SR90","price":5.95,"category":"sprinkler-nozzles","brand":"hunter","stock":50,"imageUrl":"static/img/hunter/sprinkler-nozzles/mp800sr90-spray-pattern.webp"}
-{"_id":"80d60684-a0b3-11eb-b4ff-ad1e0c5451ce","productName":"Hunter MP Rotator 90 - 210 Degree Adjustable Rotary Nozzle 8 - 15 ft. | MP100090","price":5.95,"category":"sprinkler-nozzles","brand":"hunter","stock":50,"imageUrl":"static/img/hunter/sprinkler-nozzles/mp100090-spray-pattern.webp"}
-{"_id":"9499c188-a0b3-11eb-b4ff-ad1e0c5451ce","productName":"Hunter MP Rotator 90 - 210 Degree Adjustable Rotary Nozzle 13 - 21 ft | MP200090","price":5.95,"category":"sprinkler-nozzles","brand":"hunter","stock":50,"imageUrl":"static/img/hunter/sprinkler-nozzles/mp200090_pattern_thumbnail.webp"}
-{"_id":"ab07ae08-a0b3-11eb-b4ff-ad1e0c5451ce","productName":"Hunter MP Rotator 90 - 210 Degree Adjustable Rotary Nozzle 22 - 30 ft | MP300090","price":5.95,"category":"sprinkler-nozzles","brand":"hunter","stock":50,"imageUrl":"static/img/hunter/sprinkler-nozzles/mp300090-spray-pattern.webp"}
-{"_id":"13cb6c7c-a0b4-11eb-b4ff-ad1e0c5451ce","productName":"Hunter PGV In-Line Valve 1 in. FPT | PGV-100G","price":13.95,"category":"valves","brand":"hunter","stock":20,"imageUrl":"static/img/hunter/valves/p_g_pgv-100g.webp"}
-{"_id":"223e00ee-a0b4-11eb-b4ff-ad1e0c5451ce","productName":"Hunter PGV In-Line Valve 1 in. Slip | PGV-100GS","price":13.95,"category":"valves","brand":"hunter","stock":20,"imageUrl":"static/img/hunter/valves/p_g_pgv-100gs.webp"}
-{"_id":"34c50e06-a0b4-11eb-b4ff-ad1e0c5451ce","productName":"Hunter PGV In-Line Valve with Flow Control 1 in. FPT | PGV-101G","price":14.95,"category":"valves","brand":"hunter","stock":10,"imageUrl":"static/img/hunter/valves/p_g_pgv-101g.webp"}
-{"_id":"757e9156-a0b4-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird WR2-RFC Wireless Rain/Freeze Sensor and Timer Interface","price":71.95,"category":"controller","brand":"rainbird","stock":10,"imageUrl":"static/img/rainbird/controller/wr2_1_1.webp"}
-{"_id":"a46ef992-a0b4-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird 5000 Rotor 4 in. | 5004-PC","price":8.95,"category":"rotors","brand":"rainbird","stock":30,"imageUrl":"static/img/rainbird/rotors/5000_riserup_1.webp"}
-{"_id":"c5b5ec8c-a0b4-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird 5000 PLUS Rotor with Seal-A-Matic Shrub | 5000S-PLPCS","price":13.95,"category":"rotors","brand":"rainbird","stock":10,"imageUrl":"static/img/rainbird/rotors/5000-shrub-prs-sam_tqoverhead.webp"}
-{"_id":"ed95dd70-a0b4-11eb-b4ff-ad1e0c5451ce","productName":"5000RCTREE - Rotor Nozzle Tree for Rain Bird 42SA Plus, 52SA & 5000/5000 Plus Series Rotors","price":2.0,"category":"rotors","brand":"rainbird","stock":200,"imageUrl":"static/img/rainbird/rotors/5000plus_nozzles.webp"}
-{"_id":"3143534a-a0b5-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird 1800 Spray Head 4 in. | 1804 ","price":1.55,"category":"sprinkler-body","brand":"rainbird","stock":100,"imageUrl":"static/img/rainbird/sprinkler-body/1804lnextended.webp"}
-{"_id":"3f2cfa60-a0b5-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird 1800 Spray Head with Seal-A-Matic 4 in. | 1804-SAM","price":3.85,"category":"sprinkler-body","brand":"rainbird","stock":100,"imageUrl":"static/img/rainbird/sprinkler-body/1804ln_2.webp"}
-{"_id":"4b6e5706-a0b5-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird 1800 30 Pressure Regulated Spray Head 4 in. | 1804-PRS ","price":5.35,"category":"sprinkler-body","brand":"rainbird","stock":50,"imageUrl":"static/img/rainbird/sprinkler-body/1804ln_3.webp"}
-{"_id":"61c370f4-a0b5-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird RD1800 30 PSI Pressure Regulated Spray Head with Seal-A-Matic 4 in. | RD04-SP30","price":6.46,"category":"sprinkler-body","brand":"rainbird","stock":30,"imageUrl":"static/img/rainbird/sprinkler-body/1804ln_4.webp"}
-{"_id":"86a726ec-a0b8-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird VAN Adjustable Nozzle 15 ft | 15VAN ","price":0.79,"category":"sprinkler-nozzles","brand":"rainbird","stock":100,"imageUrl":"static/img/rainbird/sprinkler-nozzles/15-van_7.webp"}
-{"_id":"b0d91e3e-a0b8-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird VAN Adjustable Nozzle 10 ft | 10VAN","price":0.79,"category":"sprinkler-nozzles","brand":"rainbird","stock":100,"imageUrl":"static/img/rainbird/sprinkler-nozzles/10-van.webp"}
-{"_id":"c043d1a2-a0b8-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird VAN Adjustable Nozzle 12 ft | 12VAN ","price":0.79,"category":"sprinkler-nozzles","brand":"rainbird","stock":100,"imageUrl":"static/img/rainbird/sprinkler-nozzles/12-van.webp"}
-{"_id":"cc069a6a-a0b8-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird VAN Adjustable Nozzle 8 ft | 8VAN ","price":0.79,"category":"sprinkler-nozzles","brand":"rainbird","stock":100,"imageUrl":"static/img/rainbird/sprinkler-nozzles/8-van.webp"}
-{"_id":"eb9b26b6-a0b8-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird R-VAN 45 - 270 Degree Adjustable Rotary Nozzle 8 - 14 ft | R-VAN14","price":4.75,"category":"sprinkler-nozzles","brand":"rainbird","stock":30,"imageUrl":"static/img/rainbird/sprinkler-nozzles/rvan14.webp"}
-{"_id":"f951c134-a0b8-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird R-VAN 45 - 270 Degree Adjustable Rotary Nozzle 13 - 18 ft | R-VAN18","price":3.95,"category":"sprinkler-nozzles","brand":"rainbird","stock":30,"imageUrl":"static/img/rainbird/sprinkler-nozzles/rvan18.webp"}
-{"_id":"0859e13e-a0b9-11eb-b4ff-ad1e0c5451ce","productName":"Rain Bird R-VAN 45 - 270 Degree Adjustable Rotary Nozzle 17 - 24 ft | R-VAN24","price":3.95,"category":"sprinkler-nozzles","brand":"rainbird","stock":30,"imageUrl":"static/img/rainbird/sprinkler-nozzles/rvan24.webp"}
-{"_id":"8deacfc0-a0b9-11eb-b4ff-ad1e0c5451ce","productName":"Weathermatic SmartLink 12 Station Indoor/Outdoor Controller | SL4800-1YR-BUNDLE","price":1017.59,"category":"controller","brand":"weathermatic","stock":2,"imageUrl":"static/img/weathermatic/controller/s_l_sl4800-1yr-bundle.webp"}
-{"_id":"b7f2987a-a0b9-11eb-b4ff-ad1e0c5451ce","productName":"Weathermatic T3 Rotor with Check Valve 4 in. | T3","price":12.55,"category":"rotors","brand":"weathermatic","stock":40,"imageUrl":"static/img/weathermatic/rotors/t_3_t3_image.webp"}
-{"_id":"c6e2df52-a0b9-11eb-b4ff-ad1e0c5451ce","productName":"Weathermatic Rotor with Check Valve 4 in. | CT70","price":31.45,"category":"rotors","brand":"weathermatic","stock":10,"imageUrl":"static/img/weathermatic/rotors/c_t_ct70_2.webp"}
-{"_id":"f45eab3c-a0b9-11eb-b4ff-ad1e0c5451ce","productName":"Weathermatic LXAAN Adjustable Nozzle 8 ft | LXAAN-8A ","price":0.85,"category":"sprinkler-nozzles","brand":"weathermatic","stock":120,"imageUrl":"static/img/weathermatic/sprinkler-nozzles/l_x_lxaan-8a_2.webp"}
-{"_id":"0061c1da-a0ba-11eb-b4ff-ad1e0c5451ce","productName":"Weathermatic LXAAN Adjustable Nozzle 12 ft | LXAAN-12A ","price":0.85,"category":"sprinkler-nozzles","brand":"weathermatic","stock":120,"imageUrl":"static/img/weathermatic/sprinkler-nozzles/l_x_lxaan-12a_2.webp"}
-{"_id":"0c325984-a0ba-11eb-b4ff-ad1e0c5451ce","productName":"Weathermatic LXAAN Adjustable Nozzle 10 ft | LXAAN-10A","price":0.85,"category":"sprinkler-nozzles","brand":"weathermatic","stock":120,"imageUrl":"static/img/weathermatic/sprinkler-nozzles/l_x_lxaan-10a_2.webp"}
-{"_id":"187c0f00-a0ba-11eb-b4ff-ad1e0c5451ce","productName":"Weathermatic LXAAN Adjustable Nozzle 15 ft | LXAAN-15A ","price":0.85,"category":"sprinkler-nozzles","brand":"weathermatic","stock":120,"imageUrl":"static/img/weathermatic/sprinkler-nozzles/l_x_lxaan-15a_2.webp"}
-{"_id":"28016f74-a0ba-11eb-b4ff-ad1e0c5451ce","productName":"Weathermatic LXAAN Adjustable Nozzle 17 ft | LXAAN-17A","price":0.85,"category":"sprinkler-nozzles","brand":"weathermatic","stock":120,"imageUrl":"static/img/weathermatic/sprinkler-nozzles/l_x_lxaan-17a_2.webp"}
-{"_id":"66cc1c90-a0ba-11eb-b4ff-ad1e0c5451ce","productName":"Weathermatic BlackBullet MAX In-Line Valve with Flow Control 1 in. FPT | 11024FCR-10D","price":62.95,"category":"valves","brand":"weathermatic","stock":10,"imageUrl":"static/img/weathermatic/valves/2_1_21024e-10d-h.webp"}
-{"_id":"898f1160-a0ba-11eb-b4ff-ad1e0c5451ce","productName":"Weathermatic NITRO In-Line Valve 1 in. FPT | N-100-H","price":13.95,"category":"valves","brand":"weathermatic","stock":30,"imageUrl":"static/img/weathermatic/valves/n_-_n-100-h.webp","isDeleted":false}
-{"_id":"a303bdb2-a0ba-11eb-b4ff-ad1e0c5451ce","productName":"Weathermatic NITRO In-Line Valve 1 in. Slip | N-100S-H","price":13.95,"category":"valves","brand":"weathermatic","stock":20,"imageUrl":"static/img/weathermatic/valves/n_-_n-100s-h.webp"}
-{"_id":"bb21d942-a0ba-11eb-b4ff-ad1e0c5451ce","productName":"Weathermatic NITRO Valve with Flow Control 1 in. Slip | N-100SF-H","price":14.95,"category":"valves","brand":"weathermatic","stock":30,"imageUrl":"static/img/weathermatic/valves/n_-_n-100sf-h.webp","isDeleted":false}
+[{
+  "_id": "3f304efc-9bdf-11eb-bc13-1b053fbda344",
+  "productName": "Hunter Pro-C PC-400i 4 Zone Base Controller; Indoor with Plug-in Transformer ",
+  "price": 100.87,
+  "category": "Controllers",
+  "brand": "Hunter",
+  "stock": 20,
+  "imageUrl": "static\\img\\hunter\\controller\\p_c_pc-400i-2.webp",
+  "isDeleted": false
+},{
+  "_id": "7cef079c-9bdf-11eb-bc13-1b053fbda344",
+  "productName": "HUNTER HC-600i Hydrawise Touch Screen Smart WiFi Enabled 6 Zone Sprinkler Controller ",
+  "price": 202.73,
+  "category": "Controllers",
+  "brand": "Hunter",
+  "stock": 3,
+  "imageUrl": "static\\img\\hunter\\controller\\h_c_hc-600i.webp",
+  "isDeleted": false
+},{
+  "_id": "9269c364-9bdf-11eb-bc13-1b053fbda344",
+  "productName": "Rain Bird 100DVSS - 1 in. DV Series Inline Plastic Residential Irrigation Valve - Slip x Slip",
+  "price": 28.93,
+  "category": "Valves",
+  "brand": "Rain Bird",
+  "stock": 22,
+  "imageUrl": "static\\img\\rainbird\\valves\\100-dv-ss.webp",
+  "isDeleted": false
+},{
+  "_id": "a804d574-9bdf-11eb-bc13-1b053fbda344",
+  "productName": "Rain Bird 100DVF - 1 in. DVF Series Inline Plastic Residential Irrigation Valve with Flow Control- Female Pipe Thread",
+  "price": 29.87,
+  "category": "Valves",
+  "brand": "Rain Bird",
+  "stock": 12,
+  "imageUrl": "static\\img\\rainbird\\valves\\100-dvf.webp",
+  "isDeleted": false
+},{
+  "_id": "ba17f5b6-9bdf-11eb-bc13-1b053fbda344",
+  "productName": "Weathermatic MAXSpray Spray Head 4 in. | MAX4 ",
+  "price": {
+    "$numberDecimal": "1.25"
+  },
+  "category": "Sprinklers",
+  "brand": "Weathermatic",
+  "stock": 28,
+  "imageUrl": "static\\img\\weathermatic\\sprinkler-body\\m_a_max4_2.webp",
+  "isDeleted": false
+},{
+  "_id": "ce369728-9bdf-11eb-bc13-1b053fbda344",
+  "productName": "Weathermatic MAXSpray 30 PSI Pressure Regulated Spray Head 4 in. | MAX4PRS30 ",
+  "price": 4.25,
+  "category": "Sprinklers",
+  "brand": "Weathermatic",
+  "stock": 30,
+  "imageUrl": "static\\img\\weathermatic\\sprinkler-body\\m_a_max4prs30.webp",
+  "isDeleted": false
+},{
+  "_id": "c0f911f0-9f11-11eb-b01a-7df6511b7b5c",
+  "productName": "Weathermatic SMARTLINE 4 Station Indoor/Outdoor Controller | SL1600",
+  "price": 117.54,
+  "category": "Controllers",
+  "brand": "Weathermatic",
+  "stock": 1,
+  "imageUrl": "static/img/weathermatic/controller/s_l_sl1600_1.webp",
+  "isDeleted": false
+},{
+  "_id": "6bc4541c-9f14-11eb-9b57-6d5d2ca1de1a",
+  "productName": "ESPSM6 - 6-Station Expansion Module for ESP-Me and ESP-SMTe Series Timers",
+  "price": 111.13,
+  "category": "Controllers",
+  "brand": "Rain Bird",
+  "stock": 19,
+  "imageUrl": "static/img/rainbird/controller/esp-me_6stn-module_wide_00136_1.webp",
+  "isDeleted": false
+},{
+  "_id": "f6ca6f4c-9f2d-11eb-b734-85abc470229d",
+  "productName": "ESP-TM2 + LNK WiFi Bundle: 6 Zone",
+  "price": 201.71,
+  "category": "Controllers",
+  "brand": "Rain Bird",
+  "stock": 3,
+  "imageUrl": "static/img/rainbird/controller/esp-tm2-lnk-600.webp",
+  "isDeleted": false
+},{
+  "_id": "c77bc81e-a0b1-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter Rotor 4 in. | PGP-ADJ",
+  "price": 8.95,
+  "category": "Rotors",
+  "brand": "Hunter",
+  "stock": 0,
+  "imageUrl": "static/img/hunter/rotors/5000-shrub-prs-sam_tqoverhead.webp"
+},{
+  "_id": "ef62a88e-a0b1-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter Rotor with Blue Nozzles 4 in. | PGP-ADJ-B",
+  "price": 9.69,
+  "category": "Rotors",
+  "brand": "Hunter",
+  "stock": -3,
+  "imageUrl": "static/img/hunter/rotors/p_g_pgp_adj_b_1.webp"
+},{
+  "_id": "26503064-a0b2-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter PRO-SPRAY Spray Head 4 in. | PROS-04",
+  "price": 1.35,
+  "category": "Sprinklers",
+  "brand": "Hunter",
+  "stock": 42,
+  "imageUrl": "static/img/hunter/sprinkler-body/p_r_pros_04_1_1.webp"
+},{
+  "_id": "4721369e-a0b2-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter PRO-SPRAY Spray Head with Check Valve 4 in. | PROS-04-CV",
+  "price": 3.65,
+  "category": "Sprinklers",
+  "brand": "Hunter",
+  "stock": 17,
+  "imageUrl": "static/img/hunter/sprinkler-body/p_r_pros-04-cv.webp"
+},{
+  "_id": "668b9880-a0b2-11eb-b4ff-ad1e0c5451ce",
+  "productName": "\r\nHunter PRO-SPRAY 40 PSI Pressure Regulated Spray Head 4 in. | PROS-04-PRS40-CV\r\n",
+  "price": 7.25,
+  "category": "Sprinklers",
+  "brand": "Hunter",
+  "stock": 20,
+  "imageUrl": "static/img/hunter/sprinkler-body/p_r_pros-04-prs40-cv.webp"
+},{
+  "_id": "f330c418-a0b2-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter PRO Adjustable Nozzle 8 ft | PRO-8A ",
+  "price": 0.85,
+  "category": "Nozzles",
+  "brand": "Hunter",
+  "stock": 100,
+  "imageUrl": "static/img/hunter/sprinkler-nozzles/p_r_pro-8a_1_1.webp"
+},{
+  "_id": "023f5cda-a0b3-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter PRO Adjustable Nozzle 10 ft | PRO-10A ",
+  "price": 0.85,
+  "category": "Nozzles",
+  "brand": "Hunter",
+  "stock": 100,
+  "imageUrl": "static/img/hunter/sprinkler-nozzles/p_r_pro-10a_3.webp"
+},{
+  "_id": "0eed6544-a0b3-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter PRO Adjustable Nozzle 12 ft | PRO-12A ",
+  "price": 0.85,
+  "category": "Nozzles",
+  "brand": "Hunter",
+  "stock": 100,
+  "imageUrl": "static/img/hunter/sprinkler-nozzles/p_r_pro-12a_1_1.webp"
+},{
+  "_id": "1bb130c6-a0b3-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter PRO Adjustable Nozzle 15 ft | PRO-15A ",
+  "price": 0.85,
+  "category": "Nozzles",
+  "brand": "Hunter",
+  "stock": 100,
+  "imageUrl": "static/img/hunter/sprinkler-nozzles/p_r_pro-15a_12.webp"
+},{
+  "_id": "660efc3e-a0b3-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter MP Rotator 90 - 210 Degree Adjustable Rotary Nozzle 6 - 12 ft | MP800SR90",
+  "price": 5.95,
+  "category": "Nozzles",
+  "brand": "Hunter",
+  "stock": 50,
+  "imageUrl": "static/img/hunter/sprinkler-nozzles/mp800sr90-spray-pattern.webp"
+},{
+  "_id": "80d60684-a0b3-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter MP Rotator 90 - 210 Degree Adjustable Rotary Nozzle 8 - 15 ft. | MP100090",
+  "price": 5.95,
+  "category": "Nozzles",
+  "brand": "Hunter",
+  "stock": 50,
+  "imageUrl": "static/img/hunter/sprinkler-nozzles/mp100090-spray-pattern.webp"
+},{
+  "_id": "9499c188-a0b3-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter MP Rotator 90 - 210 Degree Adjustable Rotary Nozzle 13 - 21 ft | MP200090",
+  "price": 5.95,
+  "category": "Nozzles",
+  "brand": "Hunter",
+  "stock": 50,
+  "imageUrl": "static/img/hunter/sprinkler-nozzles/mp200090_pattern_thumbnail.webp"
+},{
+  "_id": "ab07ae08-a0b3-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter MP Rotator 90 - 210 Degree Adjustable Rotary Nozzle 22 - 30 ft | MP300090",
+  "price": 5.95,
+  "category": "Nozzles",
+  "brand": "Hunter",
+  "stock": 50,
+  "imageUrl": "static/img/hunter/sprinkler-nozzles/mp300090-spray-pattern.webp"
+},{
+  "_id": "13cb6c7c-a0b4-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter PGV In-Line Valve 1 in. FPT | PGV-100G",
+  "price": 13.95,
+  "category": "Valves",
+  "brand": "Hunter",
+  "stock": 20,
+  "imageUrl": "static/img/hunter/valves/p_g_pgv-100g.webp"
+},{
+  "_id": "223e00ee-a0b4-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter PGV In-Line Valve 1 in. Slip | PGV-100GS",
+  "price": 13.95,
+  "category": "Valves",
+  "brand": "Hunter",
+  "stock": 20,
+  "imageUrl": "static/img/hunter/valves/p_g_pgv-100gs.webp"
+},{
+  "_id": "34c50e06-a0b4-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Hunter PGV In-Line Valve with Flow Control 1 in. FPT | PGV-101G",
+  "price": 14.95,
+  "category": "Valves",
+  "brand": "Hunter",
+  "stock": 10,
+  "imageUrl": "static/img/hunter/valves/p_g_pgv-101g.webp"
+},{
+  "_id": "757e9156-a0b4-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird WR2-RFC Wireless Rain/Freeze Sensor and Timer Interface",
+  "price": 71.95,
+  "category": "Controllers",
+  "brand": "Rain Bird",
+  "stock": 10,
+  "imageUrl": "static/img/rainbird/controller/wr2_1_1.webp"
+},{
+  "_id": "a46ef992-a0b4-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird 5000 Rotor 4 in. | 5004-PC",
+  "price": 8.95,
+  "category": "Rotors",
+  "brand": "Rain Bird",
+  "stock": 29,
+  "imageUrl": "static/img/rainbird/rotors/5000_riserup_1.webp"
+},{
+  "_id": "c5b5ec8c-a0b4-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird 5000 PLUS Rotor with Seal-A-Matic Shrub | 5000S-PLPCS",
+  "price": 13.95,
+  "category": "Rotors",
+  "brand": "Rain Bird",
+  "stock": 10,
+  "imageUrl": "static/img/rainbird/rotors/5000-shrub-prs-sam_tqoverhead.webp"
+},{
+  "_id": "ed95dd70-a0b4-11eb-b4ff-ad1e0c5451ce",
+  "productName": "5000RCTREE - Rotor Nozzle Tree for Rain Bird 42SA Plus, 52SA & 5000/5000 Plus Series Rotors",
+  "price": 2,
+  "category": "Rotors",
+  "brand": "Rain Bird",
+  "stock": 200,
+  "imageUrl": "static/img/rainbird/rotors/5000plus_nozzles.webp"
+},{
+  "_id": "3143534a-a0b5-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird 1800 Spray Head 4 in. | 1804 ",
+  "price": 1.55,
+  "category": "Sprinklers",
+  "brand": "Rain Bird",
+  "stock": 100,
+  "imageUrl": "static/img/rainbird/sprinkler-body/1804lnextended.webp"
+},{
+  "_id": "3f2cfa60-a0b5-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird 1800 Spray Head with Seal-A-Matic 4 in. | 1804-SAM",
+  "price": 3.85,
+  "category": "Sprinklers",
+  "brand": "Rain Bird",
+  "stock": 100,
+  "imageUrl": "static/img/rainbird/sprinkler-body/1804ln_2.webp"
+},{
+  "_id": "4b6e5706-a0b5-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird 1800 30 Pressure Regulated Spray Head 4 in. | 1804-PRS ",
+  "price": 5.35,
+  "category": "Sprinklers",
+  "brand": "Rain Bird",
+  "stock": 50,
+  "imageUrl": "static/img/rainbird/sprinkler-body/1804ln_3.webp"
+},{
+  "_id": "61c370f4-a0b5-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird RD1800 30 PSI Pressure Regulated Spray Head with Seal-A-Matic 4 in. | RD04-SP30",
+  "price": 6.46,
+  "category": "Sprinklers",
+  "brand": "Rain Bird",
+  "stock": 30,
+  "imageUrl": "static/img/rainbird/sprinkler-body/1804ln_4.webp"
+},{
+  "_id": "86a726ec-a0b8-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird VAN Adjustable Nozzle 15 ft | 15VAN ",
+  "price": 0.79,
+  "category": "Nozzles",
+  "brand": "Rain Bird",
+  "stock": 100,
+  "imageUrl": "static/img/rainbird/sprinkler-nozzles/15-van_7.webp"
+},{
+  "_id": "b0d91e3e-a0b8-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird VAN Adjustable Nozzle 10 ft | 10VAN",
+  "price": 0.79,
+  "category": "Nozzles",
+  "brand": "Rain Bird",
+  "stock": 100,
+  "imageUrl": "static/img/rainbird/sprinkler-nozzles/10-van.webp"
+},{
+  "_id": "c043d1a2-a0b8-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird VAN Adjustable Nozzle 12 ft | 12VAN ",
+  "price": 0.79,
+  "category": "Nozzles",
+  "brand": "Rain Bird",
+  "stock": 100,
+  "imageUrl": "static/img/rainbird/sprinkler-nozzles/12-van.webp"
+},{
+  "_id": "cc069a6a-a0b8-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird VAN Adjustable Nozzle 8 ft | 8VAN ",
+  "price": 0.79,
+  "category": "Nozzles",
+  "brand": "Rain Bird",
+  "stock": 100,
+  "imageUrl": "static/img/rainbird/sprinkler-nozzles/8-van.webp"
+},{
+  "_id": "eb9b26b6-a0b8-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird R-VAN 45 - 270 Degree Adjustable Rotary Nozzle 8 - 14 ft | R-VAN14",
+  "price": 4.75,
+  "category": "Nozzles",
+  "brand": "Rain Bird",
+  "stock": 30,
+  "imageUrl": "static/img/rainbird/sprinkler-nozzles/rvan14.webp"
+},{
+  "_id": "f951c134-a0b8-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird R-VAN 45 - 270 Degree Adjustable Rotary Nozzle 13 - 18 ft | R-VAN18",
+  "price": 3.95,
+  "category": "Nozzles",
+  "brand": "Rain Bird",
+  "stock": 30,
+  "imageUrl": "static/img/rainbird/sprinkler-nozzles/rvan18.webp"
+},{
+  "_id": "0859e13e-a0b9-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Rain Bird R-VAN 45 - 270 Degree Adjustable Rotary Nozzle 17 - 24 ft | R-VAN24",
+  "price": 3.95,
+  "category": "Nozzles",
+  "brand": "Rain Bird",
+  "stock": 30,
+  "imageUrl": "static/img/rainbird/sprinkler-nozzles/rvan24.webp"
+},{
+  "_id": "8deacfc0-a0b9-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Weathermatic SmartLink 12 Station Indoor/Outdoor Controller | SL4800-1YR-BUNDLE",
+  "price": 1017.59,
+  "category": "Controllers",
+  "brand": "Weathermatic",
+  "stock": 2,
+  "imageUrl": "static/img/weathermatic/controller/s_l_sl4800-1yr-bundle.webp"
+},{
+  "_id": "b7f2987a-a0b9-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Weathermatic T3 Rotor with Check Valve 4 in. | T3",
+  "price": 12.55,
+  "category": "Rotors",
+  "brand": "Weathermatic",
+  "stock": 40,
+  "imageUrl": "static/img/weathermatic/rotors/t_3_t3_image.webp"
+},{
+  "_id": "c6e2df52-a0b9-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Weathermatic Rotor with Check Valve 4 in. | CT70",
+  "price": 31.45,
+  "category": "Rotors",
+  "brand": "Weathermatic",
+  "stock": 10,
+  "imageUrl": "static/img/weathermatic/rotors/c_t_ct70_2.webp"
+},{
+  "_id": "f45eab3c-a0b9-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Weathermatic LXAAN Adjustable Nozzle 8 ft | LXAAN-8A ",
+  "price": 0.85,
+  "category": "Nozzles",
+  "brand": "Weathermatic",
+  "stock": 120,
+  "imageUrl": "static/img/weathermatic/sprinkler-nozzles/l_x_lxaan-8a_2.webp"
+},{
+  "_id": "0061c1da-a0ba-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Weathermatic LXAAN Adjustable Nozzle 12 ft | LXAAN-12A ",
+  "price": 0.85,
+  "category": "Nozzles",
+  "brand": "Weathermatic",
+  "stock": 120,
+  "imageUrl": "static/img/weathermatic/sprinkler-nozzles/l_x_lxaan-12a_2.webp"
+},{
+  "_id": "0c325984-a0ba-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Weathermatic LXAAN Adjustable Nozzle 10 ft | LXAAN-10A",
+  "price": 0.85,
+  "category": "Nozzles",
+  "brand": "Weathermatic",
+  "stock": 120,
+  "imageUrl": "static/img/weathermatic/sprinkler-nozzles/l_x_lxaan-10a_2.webp"
+},{
+  "_id": "187c0f00-a0ba-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Weathermatic LXAAN Adjustable Nozzle 15 ft | LXAAN-15A ",
+  "price": 0.85,
+  "category": "Nozzles",
+  "brand": "Weathermatic",
+  "stock": 120,
+  "imageUrl": "static/img/weathermatic/sprinkler-nozzles/l_x_lxaan-15a_2.webp"
+},{
+  "_id": "28016f74-a0ba-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Weathermatic LXAAN Adjustable Nozzle 17 ft | LXAAN-17A",
+  "price": 0.85,
+  "category": "Nozzles",
+  "brand": "Weathermatic",
+  "stock": 120,
+  "imageUrl": "static/img/weathermatic/sprinkler-nozzles/l_x_lxaan-17a_2.webp"
+},{
+  "_id": "66cc1c90-a0ba-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Weathermatic BlackBullet MAX In-Line Valve with Flow Control 1 in. FPT | 11024FCR-10D",
+  "price": 62.95,
+  "category": "Valves",
+  "brand": "Weathermatic",
+  "stock": 10,
+  "imageUrl": "static/img/weathermatic/valves/2_1_21024e-10d-h.webp"
+},{
+  "_id": "898f1160-a0ba-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Weathermatic NITRO In-Line Valve 1 in. FPT | N-100-H",
+  "price": 13.95,
+  "category": "Valves",
+  "brand": "Weathermatic",
+  "stock": 30,
+  "imageUrl": "static/img/weathermatic/valves/n_-_n-100-h.webp",
+  "isDeleted": false
+},{
+  "_id": "a303bdb2-a0ba-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Weathermatic NITRO In-Line Valve 1 in. Slip | N-100S-H",
+  "price": 13.95,
+  "category": "Valves",
+  "brand": "Weathermatic",
+  "stock": 20,
+  "imageUrl": "static/img/weathermatic/valves/n_-_n-100s-h.webp"
+},{
+  "_id": "bb21d942-a0ba-11eb-b4ff-ad1e0c5451ce",
+  "productName": "Weathermatic NITRO Valve with Flow Control 1 in. Slip | N-100SF-H",
+  "price": 14.95,
+  "category": "Valves",
+  "brand": "Weathermatic",
+  "stock": 30,
+  "imageUrl": "static/img/weathermatic/valves/n_-_n-100sf-h.webp",
+  "isDeleted": false
+},{
+  "_id": "71fcc278-d8cd-11eb-9eb7-d43b04fcbf0b",
+  "productName": "Random product one",
+  "price": 542.02,
+  "category": "Nozzles",
+  "brand": "Weathermatic",
+  "stock": 552,
+  "isDeleted": true
+},{
+  "_id": "a453d461-d8cd-11eb-a3d3-d43b04fcbf0b",
+  "productName": "Random prodocut 2",
+  "price": 5422.2,
+  "category": "Controllers",
+  "brand": "Rain Bird",
+  "stock": 2,
+  "isDeleted": true
+}]

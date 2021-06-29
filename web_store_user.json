@@ -1,3 +1,36 @@
-{"_id":"edb8be46-9bdf-11eb-bc13-1b053fbda344","fname":"Test Name 1","lname":"Test Last Name 1","email":"test1@email.com","password":"testpassword1","isAdmin":"0"}
-{"_id":"fe56d198-9bdf-11eb-bc13-1b053fbda344","fname":"servando","lname":"luviano","email":"email1@live.com","password":"Swyisc00l","isAdmin":"1"}
-{"_id":"11a0a7f6-9be0-11eb-bc13-1b053fbda344","fname":"john","lname":"doe","email":"johndoe@live.com","password":"Swyisc00l","isAdmin":"0"}
+[{
+  "_id": "d8ba59b7-b7e0-11eb-85cd-d43b04fcbf0b",
+  "fname": "Servando",
+  "lname": "Luviano",
+  "email": "servando@email.com",
+  "password": "$5$rounds=535000$iyn6kx4MEkSqvHXZ$kdrxfg2lgwdnuTC9rLVNf1TolzCKtPswKbIYTfHkrZ7",
+  "isAdmin": "1"
+},{
+  "_id": "f4e7fa73-c79b-11eb-98c6-d43b04fcbf0b",
+  "fname": "testUser",
+  "lname": "testUser",
+  "email": "test@email.com",
+  "password": "$5$rounds=535000$PTV2WRhlJ7Ohvejc$6B7eM8sC3dgTmFZZew06ROKZ/AnEIIK4fMhPb/Qsd29",
+  "isAdmin": "0"
+},{
+  "_id": "715d2f56-cdc9-11eb-bcdd-d43b04fcbf0b",
+  "fname": "john",
+  "lname": "doe",
+  "email": "johndoe@email.com",
+  "password": "$5$rounds=535000$gJu0mF0HtSPpHDrQ$9LPopLRrgtYYC3MzIznxVKUIvBGsakcZLed/Ycc4ix3",
+  "isAdmin": "0"
+},{
+  "_id": "8a740173-d42c-11eb-af34-d43b04fcbf0b",
+  "fname": "kittycatjo",
+  "lname": "kittycatjo",
+  "email": "kittycatjo@email.com",
+  "password": "$5$rounds=535000$sXNVW8rXWeiaLZua$xc5zLyL/9O896TqIFyO6KTQ.pzq8KJwG3lSl9EaJod4",
+  "isAdmin": "0"
+},{
+  "_id": "a76465c4-d854-11eb-a2bd-d43b04fcbf0b",
+  "fname": "Ramiro",
+  "lname": "The Badass",
+  "email": "thebadass@ramiro.com",
+  "password": "$5$rounds=535000$pS4c2LBHqBwKe.pj$HZmCxSXmZ9Y5VP56Ggomlut1mX45gJtP.oNxsfnYbk3",
+  "isAdmin": "0"
+}]
