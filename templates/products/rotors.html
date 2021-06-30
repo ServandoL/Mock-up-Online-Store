@@ -86,14 +86,19 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        {% if cart_quantity > 0 %}
-                        <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
-                                    class="bi bi-cart4"></i></span><span
-                                class="badge bg-secondary">{{cart_quantity}}</span></a>
-                        {% else %}
-                        <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
-                                    class="bi bi-cart-x"></i></span></a>
-                        {% endif %}
+                        {% if not cart_quantity %}
+                            <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
+                                class="bi bi-cart-x"></i></span></a>
+                            {% else %}
+                            {% if cart_quantity > 0 %}
+                            <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
+                                        class="bi bi-cart4"></i></span><span
+                                    class="badge bg-secondary">{{cart_quantity}}</span></a>
+                            {% else %}
+                            <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
+                                        class="bi bi-cart-x"></i></span></a>
+                            {% endif %}
+                            {% endif %}
                     </li>
 
                 </ul>
@@ -121,14 +126,30 @@
             </div>
             <div class="col-md-10">
                 <h3>Rotors</h3>
-                <div class="bottom-border"></div>
-                <div class="wrapper my-2">
+                <div class="bottom-border my-2"></div>
+                {% with message = get_flashed_messages() %}
+                {% if message %}
+                {% for item in message %}
+                {% if item == "ERROR: Unable to update cart. Your quantity is higher than the available stock amount." %}
+                <div class="alert alert-danger" role="alert">
+                    {{item}}
+                </div>
+                {% else %}
+                <div class="alert alert-success" role="alert">
+                    {{item}}
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <div class="row row-cols-1 row-cols-md-4 g-4">
                     {% for product in inventory %}
                     {% if not product['isDeleted'] %}
-                    <div class="card w-100 h-100">
+                    <div class="col">
+                        <div class="card w-100 h-100">
                         <img class="card-img-top mx-auto" src="/{{ product['imageUrl'] }}" alt="product image">
                         <div class="card-body">
-                            <h5 class="card-title">{{ product['productName'] }}</h5>
+                            <h6 class="card-title">{{ product['productName'] }}</h6>
                             <p class="card-text" style="font-weight:bold">${{ product['price'] }}</p>
                             {% if product['stock'] > 0 %}
                             <p class="card-text" style="color: green;">In stock: {{
@@ -159,6 +180,8 @@
                             </form>
                         </div>
                     </div>
+                    </div>
+                    
                     {% endif %}
                     {% endfor %}
                 </div>

@@ -53,9 +53,10 @@ def main():
 
 @app.route('/products/sprinklers')
 def Sprinklers():
-    sprinkler_products = [product for product in inventory if product['category'] == 'Sprinklers']
+    inventory = [item for item in Inventory.find()]
     if session.get('user'):
         data = Users.find_one({'_id': session.get('user')})
+        sprinkler_products = [product for product in inventory if product['category'] == 'Sprinklers']
         user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
         # Get cart quantity to display in navbar badge
         cart_quantity = 0
@@ -64,14 +65,16 @@ def Sprinklers():
 
         return render_template('products/sprinkler-body.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products, inventory=sprinkler_products)
     else:
+        sprinkler_products = [product for product in inventory if product['category'] == 'Sprinklers']
         return render_template('products/sprinkler-body.html', brands=brands, products=products, inventory=sprinkler_products)
 
 @app.route('/products/rotors')
 def Rotors():
-    rotor_products = [product for product in inventory if product['category'] == 'Rotors']
+    inventory = [item for item in Inventory.find()]
     if session.get('user'):
         data = Users.find_one({'_id': session.get('user')})
         user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+        rotor_products = [product for product in inventory if product['category'] == 'Rotors']
         # Get cart quantity to display in navbar badge
         cart_quantity = 0
         for item in user_cart:
@@ -79,12 +82,14 @@ def Rotors():
 
         return render_template('products/rotors.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products, inventory=rotor_products)
     else:
+        rotor_products = [product for product in inventory if product['category'] == 'Rotors']
         return render_template('products/rotors.html', brands=brands, products=products, inventory=rotor_products)
     
 @app.route('/products/controllers')
 def Controllers():
-    controller_products = [product for product in inventory if product['category'] == 'Controllers']
+    inventory = [item for item in Inventory.find()]
     if session.get('user'):
+        controller_products = [product for product in inventory if product['category'] == 'Controllers']
         data = Users.find_one({'_id': session.get('user')})
         user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
         # Get cart quantity to display in navbar badge
@@ -94,13 +99,14 @@ def Controllers():
 
         return render_template('products/controllers.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products, inventory=controller_products)
     else:
+        controller_products = [product for product in inventory if product['category'] == 'Controllers']
         return render_template('products/controllers.html', brands=brands, products=products, inventory=controller_products)
-
 @app.route('/products/valves')
 def Valves():
-    valve_products = [product for product in inventory if product['category'] == 'Valves']
+    inventory = [item for item in Inventory.find()]
     if session.get('user'):
         data = Users.find_one({'_id': session.get('user')})
+        valve_products = [product for product in inventory if product['category'] == 'Valves']
         user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
         # Get cart quantity to display in navbar badge
         cart_quantity = 0
@@ -109,14 +115,16 @@ def Valves():
 
         return render_template('products/valves.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products, inventory=valve_products)
     else:
-        return render_template('products/valves.html', brands=brands, products=products, inventory=valve_products)
+        valve_products = [product for product in inventory if product['category'] == 'Valves']
+        return render_template('products/valves.html', brands=brands, products=products, inventory=valve_products )
 
 @app.route('/products/nozzles')
 def Nozzles():
-    nozzle_products = [product for product in inventory if product['category'] == 'Nozzles']
+    inventory = [item for item in Inventory.find()]
     if session.get('user'):
         data = Users.find_one({'_id': session.get('user')})
         user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+        nozzle_products = [product for product in inventory if product['category'] == 'Nozzles']
         # Get cart quantity to display in navbar badge
         cart_quantity = 0
         for item in user_cart:
@@ -124,6 +132,7 @@ def Nozzles():
 
         return render_template('products/sprinkler-nozzles.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products, inventory=nozzle_products)
     else:
+        nozzle_products = [product for product in inventory if product['category'] == 'Nozzles']
         return render_template('products/sprinkler-nozzles.html', brands=brands, products=products, inventory=nozzle_products)
 
 # End routes for product display pages
@@ -203,7 +212,8 @@ def processPayment():
         user_data = Users.find_one({'_id': session.get('user')})
         user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
         confirmation = str(uuid.uuid1())
-        time = datetime.datetime.now()
+        now = datetime.datetime.now()
+        date = now.strftime("%m/%d/%Y, %H:%M:%S")
         temp_cart = user_cart
         if user_cart != None:
             for product in user_cart:
@@ -216,7 +226,7 @@ def processPayment():
                     })
                     Cart.delete_one(product)
                     product.update({'_id': str(uuid.uuid1())})
-                    product.update({'datetime': str(time)})
+                    product.update({'datetime': date})
                     product.update({'confirmation': confirmation})
                     Order_History.insert_one(product)
         return render_template('orderConfirmation.html', data=user_data, cart=temp_cart, confirmation=confirmation, brands=brands, products=products)
@@ -248,15 +258,22 @@ def shopping_cart():
 def updateCart(id):
     if session.get('user'):
         query = {'_id': id, 'user_id': session.get('user')}
-        product = Cart.find_one(query)
+        cart_item = Cart.find_one(query)
+        item_qty = request.form.get('item-qty')
+        product = Inventory.find_one(cart_item['_id'])
 
         if request.method == 'POST':
-            if product != None:
-                Cart.update_one(product, {
-                    '$set': {
-                        'quantity': request.form.get('item-qty')
-                    }
-                })
+            if cart_item != None:
+                if int(item_qty) > product['stock']:
+                    flash("ERROR: Unable to update cart. Your quantity is higher than the available stock amount.")
+                    return redirect('/cart')
+                else:
+                    Cart.update_one(cart_item, {
+                        '$set': {
+                            'quantity': item_qty
+                        }
+                    })
+                    flash("Your cart has been updated.")
         return redirect('/cart')
     else:
         flash('Please log in to access your cart.')
@@ -288,11 +305,15 @@ def addToCart(id):
         # Get the desired cart quantity
         if request.method == 'POST':
             item_qty = request.form.get('item-qty')
+            if int(item_qty) > product['stock']:
+                flash("ERROR: Unable to update cart. Your quantity is higher than the available stock amount.")
+                return redirect(request.referrer)
 
         # If the product is found on the Inventory, then add it to the user's cart.
         if product != None:
             product.update({'user_id': user_data['_id']})
             product.update({'quantity': item_qty})
+
             # if the element already exists, update the quantity - if an item exists for the current user
             # Else insert it
             if Cart.find_one({'_id': product['_id']}):
@@ -301,9 +322,12 @@ def addToCart(id):
                         'quantity': request.form.get('item-qty')
                     }
                 })
+                flash("Your cart has been updated.")
             else:
                 Cart.insert_one(product)
-        return redirect('/')
+                flash("Your cart has been updated.")
+        # return redirect('/cart')
+        return redirect(request.referrer)
     else:
         flash("Please log in to access your cart.")
         return redirect("/showSignIn")
@@ -416,7 +440,10 @@ def deleteItem(id):
 
     if session.get('user'):
         query = {'_id': id}
-        isDeleted = { '$set': {'isDeleted': True}}
+        user_id = session.get('user')
+        now = datetime.datetime.now()
+        date = now.strftime("%m/%d/%Y, %H:%M:%S")
+        isDeleted = { '$set': {'isDeleted': True, 'deleted_by': user_id, 'deleted_date': date}}
         Inventory.update_one(query, isDeleted)
         flash('Item deleted.')
         return redirect('/admin')

@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- import boostrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <!-- import jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -19,96 +20,104 @@
 </head>
 
 <body>
-       <!-- Page nav bar -->
-   <header id="nav-container">
+    <!-- Page nav bar -->
+    <header id="nav-container">
 
-    <!-- Top Nav bar -->
-    <nav class="navbar navbar-expand-lg" style="background-color: #eaeae0;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- navbar logo -->
-                    <a class="navbar-brand links" href="https://twitter.com"><i class="bi bi-twitter"></i></a>
-                    <a class="navbar-brand links" href="https://www.instagram.com/"><i
-                            class="bi bi-instagram"></i></a>
-                    <a class="navbar-brand links" href="https://www.instagram.com/"><i
-                            class="bi bi-facebook"></i></a>
-                    <a class="navbar-brand" href="/" style="color: black;">Sprinkler Shop</a>                </div>
+        <!-- Top Nav bar -->
+        <nav class="navbar navbar-expand-lg" style="background-color: #eaeae0;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- navbar logo -->
+                        <a class="navbar-brand links" href="https://twitter.com"><i class="bi bi-twitter"></i></a>
+                        <a class="navbar-brand links" href="https://www.instagram.com/"><i
+                                class="bi bi-instagram"></i></a>
+                        <a class="navbar-brand links" href="https://www.instagram.com/"><i
+                                class="bi bi-facebook"></i></a>
+                        <a class="navbar-brand" href="/" style="color: black;">Sprinkler Shop</a>
+                    </div>
+                </div>
+
             </div>
+        </nav>
+        <!-- End top nav bar -->
 
-        </div>
-    </nav>
-    <!-- End top nav bar -->
+        <!-- Bottom nav -->
+        <nav class="navbar navbar-expand-lg" style="background-color: #31b389;">
 
-    <!-- Bottom nav -->
-    <nav class="navbar navbar-expand-lg" style="background-color: #31b389;">
+            <!-- <div class="container"> -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"><i
+                        class="bi bi-box-arrow-down"></i></span></button>
 
-        <!-- <div class="container"> -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation"><span class="navbar-toggler-icon"><i
-                    class="bi bi-box-arrow-down"></i></span></button>
+            <div class="container">
+                <!-- Nav bar links -->
+                <div class="collapse navbar-collapse flex-grow-1 text-right py-2" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto flex-nowrap">
+                        <li class="nav-item">
+                            <a class="nav-link links" href="/">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle links" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">Shop</a>
+                            <ul class="dropdown-menu">
+                                {% for product in products %}
+                                <li><a class="dropdown-item" href="{{url_for(product)}}">{{product}}</a></li> {%
+                                else %}
+                                <li><a class="dropdown-item" href="#">No products available.</a></li>
+                                {% endfor %}
+                            </ul>
 
-        <div class="container">
-            <!-- Nav bar links -->
-            <div class="collapse navbar-collapse flex-grow-1 text-right py-2" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto flex-nowrap">
-                    <li class="nav-item">
-                        <a class="nav-link links" href="/">Home</a>                    </li>                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle links" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">Shop</a>
-                        <ul class="dropdown-menu">
-                            {% for product in products %}
-                            <li><a class="dropdown-item" href="{{url_for(product)}}">{{product}}</a></li> {%
-                            else %}
-                            <li><a class="dropdown-item" href="#">No products available.</a></li>
-                            {% endfor %}
-                        </ul>
-
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle links" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            My Account
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            {% if not session.user %}
-                            <li><a class="dropdown-item" href="{{url_for('showSignIn')}}">Sign in</a></li>
-                            <li><a class="dropdown-item" href="{{url_for('showSignUp')}}">Sign up</a></li>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle links" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                My Account
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% if not session.user %}
+                                <li><a class="dropdown-item" href="{{url_for('showSignIn')}}">Sign in</a></li>
+                                <li><a class="dropdown-item" href="{{url_for('showSignUp')}}">Sign up</a></li>
+                                {% else %}
+                                <li><a class="dropdown-item" href="{{url_for('showUserLanding')}}">Account</a></li>
+                                <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            {% if not cart_quantity %}
+                            <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
+                                        class="bi bi-cart-x"></i></span></a>
                             {% else %}
-                            <li><a class="dropdown-item" href="{{url_for('showUserLanding')}}">Account</a></li>
-                            <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
+                            {% if cart_quantity > 0 %}
+                            <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
+                                        class="bi bi-cart4"></i></span><span
+                                    class="badge bg-secondary">{{cart_quantity}}</span></a>
+                            {% else %}
+                            <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
+                                        class="bi bi-cart-x"></i></span></a>
                             {% endif %}
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        {% if cart_quantity > 0 %}
-                        <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
-                                    class="bi bi-cart4"></i></span><span
-                                class="badge bg-secondary">{{cart_quantity}}</span></a>
-                        {% else %}
-                        <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
-                                    class="bi bi-cart-x"></i></span></a>
-                        {% endif %}
-                    </li>
+                            {% endif %}
+                        </li>
 
-                </ul>
+                    </ul>
 
+                </div>
+                <!-- End nav bar links -->
             </div>
-            <!-- End nav bar links -->
-        </div>
 
-        <!-- </div> -->
-    </nav>
-    <!-- end bottom nav for product filtering -->
-</header>
-<!-- End page nav bar -->
+            <!-- </div> -->
+        </nav>
+        <!-- end bottom nav for product filtering -->
+    </header>
+    <!-- End page nav bar -->
 
 
     <!-- Page Content -->
-    <div class="container-fluid">
+    <div class="container">
         <div class="row py-2">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <h3>Actions</h3>
                 <div class="bottom-border my-2"></div>
                 <ul class="list-group">
@@ -116,16 +125,16 @@
                     <li class="list-group-item"><a href="/admin/create">Insert a new item.</a></li>
                 </ul>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-10">
                 <h3>Welcome administrator, {{ data['fname'] }} {{ data['lname'] }}</h3>
                 <div class="bottom-border my-2"></div>
 
                 <!-- show inventory item to update -->
                 <div class="row">
                     <div class="col">
-                        <div class="card w-50 h-50 mx-auto my-2">
+                        <div class="card w-100 h-100 mx-auto my-2">
                             <img class="card-img-top mx-auto" src="/{{ inventory_item['imageUrl'] }}"
-                                style="width: 18rem" alt="product image">
+                                alt="product image">
                             <div class="card-body">
                                 <h5 class="card-title">{{ inventory_item['productName'] }}</h5>
                                 <p class="card-text">${{ inventory_item['price'] }}</p>
@@ -138,17 +147,7 @@
 
                             </div>
                         </div>
-                        {% if updated['message'] %}
-                        <ul class="list-group mx-auto" style="width: 50%;">
-                            <li class="list-group-item list-group-item-success">Item updated successfully.</p>
-                                {% for key, value in updated.items() %}
-                                {% if key != 'message' %}
-                            <li class="list-group-item">{{key}}: {{ value }}</li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-
-                        {% endif %}
+                        
                     </div>
 
                     <!-- show form to update item -->
@@ -181,30 +180,44 @@
                                 </div>
                             </form>
                         </fieldset>
+                        {% if updated['message'] %}
+                        <ul class="list-group mx-auto" style="width: 50%;">
+                            <li class="list-group-item list-group-item-success">Item updated successfully.</p>
+                                {% for key, value in updated.items() %}
+                                {% if key != 'message' %}
+                            <li class="list-group-item">{{key}}: {{ value }}</li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+
+                        {% endif %}
                     </div>
                 </div>
 
 
-
-
             </div>
         </div>
+        <!-- Page footer -->
+        <div class="container">
+            <footer id="footer-container">
+                <div class="row final">
+                    <p>Copyright &copy; 2021</p>
+                    <p><a href="#">Home</a> / <a href="#">About</a> / <a href="#">Contact</a> / <a href="#">Browse</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+
+        <!-- end footer -->
     </div>
 
     <!-- end page content -->
 
-    <!-- Page footer -->
-    <footer id="footer-container">
-        <div class="container-fluid">
-            <div class="row final">
-                <p>Copyright &copy; 2021</p>
-                <p><a href="#">Home</a> / <a href="#">About</a> / <a href="#">Contact</a> / <a href="#">Browse</a></p>
-            </div>
-        </div>
-    </footer>
-    <!-- end footer -->
+
     <!-- import bootstrap javascript plugin bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
 
 
 </body>

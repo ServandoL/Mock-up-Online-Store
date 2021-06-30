@@ -86,6 +86,10 @@
                             </ul>
                         </li>
                         <li class="nav-item">
+                            {% if not cart_quantity %}
+                            <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
+                                class="bi bi-cart-x"></i></span></a>
+                            {% else %}
                             {% if cart_quantity > 0 %}
                             <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
                                         class="bi bi-cart4"></i></span><span
@@ -93,6 +97,7 @@
                             {% else %}
                             <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
                                         class="bi bi-cart-x"></i></span></a>
+                            {% endif %}
                             {% endif %}
                         </li>
 
@@ -140,8 +145,34 @@
             <div class="bottom-border"></div>
         </div>
         <div class="row">
-            <div style="text-align: center;">
-                <div id="carouselControl" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="img-wrap">
+
+                <a href="{{url_for('Sprinklers')}}">
+                    <img src="../static/img/home/5070_spray_heads_category_image.png"
+                        class="border border-2 my-5 rounded-pill w-auto" alt="Sprinklers">
+                </a>
+
+                <a href="{{url_for('Rotors')}}">
+                    <img src="../static/img/home/5049_rotors_category_image.png"
+                        class="border border-2 my-5 rounded-pill w-auto" alt="Rotors">
+                </a>
+
+                <a href="{{url_for('Valves')}}">
+                    <img src="../static/img/home/4980_valves_category_image.png"
+                        class="border border-2 my-5 rounded-pill w-auto" alt="Valves">
+                </a>
+
+                <a href="{{url_for('Controllers')}}">
+                    <img src="../static/img/home/4365_controllers_timers_category_image.png"
+                        class="border border-2 my-5 rounded-pill w-auto" alt="Controllers">
+                </a>
+
+                <a href="{{url_for('Nozzles')}}">
+                    <img src="../static/img/home/5037_nozzles_category_image.png"
+                        class="border border-2 my-5 rounded-pill w-auto" alt="Nozzles">
+                </a>
+
+                <!-- <div id="carouselControl" class="carousel carousel-dark slide" data-bs-ride="carousel">
 
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carouselControl" data-bs-slide-to="0" class="active"
@@ -203,20 +234,21 @@
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
-                </div>
+                </div> -->
             </div>
 
         </div>
         <!-- Page footer -->
-        <footer id="footer-container">
-            <div class="container-fluid">
+        <div class="container">
+           <footer id="footer-container">
                 <div class="row final">
                     <p>Copyright &copy; 2021</p>
                     <p><a href="#">Home</a> / <a href="#">About</a> / <a href="#">Contact</a> / <a href="#">Browse</a>
                     </p>
                 </div>
-            </div>
-        </footer>
+            </footer> 
+        </div>
+        
         <!-- end footer -->
     </div>
 

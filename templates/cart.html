@@ -86,14 +86,19 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        {% if cart_quantity > 0 %}
-                        <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
-                                    class="bi bi-cart4"></i></span><span
-                                class="badge bg-secondary">{{cart_quantity}}</span></a>
-                        {% else %}
-                        <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
-                                    class="bi bi-cart-x"></i></span></a>
-                        {% endif %}
+                        {% if not cart_quantity %}
+                            <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
+                                class="bi bi-cart-x"></i></span></a>
+                            {% else %}
+                            {% if cart_quantity > 0 %}
+                            <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
+                                        class="bi bi-cart4"></i></span><span
+                                    class="badge bg-secondary">{{cart_quantity}}</span></a>
+                            {% else %}
+                            <a class="nav-link links" href="{{url_for('shopping_cart')}}"><span><i
+                                        class="bi bi-cart-x"></i></span></a>
+                            {% endif %}
+                            {% endif %}
                     </li>
 
                 </ul>
@@ -124,9 +129,19 @@
                 {% with message = get_flashed_messages() %}
                 {% if message %}
                 {% for item in message %}
-                <div>
-                    <p style="color: red;">{{ item }}</p>
+                {% if item == "Item removed successfully." %}
+                <div class="alert alert-success" role="alert">
+                    {{item}}
                 </div>
+                {% elif item == "ERROR: Unable to update cart. Your quantity is higher than the available stock amount." %}
+                <div class="alert alert-danger" role="alert">
+                    {{item}}
+                </div>
+                {% else %}
+                <div class="alert alert-warning" role="alert">
+                    {{item}}
+                </div>
+                {% endif %}
                 {% endfor %}
                 {% endif %}
                 {% endwith %}
