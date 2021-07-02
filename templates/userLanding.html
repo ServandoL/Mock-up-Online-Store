@@ -114,14 +114,16 @@
     <!-- Page Content -->
     <div class="container">
         <div class="row py-2">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <h3>Actions</h3>
                 <div class="bottom-border my-2"></div>
                 <ul class="list-group">
-                    <li class="list-group-item"><a href="/account/orderHistory">Order History</a></li>
+                    <li class="list-group-item"><a href="{{url_for('orderHistory')}}">Order History</a></li>
+                    <li class="list-group-item"><a href="#">Update Profile</a></li>
+                    <li class="list-group-item"><a href="#">Delete Account</a></li>
                 </ul>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <h3>Welcome {{ data['fname'] }} {{ data['lname'] }}</h3>
                 <div class="bottom-border"></div>
             </div>
