@@ -18,7 +18,7 @@
         $(function() {
             $('#signInButton').click(function() {
                 $.ajax({
-                    url: '/validateLogin',
+                    url: "{{url_for('validateLogin')}}",
                     data: $('form').serialize(),
                     type: 'POST',
                     success: function(response) {

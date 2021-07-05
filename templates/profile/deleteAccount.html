@@ -124,9 +124,15 @@
                 </ul>
             </div>
             <div class="col-md-10">
-                <h3>Welcome {{ data['fname'] }} {{ data['lname'] }}</h3>
+                <h3>Delete Account</h3>
                 <div class="bottom-border"></div>
-                
+                <fieldset>
+                    <legend>Are you sure you want to delete your account?</legend>
+                    <div class="form-text my-2 text-red">This action cannot be undone.</div>
+                    <form method="post" action="{{url_for('confirmDelete')}}">
+                        <button type="submit" class="btn btn-danger">Delete Account</button>
+                    </form>
+                </fieldset>
             </div>
         </div>
     </div>

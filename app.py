@@ -23,8 +23,7 @@ inventory = [item for item in Inventory.find()]
 brands = {item['brand'] for item in inventory}
 products = {item['category'] for item in inventory}
 
-# Login routing and sign-in and sign-up logic
-app.secret_key = 'cs6314.0w1'
+app.secret_key = uuid.uuid4().hex
 
 @app.route("/")
 def main():
@@ -50,7 +49,13 @@ def main():
     
 #     return render_template('index.html', sprinklers=sprinklers_showcase[:4], rotors=rotors_showcase[:4], valves=valves_showcase[:4], controllers=controllers_showcase[:4], brands=brands, products=products, cart_quantity=cart_quantity)
 
-# Routes for product display pages
+''' ***** Routes for product display pages *****
+
+Each category type it's own template.
+Each page will display appropriate items based on category.
+Each item will show product description, price, stock, image, quantity modifier and a 'add to cart' button.
+
+'''
 
 @app.route('/products/sprinklers')
 def Sprinklers():
@@ -136,14 +141,62 @@ def Nozzles():
         nozzle_products = [product for product in inventory if product['category'] == 'Nozzles']
         return render_template('products/sprinkler-nozzles.html', brands=brands, products=products, inventory=nozzle_products)
 
-# End routes for product display pages
+''' ***** End routes for product display pages ***** '''
 
+'''
+Password reset screen:
+Displays screen if user clicks on 'forgot password' on sign in template
+'''
 @app.route('/login/reset')
 def resetPasswordForm():
     return render_template('resetPassword.html', brands=brands, products=products)
 
-# Profile edits
+'''
+Password reset 
+- Check if email provided exists
+- generates random hash as a key, stores it, its current timestamp and user id to db and sends it to the user
 
+When user apply secret key (for example with url or special form) you should:
+validate it (exist, not expired, not used before)
+get user identifier
+delete or mark as used current secret key
+provide logic to enter/generate new password.
+
+TODO:
+Do not know how to send email.
+'''
+
+@app.route('/resetPassword', methods=['GET', 'POST'])
+def resetPassword():
+
+    _email = request.form['inputEmail']
+    try:
+        data = Users.find_one({"email": _email})
+        if data:
+            random_hash = str(uuid.uuid4())
+            secret_key = sha256_crypt.hash(random_hash)
+            timestamp = str(datetime.datetime.now())
+            user_id = data['_id']
+            reset_info = {
+                'secret_key': secret_key,
+                'timestamp': timestamp,
+                'user_id': user_id,
+                'reset': False,
+            }
+            Resets.insert_one(reset_info)
+            return "A password reset link will be sent to this email address if the email address is associated with an account."
+        else:
+            return "A password reset link will be sent to this email address if the email address is associated with an account. Does not Exists."
+    except Exception as e:
+        return str(e)
+    return _email
+
+''' ***** Profile edits ***** '''
+
+'''
+User landing screen:
+Will display a hello message and available actions on the side bar
+'''
 @app.route('/user/profile')
 def showUserLanding():
     try:
@@ -160,11 +213,16 @@ def showUserLanding():
                         cart_quantity += Decimal(str(item['quantity']))
 
                     return render_template('/profile/userLanding.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products)
+
         else:
             return render_template('error.html', error="Unauthorized Access", products=products)
     except Exception as e:
         return render_template('error.html', error=str(e), data=data)
 
+'''
+Profile update screen:
+Displays forms to update email address or password.
+'''
 @app.route('/user/profile/update')
 def updateProfile():
     try:
@@ -181,6 +239,14 @@ def updateProfile():
     except Exception as e:
         return render_template('error.html', error=str(e), products=products)
 
+'''
+Update password screen:
+Requires user to input current password, new password, and password confirmation
+The current password is checked to see if it matches with the database password
+New password is checked with regex to make sure it follows password requirements
+then it is check to see if it matches the password confirmation.
+If all three checks are true, then it updates the password on the database.
+'''
 @app.route('/user/profile/update/password', methods=['POST', 'GET'])
 def updatePassword():
     try:
@@ -223,6 +289,10 @@ def updatePassword():
     except Exception as e:
         return render_template('error.html', error=str(e), products=products) 
 
+'''
+Email update screen:
+Checks if email input exists on the database and updates it if it does.
+'''
 @app.route('/user/profile/update/email', methods=['POST', 'GET'])   
 def updateEmail():
     try:
@@ -244,8 +314,49 @@ def updateEmail():
     except Exception as e:
         return render_template('error.html', error=str(e), products=products)
 
-# end profile edits
+'''
+Delete Account page
+Display page for account deletion. User delets account by pressing submit button.
+'''
+@app.route('/user/profile/delete', methods=['POST', 'GET'])
+def deleteAccount():
+    try:
+        if session.get('user'):
+            data = Users.find_one({'_id': session.get('user')})
+            user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+            cart_quantity = 0
+            for item in user_cart:
+                cart_quantity += Decimal(str(item['quantity']))
 
+            return render_template('/profile/deleteAccount.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products)
+        else:
+            return render_template('error.html', error='Unauthorized Access',products=products)
+    except Exception as e:
+        return render_template('error.html', error=str(e), products=products)
+
+'''
+Account Deletion confirmation screen:
+Display confirmation screen and removes the user from the database and the session
+'''
+@app.route('/user/profile/delete/confirm', methods=['GET','POST'])
+def confirmDelete():
+    try:
+        if session.get('user'):
+            Users.delete_one({'_id': session.get('user')})
+            session.pop('user', None)
+            return render_template('/profile/displayAccountDelete.html', products=products)
+        else:
+            return render_template('error.html', error="Unauthorized Access", products=products)
+    except Exception as e:
+        return render_template('error.html', error=str(e), products=products)
+
+'''***** end profile edits *****'''
+
+'''
+Order History:
+Shows order history for each account.
+Need to find an algorithm to group orders by confirmation number.
+'''
 @app.route('/account/orderHistory')
 def orderHistory():
     if session.get('user'):
@@ -271,6 +382,12 @@ def orderHistory():
     else:
         return redirect('/showSignIn')
 
+'''
+Cart checkout page:
+Display a checkout page with address and credit card forms
+Also displays a price total 
+'''        
+
 @app.route('/checkout', methods=['POST', 'GET'])
 def checkout():
     states = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
@@ -291,9 +408,10 @@ def checkout():
         flash('Please sign in to have access to your cart.')
         return redirect('showSignIn')
 
-# Gets the user cart information and updates the stock value on the Inventory collection
-# and updates the user order history
-# and deletes the items in the user cart
+'''
+Process Payment: 
+Gets the user cart information and updates the stock value on the Inventory collection and updates the user order history and deletes the items in the user cart
+'''
 @app.route('/processPayment', methods=['GET','POST'])
 def processPayment():
     if session.get('user'):
@@ -321,6 +439,8 @@ def processPayment():
     else:
         flash('Please sign in to have access to your cart')
         return redirect('/showSignIn')
+
+''' ***** Begin cart pages ***** '''
 
 @app.route('/cart', methods=['POST', 'GET'])
 def shopping_cart():
@@ -420,45 +540,10 @@ def addToCart(id):
         flash("Please log in to access your cart.")
         return redirect("/showSignIn")
 
+''' ***** End Cart pages *****'''
 
-# Password reset 
-# - Check if email provided exists
-# - generates random hash as a key, stores it, its current timestamp and user id to db and sends it to the user
 
-# When user apply secret key (for example with url or special form) you should:
-# validate it (exist, not expired, not used before)
-# get user identifier
-# delete or mark as used current secret key
-# provide logic to enter/generate new password.
-
-'''
-Do not know how to send email.
-'''
-
-@app.route('/resetPassword', methods=['GET', 'POST'])
-def resetPassword():
-
-    _email = request.form['inputEmail']
-    try:
-        data = Users.find_one({"email": _email})
-        if data:
-            random_hash = str(uuid.uuid4())
-            secret_key = sha256_crypt.hash(random_hash)
-            timestamp = str(datetime.datetime.now())
-            user_id = data['_id']
-            reset_info = {
-                'secret_key': secret_key,
-                'timestamp': timestamp,
-                'user_id': user_id,
-                'reset': False,
-            }
-            Resets.insert_one(reset_info)
-            return "A password reset link will be sent to this email address if the email address is associated with an account."
-        else:
-            return "A password reset link will be sent to this email address if the email address is associated with an account. Does not Exists."
-    except Exception as e:
-        return str(e)
-    return _email
+# ***** Login and sigup routing *****
 
 @app.route('/validateLogin', methods=['POST'])
 def validateLogin():
@@ -466,7 +551,7 @@ def validateLogin():
         _email = request.form['inputEmail']
         _password = request.form['inputPassword']
 
-        data = Users.find_one({"email": _email})
+        data = Users.find_one({"email": _email.lower()})
         if data:
             # if data['password'] == _password:
             if sha256_crypt.verify(_password, data['password']):
@@ -542,7 +627,7 @@ def signUp():
     else:
         return "Please enter the required fields."
 
-# End log-in and sign-up logic and routing
+# ***** End log-in and sign-up logic and routing *****
 
 # CRUD for admin page
 # List all inventory
@@ -679,7 +764,7 @@ def createItem():
     else:
         return render_template('error.html', error="Unauthorized Access")
 
-
+# ***** End admin pages *****
 
 
 if __name__ == '__main__':

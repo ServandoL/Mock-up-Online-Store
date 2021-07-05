@@ -93,3 +93,7 @@ input[readonly].amount, input[readonly].tax, input[readonly].total {
     outline-width: 0px;
     border-bottom: none;
 }
+
+.text-red {
+    color: red;
+}
