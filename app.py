@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, json, redirect, flash
 from flask import session, url_for
 from passlib.hash import sha256_crypt
 from pymongo import MongoClient
+from itsdangerous import URLSafeSerializer
 
 import uuid
 import math
@@ -17,7 +18,7 @@ Users = db.User
 Inventory = db.Inventory
 Cart = db.Cart
 Order_History = db.OrderHistory
-
+Resets = db.Resets
 inventory = [item for item in Inventory.find()]
 brands = {item['brand'] for item in inventory}
 products = {item['category'] for item in inventory}
@@ -137,7 +138,13 @@ def Nozzles():
 
 # End routes for product display pages
 
-@app.route('/userLanding')
+@app.route('/login/reset')
+def resetPasswordForm():
+    return render_template('resetPassword.html', brands=brands, products=products)
+
+# Profile edits
+
+@app.route('/user/profile')
 def showUserLanding():
     try:
         if session.get('user'):
@@ -152,11 +159,92 @@ def showUserLanding():
                     for item in user_cart:
                         cart_quantity += Decimal(str(item['quantity']))
 
-                    return render_template('userLanding.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products)
+                    return render_template('/profile/userLanding.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products)
         else:
-            return render_template('error.html', error="Unauthorized Access")
+            return render_template('error.html', error="Unauthorized Access", products=products)
     except Exception as e:
         return render_template('error.html', error=str(e), data=data)
+
+@app.route('/user/profile/update')
+def updateProfile():
+    try:
+        if session.get('user'):
+            data = Users.find_one({'_id': session.get('user')})
+            user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+            cart_quantity = 0
+            for item in user_cart:
+                cart_quantity += Decimal(str(item['quantity']))
+            return render_template('/profile/updateProfile.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products)
+        else:
+            return render_template('error.html', error="Unauthorized Access", products=products)
+
+    except Exception as e:
+        return render_template('error.html', error=str(e), products=products)
+
+@app.route('/user/profile/update/password', methods=['POST', 'GET'])
+def updatePassword():
+    try:
+        if session.get('user'):
+            data = Users.find_one({'_id': session.get('user')})
+            if request.method == 'POST':
+                _password = request.form['inputPassword']
+                _newpswd = request.form['newPassword']
+                _confirmpswd = request.form['confirmPassword']
+                _regex = '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
+
+                # Check if password entered matches user's current password
+                if sha256_crypt.verify(_password, data['password']):
+                    # check if new password matches passwrod requirements
+                    if re.match(_regex, _newpswd):
+                    # Check if new password matches password confirmation
+                    # if it does, then hash it and update it 
+                        if _newpswd == _confirmpswd:
+                            _newpswd = sha256_crypt.hash(_newpswd)
+                            new_password = {'$set': {'password': _newpswd}}
+                            try:
+                                Users.update_one({'_id': session.get('user')}, new_password)
+                                flash('Password updated.')
+                                return redirect(url_for('updateProfile'))
+                            except Exception as e:
+                                flash(str(e))
+                                return redirect(url_for('updateProfile'))
+                        else:
+                            flash("Passwords do not match.")
+                            return redirect(url_for('updateProfile'))
+                    else:
+                        flash("Password requirements:\n* at least one number\n* at least one uppercase letter\n* at least one lowercase letter\n* must be at least 8 or more characters.")
+                        return redirect(url_for('updateProfile'))
+                else:
+                    flash("Your password is not correct.")
+                    return redirect(url_for('updateProfile'))
+
+        else:
+            return render_template('error.html', error=str(e), products=products)
+    except Exception as e:
+        return render_template('error.html', error=str(e), products=products) 
+
+@app.route('/user/profile/update/email', methods=['POST', 'GET'])   
+def updateEmail():
+    try:
+        if session.get('user'):
+            if request.method == 'POST':
+                _email = request.form['inputEmail']
+                if _email != None:
+                    new_email = {'$set': {'email': _email}}
+                try:
+                    Users.update_one({'_id': session.get('user')}, new_email)
+                    flash('Email updated.')
+                    return redirect(url_for('updateProfile'))
+                except Exception as e:
+                    flash(str(e))
+                    return redirect(url_for('updateProfile'))
+        else:
+            return render_template('error.html', error="Unauthorized Access", products=products)
+
+    except Exception as e:
+        return render_template('error.html', error=str(e), products=products)
+
+# end profile edits
 
 @app.route('/account/orderHistory')
 def orderHistory():
@@ -332,6 +420,46 @@ def addToCart(id):
         flash("Please log in to access your cart.")
         return redirect("/showSignIn")
 
+
+# Password reset 
+# - Check if email provided exists
+# - generates random hash as a key, stores it, its current timestamp and user id to db and sends it to the user
+
+# When user apply secret key (for example with url or special form) you should:
+# validate it (exist, not expired, not used before)
+# get user identifier
+# delete or mark as used current secret key
+# provide logic to enter/generate new password.
+
+'''
+Do not know how to send email.
+'''
+
+@app.route('/resetPassword', methods=['GET', 'POST'])
+def resetPassword():
+
+    _email = request.form['inputEmail']
+    try:
+        data = Users.find_one({"email": _email})
+        if data:
+            random_hash = str(uuid.uuid4())
+            secret_key = sha256_crypt.hash(random_hash)
+            timestamp = str(datetime.datetime.now())
+            user_id = data['_id']
+            reset_info = {
+                'secret_key': secret_key,
+                'timestamp': timestamp,
+                'user_id': user_id,
+                'reset': False,
+            }
+            Resets.insert_one(reset_info)
+            return "A password reset link will be sent to this email address if the email address is associated with an account."
+        else:
+            return "A password reset link will be sent to this email address if the email address is associated with an account. Does not Exists."
+    except Exception as e:
+        return str(e)
+    return _email
+
 @app.route('/validateLogin', methods=['POST'])
 def validateLogin():
     try:
@@ -427,7 +555,7 @@ def showAdminDashboard():
 
         if user_data:
             if user_data['isAdmin'] == '1':
-                return render_template('admin.html', data=user_data, inventory=inventory_data, brands=brands, products=products)
+                return render_template('/admin/admin.html', data=user_data, inventory=inventory_data, brands=brands, products=products)
             else:
                 return render_template('error.html', error='Unauthorized Access', data=user_data)
     else:
@@ -489,7 +617,7 @@ def updateItem(id):
                 updated['Product Image'] = _productImage
                 updated['message'] = 'updated'
 
-        return render_template('updateItem.html', data=user_data, inventory_item=inventory_item, updated = updated, brands=brands, products=products)
+        return render_template('/admin/updateItem.html', data=user_data, inventory_item=inventory_item, updated = updated, brands=brands, products=products)
     else:
         return render_template('error.html', error="Unauthorized Access")
 
@@ -545,7 +673,7 @@ def createItem():
 
         if user_data:
             if user_data['isAdmin'] == '1':
-                return render_template('createItem.html', data=user_data, brands=brands, products=products, response=inserted) 
+                return render_template('/admin/createItem.html', data=user_data, brands=brands, products=products, response=inserted) 
             else:
                 return render_template('error.html', error='Unauthorized Access', data=user_data)
     else:

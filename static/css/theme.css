@@ -84,3 +84,12 @@ input[readonly].amount, input[readonly].tax, input[readonly].total {
     margin-left: auto;
     margin-right: auto;
 }
+
+.img-link {
+    text-decoration: none !important;
+    border: 0px !important;
+    outline: none;
+    border-width: 0px;
+    outline-width: 0px;
+    border-bottom: none;
+}

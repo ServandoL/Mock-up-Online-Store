@@ -15,8 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/theme.css')}}">
     <!-- import js scripts -->
 
-
-    <title>My Account</title>
+    <title>Admin Dashboard</title>
 </head>
 
 <body>
@@ -118,14 +117,68 @@
                 <h3>Actions</h3>
                 <div class="bottom-border my-2"></div>
                 <ul class="list-group">
-                    <li class="list-group-item"><a href="{{url_for('orderHistory')}}">Order History</a></li>
-                    <li class="list-group-item"><a href="#">Update Profile</a></li>
-                    <li class="list-group-item"><a href="#">Delete Account</a></li>
+                    <li class="list-group-item"><a href="{{url_for('showAdminDashboard')}}">Go back</a></li>
+                    <li class="list-group-item"><a href="{{url_for('createItem')}}">Insert a new item.</a></li>
                 </ul>
             </div>
             <div class="col-md-10">
-                <h3>Welcome {{ data['fname'] }} {{ data['lname'] }}</h3>
-                <div class="bottom-border"></div>
+                <h3>Welcome administrator, {{ data['fname'] }} {{ data['lname'] }}</h3>
+                <div class="bottom-border my-2"></div>
+                <fieldset>
+                    <legend>Add a new item.</legend>
+                    <form action="{{url_for('createItem')}}" method='post'>
+                        <div class="form-group col-md-3 my-2">
+                            <label for="product-name">Enter Product Name</label>
+                            <textarea class="form-control" rows="3" id="product-name" name="product-name" placeholder="product name"></textarea>
+                        </div>
+                        <div class="form-group col-md-3 my-2">
+                            <label for="product-price">Enter Product Price</label>
+                            <input type="text" class="form-control" id="product-price" name="product-price" placeholder="product price">
+                        </div>
+                        <div class="form-group col-md-3 my-2">
+                            <label for="product-category">Select Product Category</label>
+                            <select class="form-control" id="product-category" name="product-category">
+                                {% for item in products %}
+                                <option value="{{item}}">{{item}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3 my-2">
+                            <label for="product-brand">Select Product Brand</label>
+                            <select class="form-control" id="product-brand" name="product-brand">
+                                {% for item in brands %}
+                                <option value="{{item}}">{{item}}</option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+                        <div class="form-group col-md-3 my-2">
+                            <label for="product-stock">Enter Product Stock</label>
+                            <input type="number" class="form-control" id="product-stock" name="product-stock" placeholder="product stock">
+                        </div>
+                        <div class="form-group col-md-3 my-2">
+                            <label for="product-image">Product Image</label>
+                            <input type="file" class="form-control-file" id="product-image" name="product-image">
+                        </div>
+                        <div class="form-group my-2">
+                            <button type="submit" class="btn btn-primary" id="addItemBtn">Submit</button>
+                        </div>        
+                    </form>
+                    {% if response == 'true' %}
+                    <div class="col-md-3 my-2">
+                        <div class="alert alert-success" role="alert">
+                        Product was inserted successfully.
+                        </div>
+                    </div>
+                    {% elif response == 'false' %}
+                    <div class="col-md-3 my-2">
+                        <div class="alert alert-danger" role="alert">
+                            Error inserting Product. Product was not inserted.
+                        </div>
+                    </div>
+                    {% endif %}
+                </fieldset>
+                
             </div>
         </div>
     </div>
