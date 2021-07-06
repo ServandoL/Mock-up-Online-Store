@@ -18,7 +18,7 @@
         $(function() {
             $('#signUpBtn').click(function() {
                 $.ajax({
-                    url: "{{url_for('showSignUp')}}",
+                    url: "{{url_for('signUp')}}",
                     data: $('form').serialize(),
                     type: 'POST',
                     success: function(response) {

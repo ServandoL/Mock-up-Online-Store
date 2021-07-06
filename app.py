@@ -149,7 +149,7 @@ Displays screen if user clicks on 'forgot password' on sign in template
 '''
 @app.route('/login/reset')
 def resetPasswordForm():
-    return render_template('resetPassword.html', brands=brands, products=products)
+    return render_template('/utility/resetPassword.html', brands=brands, products=products)
 
 '''
 Password reset 
@@ -215,9 +215,9 @@ def showUserLanding():
                     return render_template('/profile/userLanding.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products)
 
         else:
-            return render_template('error.html', error="Unauthorized Access", products=products)
+            return render_template('/utility/error.html', error="Unauthorized Access", products=products)
     except Exception as e:
-        return render_template('error.html', error=str(e), data=data)
+        return render_template('/utility/error.html', error=str(e), data=data)
 
 '''
 Profile update screen:
@@ -234,10 +234,10 @@ def updateProfile():
                 cart_quantity += Decimal(str(item['quantity']))
             return render_template('/profile/updateProfile.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products)
         else:
-            return render_template('error.html', error="Unauthorized Access", products=products)
+            return render_template('/utility/error.html', error="Unauthorized Access", products=products)
 
     except Exception as e:
-        return render_template('error.html', error=str(e), products=products)
+        return render_template('/utility/error.html', error=str(e), products=products)
 
 '''
 Update password screen:
@@ -285,9 +285,9 @@ def updatePassword():
                     return redirect(url_for('updateProfile'))
 
         else:
-            return render_template('error.html', error=str(e), products=products)
+            return render_template('/utility/error.html', error=str(e), products=products)
     except Exception as e:
-        return render_template('error.html', error=str(e), products=products) 
+        return render_template('/utility/error.html', error=str(e), products=products) 
 
 '''
 Email update screen:
@@ -309,10 +309,10 @@ def updateEmail():
                     flash(str(e))
                     return redirect(url_for('updateProfile'))
         else:
-            return render_template('error.html', error="Unauthorized Access", products=products)
+            return render_template('/utility/error.html', error="Unauthorized Access", products=products)
 
     except Exception as e:
-        return render_template('error.html', error=str(e), products=products)
+        return render_template('/utility/error.html', error=str(e), products=products)
 
 '''
 Delete Account page
@@ -330,9 +330,9 @@ def deleteAccount():
 
             return render_template('/profile/deleteAccount.html', data=data, cart_quantity=cart_quantity, brands=brands, products=products)
         else:
-            return render_template('error.html', error='Unauthorized Access',products=products)
+            return render_template('/utility/error.html', error='Unauthorized Access',products=products)
     except Exception as e:
-        return render_template('error.html', error=str(e), products=products)
+        return render_template('/utility/error.html', error=str(e), products=products)
 
 '''
 Account Deletion confirmation screen:
@@ -346,9 +346,9 @@ def confirmDelete():
             session.pop('user', None)
             return render_template('/profile/displayAccountDelete.html', products=products)
         else:
-            return render_template('error.html', error="Unauthorized Access", products=products)
+            return render_template('/utility/error.html', error="Unauthorized Access", products=products)
     except Exception as e:
-        return render_template('error.html', error=str(e), products=products)
+        return render_template('/utility/error.html', error=str(e), products=products)
 
 '''***** end profile edits *****'''
 
@@ -378,9 +378,9 @@ def orderHistory():
         for item in user_cart:
             cart_quantity += Decimal(str(item['quantity']))
 
-        return render_template('orderHistory.html', data=data, order_history=order_history, cart_quantity=cart_quantity, brands=brands, products=products)
+        return render_template('/profile/orderHistory.html', data=data, order_history=order_history, cart_quantity=cart_quantity, brands=brands, products=products)
     else:
-        return redirect('/showSignIn')
+        return redirect(url_for('showSignIn'))
 
 '''
 Cart checkout page:
@@ -403,10 +403,10 @@ def checkout():
             subtotal = request.args.get('subtotal')
             tax = request.args.get('tax')
             total = request.args.get('total')
-        return render_template('checkout.html', data=data, subtotal=subtotal, tax=tax, total=total, states=states, cart_quantity=cart_quantity, brands=brands, products=products)
+        return render_template('/utility/checkout.html', data=data, subtotal=subtotal, tax=tax, total=total, states=states, cart_quantity=cart_quantity, brands=brands, products=products)
     else:
         flash('Please sign in to have access to your cart.')
-        return redirect('showSignIn')
+        return redirect(url_for('showSignIn'))
 
 '''
 Process Payment: 
@@ -435,10 +435,10 @@ def processPayment():
                     product.update({'datetime': date})
                     product.update({'confirmation': confirmation})
                     Order_History.insert_one(product)
-        return render_template('orderConfirmation.html', data=user_data, cart=temp_cart, confirmation=confirmation, brands=brands, products=products)
+        return render_template('/profile/orderConfirmation.html', data=user_data, cart=temp_cart, confirmation=confirmation, brands=brands, products=products)
     else:
         flash('Please sign in to have access to your cart')
-        return redirect('/showSignIn')
+        return redirect(url_for('showSignIn'))
 
 ''' ***** Begin cart pages ***** '''
 
@@ -457,10 +457,10 @@ def shopping_cart():
         for item in user_cart:
             cart_quantity += item['quantity']
 
-        return render_template('cart.html', data=user_data, cart=user_cart, cart_quantity=cart_quantity, brands=brands, products=products)
+        return render_template('/utility/cart.html', data=user_data, cart=user_cart, cart_quantity=cart_quantity, brands=brands, products=products)
     else:
         flash('Please sign in to have access to your cart.')
-        return redirect('/showSignIn')
+        return redirect(url_for('showSignIn'))
 
 @app.route('/cart/update/<id>', methods=['POST','GET'])
 def updateCart(id):
@@ -482,10 +482,10 @@ def updateCart(id):
                         }
                     })
                     flash("Your cart has been updated.")
-        return redirect('/cart')
+        return redirect(url_for('shopping_cart'))
     else:
         flash('Please log in to access your cart.')
-        return redirect("/showSignIn")
+        return redirect(url_for('showSignIn'))
 
 @app.route('/cart/delete/<id>', methods=['POST', 'GET'])
 def deleteCartItem(id):
@@ -497,10 +497,10 @@ def deleteCartItem(id):
             flash("Item removed successfully.")
         else:
             flash("There was a problem removing your item.")
-        return redirect('/cart')
+        return redirect(url_for('shopping_cart'))
     else:
         flash("Please log in to access your cart.")
-        return redirect("showSignIn")
+        return redirect(url_for('showSignIn'))
 
 @app.route('/cart/add/<id>', methods=['POST', 'GET'])
 def addToCart(id):
@@ -538,7 +538,7 @@ def addToCart(id):
         return redirect(request.referrer)
     else:
         flash("Please log in to access your cart.")
-        return redirect("/showSignIn")
+        return redirect(url_for('showSignIn'))
 
 ''' ***** End Cart pages *****'''
 
@@ -565,7 +565,7 @@ def validateLogin():
         else:
             return "Wrong email address or password."
     except Exception as e:
-        return render_template('error.html', error=str(e), data=data)
+        return render_template('/utility/error.html', error=str(e), data=data)
 
 @app.route('/logout')
 def logout():
@@ -574,12 +574,12 @@ def logout():
 
 @app.route('/showSignIn')
 def showSignIn():
-    return render_template('signin.html', brands=brands, products=products)
+    return render_template('/utility/signin.html', brands=brands, products=products)
 
 
 @app.route('/showSignUp')
 def showSignUp():
-    return render_template('signup.html', brands=brands, products=products)
+    return render_template('/utility/signup.html', brands=brands, products=products)
 
 
 @app.route('/signUp', methods=['POST'])
@@ -642,9 +642,9 @@ def showAdminDashboard():
             if user_data['isAdmin'] == '1':
                 return render_template('/admin/admin.html', data=user_data, inventory=inventory_data, brands=brands, products=products)
             else:
-                return render_template('error.html', error='Unauthorized Access', data=user_data)
+                return render_template('/utility/error.html', error='Unauthorized Access', data=user_data)
     else:
-        return render_template('error.html', error="Unauthorized Access")
+        return render_template('/utility/error.html', error="Unauthorized Access")
 
 
 # delete - soft delete item
@@ -659,9 +659,9 @@ def deleteItem(id):
         isDeleted = { '$set': {'isDeleted': True, 'deleted_by': user_id, 'deleted_date': date}}
         Inventory.update_one(query, isDeleted)
         flash('Item deleted.')
-        return redirect('/admin')
+        return redirect(url_for('showAdminDashboard'))
     else:
-        return render_template('error.html', error="Unauthorized Access")
+        return render_template('/utility/error.html', error="Unauthorized Access")
             
 
 # update
@@ -704,7 +704,7 @@ def updateItem(id):
 
         return render_template('/admin/updateItem.html', data=user_data, inventory_item=inventory_item, updated = updated, brands=brands, products=products)
     else:
-        return render_template('error.html', error="Unauthorized Access")
+        return render_template('/utility/error.html', error="Unauthorized Access")
 
 
 
@@ -760,9 +760,9 @@ def createItem():
             if user_data['isAdmin'] == '1':
                 return render_template('/admin/createItem.html', data=user_data, brands=brands, products=products, response=inserted) 
             else:
-                return render_template('error.html', error='Unauthorized Access', data=user_data)
+                return render_template('/utility/error.html', error='Unauthorized Access', data=user_data)
     else:
-        return render_template('error.html', error="Unauthorized Access")
+        return render_template('/utility/error.html', error="Unauthorized Access")
 
 # ***** End admin pages *****
 
