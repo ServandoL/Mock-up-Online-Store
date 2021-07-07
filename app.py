@@ -19,6 +19,8 @@ Inventory = db.Inventory
 Cart = db.Cart
 Order_History = db.OrderHistory
 Resets = db.Resets
+Reviews = db.Reviews
+
 inventory = [item for item in Inventory.find()]
 brands = {item['brand'] for item in inventory}
 products = {item['category'] for item in inventory}
@@ -140,6 +142,68 @@ def Nozzles():
     else:
         nozzle_products = [product for product in inventory if product['category'] == 'Nozzles']
         return render_template('products/sprinkler-nozzles.html', brands=brands, products=products, inventory=nozzle_products)
+
+
+@app.route('/products/product/<id>')
+def productDescription(id):
+    product = Inventory.find_one({'_id': id})
+    reviews = [item for item in Reviews.find() if item['product_id'] == product['_id']]
+    if session.get('user'):
+        data = Users.find_one({'_id': session.get('user')})
+        user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+        
+        cart_quantity = 0
+        for item in user_cart:
+            cart_quantity += Decimal(str(item['quantity']))
+        return render_template('products/productDescription.html', data=data, cart_quantity=cart_quantity, products=products, product=product, reviews=reviews)
+    else:
+        return render_template('products/productDescription.html', products=products, product=product, reviews=reviews)
+
+@app.route('/products/product/review/<id>')
+def productReview(id):
+    product = Inventory.find_one({'_id': id})
+    if session.get('user'):
+        data = Users.find_one({'_id': session.get('user')})
+        user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
+        
+        cart_quantity = 0
+        for item in user_cart:
+            cart_quantity += Decimal(str(item['quantity']))
+        return render_template('products/productReview.html',data=data, cart_quantity=cart_quantity, products=products, product=product)
+    else:
+        flash("You need to logged in to submit a review.")
+        return redirect(request.referrer)
+
+@app.route('/products/product/review/submit/<id>', methods=['POST', 'GET'])
+def submitReview(id):
+    if session.get('user'):
+        data = Users.find_one({'_id': session.get('user')})
+        if request.method == "POST":
+            _headline = request.form['headline']
+            _review = request.form['review']
+            now = datetime.datetime.now()
+            date = now.strftime("%m/%d/%Y, %H:%M:%S")
+            new_review = {
+                '_id': str(uuid.uuid1()),
+                'product_id': id,
+                'user_id': session.get('user'),
+                'fname': data['fname'],
+                'lname': data['lname'],
+                'date': date,
+                'headline': _headline,
+                'review': _review
+            }
+            try:
+                Reviews.insert_one(new_review)
+                flash("Your review has been submitted.")
+                return redirect(request.referrer)
+
+            except Exception as e:
+                flash("Your review could not be submitted as this time. Please try again later.")
+                return redirect(request.referrer)
+        
+    else:
+        return render_template('/utility/error.html', error='Unauthorized Access', products=products)
 
 ''' ***** End routes for product display pages ***** '''
 

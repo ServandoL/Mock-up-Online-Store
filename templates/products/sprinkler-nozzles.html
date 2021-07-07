@@ -110,7 +110,17 @@
 
             <!-- </div> -->
         </nav>
-        <!-- end bottom nav for product filtering -->
+        <!-- end bottom nav-->
+        <!-- Breadcrumbs -->
+        <nav class="navbar navbar-expand-lg" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{url_for('Nozzles')}}">Nozzles</a></li>
+                </ol>
+            </div>
+        </nav>
+        <!-- end breadcrumbs -->
     </header>
     <!-- End page nav bar -->
 
@@ -150,7 +160,9 @@
                         <div class="card w-100 h-100">
                             <img class="card-img-top mx-auto" src="/{{ product['imageUrl'] }}" alt="product image">
                             <div class="card-body">
-                                <h6 class="card-title">{{ product['productName'] }}</h6>
+                                <h6 class="card-title">
+                                    <a href="{{url_for('productDescription', id=product['_id'])}}">{{ product['productName'] }}</a>
+                                </h6>                                  
                                 <p class="card-text" style="font-weight:bold">${{ product['price'] }}</p>
                                     {% if product['stock'] > 0 %}
                                     <p class="card-text" style="color: green;">In stock: {{

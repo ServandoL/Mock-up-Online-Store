@@ -14,12 +14,11 @@
     <!-- import css files -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/theme.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
     <!-- import js scripts -->
     <script src="../../static/js/qty-change.js"></script>
 
 
-    <title>Products</title>
+    <title>My Account</title>
 </head>
 
 <body>
@@ -112,14 +111,13 @@
 
             <!-- </div> -->
         </nav>
-        <!-- end bottom nav-->
-
+        <!-- end bottom nav -->
         <!-- Breadcrumbs -->
         <nav class="navbar navbar-expand-lg" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <div class="container">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{url_for('Controllers')}}">Controllers</a></li>
+                    <li class="breadcrumb-item"><a href="{{url_for(product['category'])}}">{{product['category']}}</a></li>
                 </ol>
             </div>
         </nav>
@@ -135,17 +133,21 @@
                 <h3>Actions</h3>
                 <div class="bottom-border my-2"></div>
                 <ul class="list-group">
-                    <li class="list-group-item"><a href="#">What do</a></li>
+                    <li class="list-group-item"><a href="{{url_for('productReview', id=product['_id'])}}">Write a review.</a></li>
                 </ul>
             </div>
+
             <div class="col-md-10">
-                <h3>Controllers</h3>
+                <h3>Product Description</h3>
                 <div class="bottom-border my-2"></div>
                 {% with message = get_flashed_messages() %}
                 {% if message %}
                 {% for item in message %}
-                {% if item == "ERROR: Unable to update cart. Your quantity is higher than the available stock amount."
-                %}
+                {% if item == "ERROR: Unable to update cart. Your quantity is higher than the available stock amount." %}
+                <div class="alert alert-danger" role="alert">
+                    {{item}}
+                </div>
+                {% elif item == "You need to logged in to submit a review."%}
                 <div class="alert alert-danger" role="alert">
                     {{item}}
                 </div>
@@ -157,18 +159,17 @@
                 {% endfor %}
                 {% endif %}
                 {% endwith %}
-                <div class="row row-cols-1 row-cols-md-4 g-4">
-                    {% for product in inventory %}
-                    {% if not product['isDeleted'] %}
+                <div class="row">
                     <div class="col">
-                        <div class="card w-100 h-100">
-                            <img class="card-img-top mx-auto" src="/{{ product['imageUrl'] }}" alt="product image">
+                        <div class="card" style="width: 25rem;">
+                            <div class="card-header">
+                                {{product['productName']}}
+                            </div>
+                            <img src="/{{product['imageUrl']}}" class="center" style="width: 10rem;"
+                                alt="Image of Controller">
                             <div class="card-body">
-                                <h6 class="card-title">
-                                    <a href="{{url_for('productDescription', id=product['_id'])}}">{{
-                                        product['productName'] }}</a>
-                                </h6>
-                                <p class="card-text" style="font-weight:bold">${{ product['price'] }}</p>
+                                <p class="card-text">${{product['price']}}</p>
+                                <p class="card-text"></p>
                                 {% if product['stock'] > 0 %}
                                 <p class="card-text" style="color: green;">In stock: {{ product['stock'] }}</p>
                                 {% else %}
@@ -201,11 +202,34 @@
                         </div>
                     </div>
 
-                    {% endif %}
-                    {% endfor %}
-
+                    <div class="col">
+                        <p>A generic description placeholder</p>
+                    </div>
                 </div>
 
+                <div class="row my-3">
+                    <h3>Customer Reviews</h3>
+                    <div class="bottom-border my-2"></div>
+                    <ol class="list-group">
+                    {% for review in reviews %}
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <p>Reviewed by: {{review['fname']}} {{review['lname']}}</p>
+                                <div class="fw-bold">{{review['headline']}}</div>
+                                <p class="text-muted small">Reviewed on {{review['date']}}</p>
+                                <p>{{review['review']}}</p>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <p>No one has reviewed this item. Be the first to review it!</p>
+                            </div>
+                        </li>
+                    {% endfor%}  
+                    </ol>
+                    
+                </div>
 
             </div>
         </div>
