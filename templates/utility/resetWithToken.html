@@ -15,10 +15,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/theme.css')}}">
     <!-- import js scripts -->
-    <script src="../static/js/qty-change.js"></script>
-
-
-    <title>My Account</title>
+    <script>
+    </script>
+    <title>Document</title>
 </head>
 
 <body>
@@ -115,70 +114,74 @@
     </header>
     <!-- End page nav bar -->
 
-
     <!-- Page Content -->
     <div class="container">
         <div class="row py-2">
-            <div class="col-md-12">
-                <h3>Order History</h3>
-                <div class="bottom-border my-4"></div>
-                {% if not order_history %}
-                <div class="alert alert-danger" role="alert">
-                    There are no orders associated with this account.
-                </div>
+            {% with message = get_flashed_messages() %}
+                {% if message %}
+                    {% for item in message %}
+                        {% if item == "Password updated." %}
+                            <div class="alert alert-success" role="alert">
+                                {{item}}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger" role="alert">
+                                {{item}}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div class="col-md-6 mx-auto">
+                {% if token %}
+                <fieldset>
+                    <legend>Reset Password</legend>
+                    <form method="POST" action="{{url_for('forgot_password_reset', token=token)}}">
+                        <div class="form-group mx-sm-3">
+                            <div class="form-group mx-sm-3 my-2">
+                                <label for="inputPassword">Password <span style="color:red">*</span></label>
+                                <input type="password" class="form-control" name="inputPassword" id="inputPassword"
+                                    placeholder="Enter password"
+                                    title="at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                            </div>
+
+                            <div class="form-group mx-sm-3 my-2">
+                                <label for="confirmPassword">Confirm Password <span style="color:red">*</span></label>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                                    required>
+                            </div>
+                            <div class="form-group mx-sm-3 my-2">
+                                <button type="submit" id="resetBtn" class="btn btn-primary">Reset Password</button>
+                            </div>
+                            <span class="mx-sm-3"><small style="color: red;">* Required Fields</small></span>
+
+                        </div>
+                    </form>
+
+                </fieldset>
                 {% else %}
-                {% for key in order_history %}
-                <div class="table-responsive caption-top">
-                    <caption>Confirmation ID: {{key[1]}}</caption>
-                    <table class="table">
-                        <thead class="table-light">
-                            <tr>
-                                <th scope="col">PRODUCT</th>
-                                <th scope="col">ORDER DATE</th>
-                                <th scope="col">QUANTITY</th>
-                                <th scope="col">PRICE</th>
-                                <th scope="col">TOTAL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for product in order_history[key] %}
-                            <tr>
-                                <td>
-                                    <div><span><img src="/{{ product['imageUrl'] }}" class="img-thumbnail"
-                                                alt="{{ product['productName'] }}" style="width: 100px;"></span>
-                                    </div>
-                                    <div><span>{{ product['productName'] }}</span></div>
-                                <td>{{product['datetime']}}</td>
-                                <td>{{product['quantity']}}</td>
-                                <td>${{product['price']}}</td>
-                                <td>${{product['price'] * product['quantity']}}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% endfor %}
+                <p>I think you landed on this page by accident.</p>
                 {% endif %}
             </div>
         </div>
-    </div>
+        <!-- end page content -->
 
-    <!-- end page content -->
-
-    <!-- Page footer -->
-    <footer id="footer-container">
-        <div class="container-fluid">
-            <div class="row final">
-                <p>Copyright &copy; 2021</p>
-                <p><a href="#">Home</a> / <a href="#">About</a> / <a href="#">Contact</a> / <a href="#">Browse</a></p>
+        <!-- Page footer -->
+        <footer id="footer-container">
+            <div class="container-fluid">
+                <div class="row final">
+                    <p>Copyright &copy; 2021</p>
+                    <p><a href="#">Home</a> / <a href="#">About</a> / <a href="#">Contact</a> / <a href="#">Browse</a>
+                    </p>
+                </div>
             </div>
-        </div>
-    </footer>
-    <!-- end footer -->
-    <!-- import bootstrap javascript plugin bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-        crossorigin="anonymous"></script>
+        </footer>
+        <!-- end footer -->
+        <!-- import bootstrap javascript plugin bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+            crossorigin="anonymous"></script>
 
 
 </body>

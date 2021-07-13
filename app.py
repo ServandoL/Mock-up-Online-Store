@@ -2,8 +2,10 @@ from flask import Flask, render_template, request, json, redirect, flash
 from flask import session, url_for
 from passlib.hash import sha256_crypt
 from pymongo import MongoClient
-from itsdangerous import URLSafeSerializer
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
+import os
 import uuid
 import math
 import datetime
@@ -25,7 +27,7 @@ inventory = [item for item in Inventory.find()]
 brands = {item['brand'] for item in inventory}
 products = {item['category'] for item in inventory}
 
-app.secret_key = uuid.uuid4().hex
+app.config['SECRET_KEY'] = uuid.uuid4().hex
 
 @app.route("/")
 def main():
@@ -226,9 +228,82 @@ get user identifier
 delete or mark as used current secret key
 provide logic to enter/generate new password.
 
-TODO:
-Do not know how to send email.
+
 '''
+
+
+def send_password_reset_email(user_email, secret_key):
+    reset_url = "http://localhost:5000/password/reset/"+secret_key
+    message = Mail(
+        from_email='app_testing_1993@outlook.com',
+        to_emails=user_email,
+        subject="Password reset requested.",
+        html_content=render_template('/utility/email_password_reset.html', token=secret_key, reset_url=reset_url)
+    )
+    try:
+        sg = SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(str(e))
+
+@app.route('/password/reset/<token>', methods=['GET', 'POST'])
+def reset_with_token(token):
+    return render_template('/utility/resetWithToken.html', token=token)
+
+@app.route('/forgotPasswordReset/<token>', methods=['GET', 'POST'])
+def forgot_password_reset(token):
+    validate = Resets.find_one({'secret_key': token})
+    if validate:
+        if not validate['reset']:
+            data = Users.find_one({'_id': validate['user_id']})
+            if request.method == 'POST':
+                _password = request.form['inputPassword']
+                _confirmpswd = request.form['confirmPassword']
+                _regex = '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
+                # check if new password matches passwrod requirements
+                if re.match(_regex, _password):
+                # Check if new password matches password confirmation
+                # if it does, then hash it and update it 
+                    if _password == _confirmpswd:
+                        _newpswd = sha256_crypt.hash(_password)
+                        new_password = {'$set': {'password': _newpswd}}
+                        try:
+                            # Update the password of the user
+                            Users.update_one({'_id': data['_id']},new_password)                            
+                            
+                            reset_confirm = {'$set': {'reset': True}}
+                            try:
+                                # update reset db to true - meaning that the token cannot be used again
+                                Resets.update_one({'secret_key': token}, reset_confirm)
+                            except Exception as e:
+                                flash(str(e))
+                                return render_template('/utility/resetWithToken.html', token=token)
+
+                            flash('Password updated.')
+                            return render_template('/utility/resetWithToken.html', token=token)
+
+                        except Exception as e:
+                            flash(str(e))
+                            return render_template('/utility/resetWithToken.html', token=token)
+                    else:
+                        flash("Passwords do not match.")
+                        return render_template('/utility/resetWithToken.html', token=token)
+                else:
+                    flash("Password requirements:\n* at least one number\n* at least one uppercase letter\n* at least one lowercase letter\n* must be at least 8 or more characters.")
+                    return render_template('/utility/resetWithToken.html', token=token)
+        else:
+            flash("This token is not valid.")
+            return redirect(url_for('resetPasswordForm'))
+    else:
+        flash("This token is not valid.")
+        return redirect(url_for('resetPasswordForm'))
+
+
+    
+
 
 @app.route('/resetPassword', methods=['GET', 'POST'])
 def resetPassword():
@@ -237,8 +312,7 @@ def resetPassword():
     try:
         data = Users.find_one({"email": _email})
         if data:
-            random_hash = str(uuid.uuid4())
-            secret_key = sha256_crypt.hash(random_hash)
+            secret_key = str(uuid.uuid4())
             timestamp = str(datetime.datetime.now())
             user_id = data['_id']
             reset_info = {
@@ -247,6 +321,8 @@ def resetPassword():
                 'user_id': user_id,
                 'reset': False,
             }
+            send_password_reset_email(data['email'], secret_key)
+            
             Resets.insert_one(reset_info)
             return "A password reset link will be sent to this email address if the email address is associated with an account."
         else:
@@ -419,7 +495,7 @@ def confirmDelete():
 '''
 Order History:
 Shows order history for each account.
-Need to find an algorithm to group orders by confirmation number.
+Groups orders based on confirmation id
 '''
 @app.route('/account/orderHistory')
 def orderHistory():
@@ -433,8 +509,16 @@ def orderHistory():
                 order_history.append(product)
             
         for product in order_history:
-            product['quantity'] = float(product['quantity'])
-            product['price'] = float(str(product['price']))
+            product['quantity'] = Decimal(str(product['quantity']))
+            product['price'] = Decimal(str(product['price']))
+
+        dict_history = {}
+        for product in order_history:
+            key = ('confirmation', product['confirmation'])
+            if key not in dict_history.keys():
+                dict_history[key] = [product]
+            else:
+                dict_history[key] += [product]
         
         user_cart = [item for item in Cart.find() if item['user_id'] == session.get('user')]
         # Get cart quantity to display in navbar badge
@@ -442,7 +526,7 @@ def orderHistory():
         for item in user_cart:
             cart_quantity += Decimal(str(item['quantity']))
 
-        return render_template('/profile/orderHistory.html', data=data, order_history=order_history, cart_quantity=cart_quantity, brands=brands, products=products)
+        return render_template('/profile/orderHistory.html', data=data, order_history=dict_history, cart_quantity=cart_quantity, brands=brands, products=products)
     else:
         return redirect(url_for('showSignIn'))
 
